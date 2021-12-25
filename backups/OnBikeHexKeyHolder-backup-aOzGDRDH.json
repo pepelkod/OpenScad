@@ -1,0 +1,8 @@
+{
+    "parameterSets": {
+        "design default values": {
+            "$fn": "80"
+        }
+    },
+    "fileFormatVersion": "1"
+}
