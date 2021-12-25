@@ -432,8 +432,11 @@ module rear_hub(old=142, nds_dist=33, nds_pcd=57, ds_dist=19, ds_pcd=57, hole_co
     disc_brake="cl",
     speed=11,
     rear_hub=true,
+    axle_diameter=12,
+    filename="",
     body_color="#302040",
     locknut_color="gray"
+    
     ){
         
     locknut_length=6;
@@ -449,7 +452,7 @@ module rear_hub(old=142, nds_dist=33, nds_pcd=57, ds_dist=19, ds_pcd=57, hole_co
     body_diameter = nds_pcd/2;
     nds_flange_diameter=nds_pcd+2;
     ds_flange_diameter=ds_pcd+2;
-    locknut_diameter=14;
+    locknut_diameter=axle_diameter*1.25;
 
     ds_locknut_offset =    -(old/2);
     freehub_offset =       -(old/2) + (locknut_length);
@@ -466,30 +469,42 @@ module rear_hub(old=142, nds_dist=33, nds_pcd=57, ds_dist=19, ds_pcd=57, hole_co
     echo("body_offset", body_offset);
     echo("body_diameter", body_diameter);
 
-    // create hub from drive size
-    translate([0,0,ds_locknut_offset])
-        locknut(locknut_length, locknut_diameter);      
-    translate([0,0,freehub_offset])
-        color("silver")
-           freehub();
-    union(){
-        color(body_color){
-            translate([0,0,body_offset]){
-                cylinder(h=body_length, r=body_diameter/2);
+    difference(){
+        union(){
+            // create hub from drive size
+            translate([0,0,ds_locknut_offset])
+                locknut(locknut_length, locknut_diameter);      
+            translate([0,0,freehub_offset])
+            color("silver")
+               freehub();
+            color(body_color){
+                if(filename!=""){
+                     rotate_extrude($fn=200)
+                         import(file=filename);
+                }else{
+                    translate([0,0,body_offset]){
+                        cylinder(h=body_length, r=body_diameter/2);
+                    }
+                    translate([0,0,ds_flange_offset]){
+                        flange(0, ds_pcd, hole_count/2, offset=true);
+                    }
+                    translate([0,0,nds_flange_offset]){
+                        flange(0, nds_pcd, hole_count/2, offset=false);
+                    }
+                }
+                translate([0,0,brake_offset]){
+                    six_bolt(length=brake_length);
+                }
+       
+            }    
+            translate([0,0,nds_locknut_offset]){
+                locknut(locknut_length, locknut_diameter);
             }
-            translate([0,0,ds_flange_offset]){
-                flange(0, ds_pcd, hole_count/2, offset=true);
-            }
-            translate([0,0,nds_flange_offset]){
-                flange(0, nds_pcd, hole_count/2, offset=false);
-            }
-            translate([0,0,brake_offset]){
-                six_bolt(length=brake_length);
-            }
-        }        
-    }
-    translate([0,0,nds_locknut_offset]){
-        locknut(locknut_length, locknut_diameter);
+        }
+        translate([0,0,-old]){
+            color("tan")
+                cylinder(h=old*2, d=axle_diameter);
+        }
     }
 }
 
@@ -552,7 +567,7 @@ module rim_by_filename(erd=602, filename="rim.svg"){
 // millimeters
 // hub
 old=142;                // Normal are 130 for old road, 135 for mtb. 142 modern road and mtb. 148 for boost.
-nds_dist=33;          // Less than 1/2 the old, see manufacture spec sheet
+nds_dist=39;          // Less than 1/2 the old, see manufacture spec sheet
 nds_pcd=57;           // Pitch circle diameter of hub flange holes
 ds_dist=19;         // Less than 1/2 the old, probably about 1/4 old
 ds_pcd=57;          // Same as nds pcd
@@ -600,7 +615,7 @@ hole_count=32;
 */
 
 module wheel(){
-    rear_hub(old=old, nds_dist=nds_dist, nds_pcd=nds_pcd, ds_dist=ds_dist, ds_pcd=ds_pcd,hole_count=spoke_count);
+    rear_hub(old=old, nds_dist=nds_dist, nds_pcd=nds_pcd, ds_dist=ds_dist, ds_pcd=ds_pcd,hole_count=spoke_count, filename="HopePro4Rear.svg");
     //front_hub_by_filename("front_hub.svg");
     //rim(erd=erd, depth=45, external_width=25);
     color("SlateGray")
@@ -628,6 +643,6 @@ module test(){
     //    centerlock();
 }
  
-test();
-//wheel();
+//test();
+wheel();
  
