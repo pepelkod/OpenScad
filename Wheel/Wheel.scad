@@ -17,6 +17,10 @@ module rotate_about_pt(a, v, pt) {
                 children();   
 }
 
+
+////////////////////////////////////////////////////////////////////////////////////
+// SPOKE SECTION
+//
 // LETTER
 // Make a 3d letter appear
 // l: letter to write
@@ -150,6 +154,7 @@ module spoke(length, diameter=2.0){
     }
 }
 
+//////////////////////////////////////////////////////////////////////////////
 // HALF_SPOKES
 // Create 1/2 of the total spokes for the wheel.  Either the drive side or non-drive side.
 // spoke_count: 1/2 total wheel spoke count
@@ -253,17 +258,17 @@ module half_spokes(spoke_count=16, num_crosses=3, erd=605, pcd=57, dist=30, offs
 // spoke_count: How many total spokes in the wheel
 // num_crosses: For each spoke, how many other spokes does it cross on the same side of the wheel.
 // erd: Effective rim diameter.  See RIM erd
-// left_dist: Distance from center of hub to non-drive flange
-// left_pcd: Non-drive pitch circle diameter
-// right_dist: Distance from center of hub to drive side flange
-// right_pcd: Diameter of hole of drive side flange
-module spokes(spoke_count=32, num_crosses=3, erd=602, left_dist, left_pcd, right_dist, right_pcd, flange_thickness=2, spoke_color, nipple_color){
+// nds_dist: Distance from center of hub to non-drive flange
+// nds_pcd: Non-drive pitch circle diameter
+// ds_dist: Distance from center of hub to drive side flange
+// ds_pcd: Diameter of hole of drive side flange
+module spokes(spoke_count=32, num_crosses=3, erd=602, nds_dist, nds_pcd, ds_dist, ds_pcd, flange_thickness=2, spoke_color, nipple_color){
     // calc based on crosses, erd, pcd, flange offset
-    left_spoke_count = spoke_count/2;
-    right_spoke_count = left_spoke_count;
+    nds_spoke_count = spoke_count/2;
+    ds_spoke_count = nds_spoke_count;
     
-    half_spokes(spoke_count = left_spoke_count, num_crosses=num_crosses, erd=erd, pcd=left_pcd, dist=left_dist, offset=false, flange_thickness=flange_thickness, spoke_color=spoke_color, nipple_color=nipple_color);
-    half_spokes(spoke_count = left_spoke_count, num_crosses=num_crosses, erd=erd, pcd=right_pcd, dist=right_dist, offset=true, flange_thickness=flange_thickness, spoke_color=spoke_color, nipple_color=nipple_color);
+    half_spokes(spoke_count = nds_spoke_count, num_crosses=num_crosses, erd=erd, pcd=nds_pcd, dist=nds_dist, offset=false, flange_thickness=flange_thickness, spoke_color=spoke_color, nipple_color=nipple_color);
+    half_spokes(spoke_count = nds_spoke_count, num_crosses=num_crosses, erd=erd, pcd=ds_pcd, dist=ds_dist, offset=true, flange_thickness=flange_thickness, spoke_color=spoke_color, nipple_color=nipple_color);
 }
 
 // RIM
@@ -280,6 +285,9 @@ module rim(erd=602, depth=32, external_width=23){
     }
 }
 
+//////////////////////////////////////////////////////////////////////////////////////
+// HUB SECTION
+//
 // ROUNDED_DISC
 // Create a disc with a radiused edge like a hub flange
 // disc_radius: Diameter of disc
@@ -324,74 +332,219 @@ module flange(dist=20, pcd=57, hole_count=32, offset=false, flange_thickness=2, 
         }
     }
 }
-// HUB
-// old: Outer locknut distance.  Spacing for hub mm
-// left_dist: Distance from center of hub to non-drive flange
-// left_pcd: Diameter of holes in non-drive flange
-// right_dist: Distance from center to right flange
-// right_pcd: Diameter of holes in drive side flange
-// hole_count: total holes for hub
-module rear_hub(old=135, left_dist=33, left_pcd=57, right_dist=19, right_pcd=67, hole_count=32){
-    locknut_length=6;
-    freehub_length=35;
-    body_length= old - ((2*locknut_length) + freehub_length);
-    left_flange_length=2;
-    right_flange_length=2;
+// FREEHUB
+// speed: 10 or 11  determines the length of the freehub
+module freehub(speed=11){
+    inner_radius=16.25;     //16.51;
+    outer_radius=17.375;    //16.99;
+    spline_count=9;         // 9 splines.  
+    position_angle=(360/spline_count);  // 40 degrees per pair of spline grove
+    height = (speed==11) ? 36.75 :  34.95; // different heights for 8,9,10 vs 11
+    circumference = 2 * PI * inner_radius;  // circumference of inner hub body (not splines)
+    spline_angle = 17.8;                                    // width of spline in degrees
+    grove_angle = 23.8;                                     // width of grove in degrees
+    spline_ratio = spline_angle/(spline_angle+grove_angle);   // 
+    spline_width = (circumference/spline_count)* spline_ratio;  // spline width in mm
+    base_height=2;                          // how thick is lip at upper edge
+    spline_height_diff=1;                   // splines don't reach to edge of freehub
     
-    locknut_diameter=14;
-    freehub_diameter = 16.5;            // shimano
-    body_diameter = left_pcd/2;
-    left_flange_diameter=left_pcd+2;
-    right_flange_diameter=right_pcd+2;
-
-    locknut_offset=  -(old/2)  ;                   
-    freehub_offset=  -(old/2) + locknut_length;
-    body_offset=      -(old/2) + locknut_length + freehub_length;
-    left_flange_offset = left_dist;
-    right_flange_offset = -right_dist;
-  
-    echo("body_length", body_length);
-    echo("freehub_offset", freehub_offset);
-    echo("locknut_offset", locknut_offset);
-    echo("body_offset", body_offset);
-    echo("body_diameter", body_diameter);
-
     union(){
-        translate([0,0,locknut_offset]) cylinder(h=locknut_length, r=locknut_diameter/2, $fn=6);
-        translate([0,0,freehub_offset]) cylinder(h=freehub_length, r=freehub_diameter/2);             // freehub splines
-        color("orange") translate([0,0,body_offset]) cylinder(h=body_length, r=body_diameter/2);  // main body   
-        color("orange") flange(left_flange_offset, left_pcd, hole_count/2, offset=false);
-        color("orange") flange(right_flange_offset, right_pcd, hole_count/2, offset=true);
+        translate([0,0,height])
+            cylinder(r=outer_radius+1, h=base_height);             // larger base
         
-        //translate([0,0,2]) sphere(r=2);              // end
+        cylinder(r=inner_radius, h=height);     // inner cylinder
+        translate([0,0,spline_height_diff])                              // 
+        difference(){
+            cylinder(r=outer_radius, h=height-spline_height_diff); // outer to be sliced to make splines
+            for (grove_num = [0 : 1 : spline_count]){
+                rotate([0, 0, position_angle* grove_num])
+                translate([inner_radius-1, -(spline_width/2), -1])
+                    if(grove_num == 1){ 
+                        cube([3, spline_width*1.5, height+2]);  // wide grove narrow spline
+                    }else{
+                        cube([3, spline_width, height+2]);      // normal spline cutters
+                    }
+            }
+        }
+    
     }
 }
 
-// RIM2
-// erd: Effective rim diameter.  Distance across rim from where the nipple heads sit.
-// external_width: Width of rim from outside edges
-// internal_width: From inside where tire touches how wide is it.
-// depth: How aero is it.
-// erto:   european rim and tire org sizing.
-//                  559 = 26 inch rim
-//                  584 = 27.5  or 650b
-//                  622 = 29er or 700c 
-module rim_by_points(rim_points){
+// CENTERLOCK 
+// Creates a splined centerlock for
+// a disc brake hub
+module centerlock(length=8){
+  difference(){ 
+    union(){  
+        translate([0,0,(length-2)])
+            cylinder(h=2, r=17);
+        linear_extrude(height=length-1, center=false, $fn=200)
+            import(file="centerlock.svg");    
+    }
+    translate([0,0, (length/4)]){
+        if(no_threads==true){
+            cylinder(r=16.5, h=length*2);
+        }else{
+            metric_thread(diameter=33, pitch=1, length=length);
+        }
+    }
+
+  }
+}
+// SIX BOLT
+// Creates a disc brake piece for a hub
+module six_bolt(length=8){
+  linear_extrude(height=length, center=false, $fn=200)
+      import(file="six_bolt.svg");
+}
+
+// LOCKNUT
+module locknut(
+    locknut_length=6,
+    locknut_diameter=14,
+    axle_diameter=12){
+    difference(){
+        cylinder(h=locknut_length, r=locknut_diameter/2, $fn=6);
+        translate([0,0,-1])
+            cylinder(h=locknut_length+2, d=axle_diameter);
+    }
+}
+
+// BRAKE MOUNT OR NOT
+// 0 = none
+// 1 = cl
+// 2 = six bolt
+module brake_mount(cone_length=6, locknut_diameter=14){
+    // cone 
+    cylinder(h=cone_length, r1=locknut_diameter/2, r2=locknut_diameter);
+} 
+
+// HUB
+// Will create a generic hub with specified parameters
+
+// old: Outer locknut distance.  Spacing for hub mm
+// nds_dist: Distance from center of hub to non-drive flange
+// nds_pcd: Diameter of holes in non-drive flange
+// ds_dist: Distance from center to ds flange
+// ds_pcd: Diameter of holes in drive side flange
+// hole_count: total holes for hub
+module rear_hub(old=142, nds_dist=33, nds_pcd=57, ds_dist=19, ds_pcd=57, hole_count=32,
+    disc_brake="cl",
+    speed=11,
+    rear_hub=true,
+    body_color="#302040",
+    locknut_color="gray"
+    ){
+        
+    locknut_length=6;
+    nds_flange_length=2;
+    ds_flange_length=2;
+    freehub_base = 2;
+    //brake_length = 8;
+    // different heights for 8,9,10 vs 11
+    freehub_length = (speed==11) ? 36.75 + freehub_base :  34.95 + freehub_base;
+    // fits between the disc mount and the freehub
+    body_length= old - ((2*locknut_length) + freehub_length);
     
+    body_diameter = nds_pcd/2;
+    nds_flange_diameter=nds_pcd+2;
+    ds_flange_diameter=ds_pcd+2;
+    locknut_diameter=14;
+
+    ds_locknut_offset =    -(old/2);
+    freehub_offset =       -(old/2) + (locknut_length);
+    body_offset =          -(old/2) + (locknut_length + freehub_length);
+    ds_flange_offset =      -ds_dist;
+    nds_flange_offset =      nds_dist;
+    nds_locknut_offset =    (old/2)-locknut_length;
+    brake_length =          (nds_locknut_offset - nds_flange_offset)/2;
+    brake_offset =          (brake_length + nds_dist)- brake_length/2;
+        
+    echo("body_length", body_length);
+    echo("freehub_offset", freehub_offset);
+    echo("locknut_offset", nds_locknut_offset);
+    echo("body_offset", body_offset);
+    echo("body_diameter", body_diameter);
+
+    // create hub from drive size
+    translate([0,0,ds_locknut_offset])
+        locknut(locknut_length, locknut_diameter);      
+    translate([0,0,freehub_offset])
+        color("silver")
+           freehub();
+    union(){
+        color(body_color){
+            translate([0,0,body_offset]){
+                cylinder(h=body_length, r=body_diameter/2);
+            }
+            translate([0,0,ds_flange_offset]){
+                flange(0, ds_pcd, hole_count/2, offset=true);
+            }
+            translate([0,0,nds_flange_offset]){
+                flange(0, nds_pcd, hole_count/2, offset=false);
+            }
+            translate([0,0,brake_offset]){
+                six_bolt(length=brake_length);
+            }
+        }        
+    }
+    translate([0,0,nds_locknut_offset]){
+        locknut(locknut_length, locknut_diameter);
+    }
+}
+
+// HUB_BY_FILENAME
+// This is a 1/2 profile of a hub
+// with the axle aligned with the y-axis
+// The SVG file should be sized by mm to match the hub size
+// filename: The name of an SVG file 
+module front_hub_by_filename(filename="hub.svg", body_color="#302040"){
+    color(body_color)
         rotate_extrude($fn=200)
+            import(file=filename);
+}
+
+
+
+//////////////////////////////////////////////////////////////////////////////
+// RIM SECTION
+//
+// RIM points should already be positioned out at err (effective rim diameter (erd) / 2)
+// rim_points: A set of points to make a polygon that will be extruded into a rim
+// already positioned at the correct distance from the position [0, 0, 0]
+module rim_by_points(rim_points){
+    // if erd is 0 assume the polygon is already AT the correct position (near x=erd)
+    err = (erd==0) ? 0 : (erd/2) - 2.5; // the  2.5 is wall thickness.
+    
+    rotate_extrude($fn=200)
+        translate([err, 0, 0])      // only translate if erd != 0
             polygon(rim_points);
 }
 
-module rim_by_polygon(rim_polygon){
-        rotate_extrude($fn=200)
+// RIM points should already be positioned out at err (effective rim diameter (erd) / 2)
+// rim_points: A polygon that will be extruded into a rim
+// already positioned at the correct distance from the position [0, 0, 0]
+module rim_by_polygon(rim_polygon, erd=0){
+    // if erd is 0 assume the polygon is already AT the correct position (near x=erd)
+    err = (erd==0) ? 0 : (erd/2) - 2.5; // the  2.5 is wall thickness.
+        
+    rotate_extrude($fn=200)
+        translate([err, 0, 0])      // only translate if erd != 0
             rim_polygon();
 }
 
-module rim_by_filename(erd=602, rim_filename="rim.svg"){    
+// RIM_BY_FILENAME
+// This is a cutaway outline of a rim.  The "depth" of the rim should be along
+// the x-axis and the "width" of the rim along the y-axis
+// The inside edge of the rim (near the spoke holes) should be at (0,0)
+// erd: Effective rim diameter.  Still needed to move the shape out to the correct radius
+// filename:  A svg file that has a rim "cutaway" shape.  See rim.svg for example
+module rim_by_filename(erd=602, filename="rim.svg"){    
     err = (erd/2) - 2.5; // the  2.5 is wall thickness.
-     rotate_extrude($fn=200)
+    
+    rotate_extrude($fn=200)
         translate([err, 0, 0])
-            import(file=rim_filename);
+            import(file=filename);
 
 }
 
@@ -399,15 +552,15 @@ module rim_by_filename(erd=602, rim_filename="rim.svg"){
 // millimeters
 // hub
 old=142;                // Normal are 130 for old road, 135 for mtb. 142 modern road and mtb. 148 for boost.
-left_dist=33;          // Less than 1/2 the old, see manufacture spec sheet
-left_pcd=57;           // Pitch circle diameter of hub flange holes
-right_dist=19;         // Less than 1/2 the old, probably about 1/4 old
-right_pcd=57;          // Same as left pcd
+nds_dist=33;          // Less than 1/2 the old, see manufacture spec sheet
+nds_pcd=57;           // Pitch circle diameter of hub flange holes
+ds_dist=19;         // Less than 1/2 the old, probably about 1/4 old
+ds_pcd=57;          // Same as nds pcd
 
 // validate?
-if(left_dist > 142/2){
+if(nds_dist > 142/2){
     echo("Error");
-    assert("left_dist is too large", true);
+    assert("nds_dist is too large", true);
 }
 
 
@@ -433,17 +586,26 @@ rim_points=[
         [err+4, -external_width/2]];           // lower spoke-bed edge
 
 // wheel
-num_crosses=3;
-spoke_count=32;
+num_crosses=0;
+spoke_count=24;
 
+
+// FRONT HUB SPECS
+/*old=100;
+nds_dist=35;
+nds_pcd=40;
+ds_dist=35;
+ds_pcd=40;
+hole_count=32;
+*/
 
 module wheel(){
-    color("Gray")
-        rear_hub(old=old, left_dist=left_dist, left_pcd=left_pcd, right_dist=right_dist, right_pcd=right_pcd,hole_count=spoke_count);
+    rear_hub(old=old, nds_dist=nds_dist, nds_pcd=nds_pcd, ds_dist=ds_dist, ds_pcd=ds_pcd,hole_count=spoke_count);
+    //front_hub_by_filename("front_hub.svg");
     //rim(erd=erd, depth=45, external_width=25);
     color("SlateGray")
-        rim_by_filename(erd=erd, rim_filename="rim.svg");
-    spokes(spoke_count=spoke_count, num_crosses=num_crosses, erd=erd, left_dist=left_dist, left_pcd=left_pcd, right_dist=right_dist, right_pcd=right_pcd, spoke_color="#202020", nipple_color="silver");
+        rim_by_filename(erd=erd,    filename="rim.svg");
+    spokes(spoke_count=spoke_count, num_crosses=num_crosses, erd=erd, nds_dist=nds_dist, nds_pcd=nds_pcd, ds_dist=ds_dist, ds_pcd=ds_pcd, spoke_color="#202020", nipple_color="silver");
 }
 
 
@@ -453,12 +615,19 @@ module test(){
     // nipple(length=12.1, wrench_width=3.27, body_diameter=3.92, head_diameter=6.0, body_length=9, slot_width=1.5);
     //nipples(erd=erd);
  
-    echo("rim_points", import(file="rim.svg"));
-    import(file="rim.svg");
+    //echo("rim_points", import(file="rim.svg"));
+    //import(file="rim.svg");
     
+    rear_hub();
+    //color("LightGray")
+    //    freehub();
     
- }
+    //front_hub_by_filename("front_hub.svg");
+    //six_bolt();
+    //translate([0,0,10])
+    //    centerlock();
+}
  
-// test();
- wheel();
+test();
+//wheel();
  
