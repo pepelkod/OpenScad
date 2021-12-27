@@ -1,21 +1,40 @@
 
 $fn=80;
 
+function defined(a) = str(a) != "undef";
+
 module mock_bottle(h=150, d=73){
     cylinder(h=h, d=d, center=true);
 }
-module mock_cage(h=40, d=73+3.4, hollow=true){
-    translate([0, d/2, 0]){
-        if(hollow==true) {
-            difference(){
-                cylinder(h=h, d=d, center=true);
-                mock_bottle();
-            } 
-        }else{
-           cylinder(h=h, d=d, center=true);            
+                       // bottle diameter 73 + thickness 4
+module mock_cage(h=40, d=73+4, hollow=true, bolt_nub_svg="CanondaleRedCageProfile.svg"){
+    // make upper and lower
+    for(z=[-32:64:32]){
+        translate([0,0,z]){
+            // mounting nub
+            rotate([0,0,90]){
+                if(defined(bolt_nub_svg)){
+                    echo("canondale");
+                    linear_extrude(27, center=true){
+                       import(bolt_nub_svg);
+                    }
+                }
+            }
+            // round cage part
+            translate([0, d/2+1, 0]){
+                if(hollow==true) {
+                    difference(){
+                        cylinder(h=h, d=d, center=true);
+                        mock_bottle();
+                    } 
+                }else{
+                   cylinder(h=h, d=d, center=true);            
+                }
+            }
         }
-    }
+    }    
 }
+
 // Makes a rivnut and screw punch 
 // thickness...amount it sticks out of the seat tube
 // d = diameter of outside
@@ -144,12 +163,25 @@ module mock_hex_key(h=150, d=5, position=0, thickness=8, chopper=false){
 }
 // a cylinder used to cut away the tool bracket and make it lighter
 module lightner(h=20, d=60, left=true){
-    side = left==true ? 1: -1;
-    translate([(d/2+8)*side,h/2, 0]){
-        rotate([90,90,0]){
-            cylinder(h=h, d=d);
+    //side = left==true ? 1: -1;
+
+    // two big side cuts
+    for(side=[-1:2:1]){
+        translate([(d/2+8)*side,h/2, 0]){
+            rotate([90,90,0]){
+                cylinder(h=h, d=d);
+            }
         }
     }
+    // three vertical holes
+    for(vert=[-2:2:2]){
+        translate([0,h/2, vert*6]){
+            rotate([90,90,0]){
+                cylinder(h=h, d=d/8+(vert*vert));
+            }
+        }
+    }
+        
 }    
 // thickness = thickness at center line
 // left_size = size of left hex key
@@ -162,7 +194,7 @@ module lightner(h=20, d=60, left=true){
 //     XOR
 //   svg_name = svg with profile of tube
 // }
-module tool_bracket(width=30, thickness=2, left_size=5, right_size=4, seat_tube_d=34.9, show_mock=false, label="", svg_name, angle_add=0, height=85){
+module tool_bracket(width=30, thickness=2, left_size=5, right_size=4, seat_tube_d=34.9, show_mock=false, label="", svg_name, angle_add=0, height=85, bolt_nub_svg){
     mx_thick=thickness*4;
     
     left_key_pos = 4+angle_add;
@@ -174,19 +206,18 @@ module tool_bracket(width=30, thickness=2, left_size=5, right_size=4, seat_tube_
     
     if(show_mock==true){
         // mock cage gets move out to acommodate 
-        // the tool bracket
-        %translate([0, thickness, 0]){
-            mock_cage();
+        %translate([0, 2, 0]){
+            mock_cage(bolt_nub_svg=bolt_nub_svg);
         }
         // the mock seat tube stays
         %mock_seat_tube(d=seat_tube_d, svg_name=svg_name);
         // mock hex hey
-        #%translate([-width/2, 0, 0]){
+        %translate([-width/2, 0, 0]){
             mock_hex_key(d=left_size, position=left_key_pos);
             
         }
         // mock hex hey
-        #%translate([width/2, 0, 0]){
+        %translate([width/2, 0, 0]){
             mock_hex_key(d=right_size, position=right_key_pos);
         }
     }
@@ -225,17 +256,16 @@ module tool_bracket(width=30, thickness=2, left_size=5, right_size=4, seat_tube_
         }
         // remove cage area
         // space out for bracket
-        translate([0, thickness, 0]){
+        translate([0, 2, 0]){
             // remove the cage part
-            mock_cage(h=100, hollow=false);
+            mock_cage(h=100, hollow=false,bolt_nub_svg=bolt_nub_svg);
         }
         // remove seat area
         // note this includes rivnuts and drill holes
         mock_seat_tube(d=seat_tube_d, svg_name=svg_name);
         
-        // remove extra junk on side
-        lightner(left=true);
-        lightner(left=false);
+        // remove extra weight
+        lightner();
     }            
 }
 
@@ -303,3 +333,4 @@ difference(){
     mock_hex_key(d=3);
 mock_hex_key(d=5);
 */
+//mock_cage(bolt_nub_svg="CanondaleRedCageProfile.svg");
