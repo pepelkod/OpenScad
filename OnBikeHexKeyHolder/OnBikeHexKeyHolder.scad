@@ -1,6 +1,8 @@
 
 $fn=80;
 
+use <Hextrude.scad>;
+
 function defined(a) = str(a) != "undef";
 
 module mock_bottle(h=150, d=73){
@@ -21,7 +23,7 @@ module mock_cage(h=40, d=73+4, hollow=true, bolt_nub_svg="CanondaleRedCageProfil
                 }
             }
             // round cage part
-            translate([0, d/2+1, 0]){
+            translate([0, d/2+4, 0]){
                 if(hollow==true) {
                     difference(){
                         cylinder(h=h, d=d, center=true);
@@ -162,24 +164,29 @@ module mock_hex_key(h=150, d=5, position=0, thickness=8, chopper=false){
     }
 }
 // a cylinder used to cut away the tool bracket and make it lighter
-module lightner(h=20, d=60, left=true){
+module lightner(h=20, d=60, left=true, grid_width=5){
     //side = left==true ? 1: -1;
 
     // two big side cuts
     for(side=[-1:2:1]){
-        translate([(d/2+8)*side,h/2, 0]){
+        translate([(d/2+7)*side,h/2, 0]){
             rotate([90,90,0]){
-                cylinder(h=h, d=d);
+                cylinder(h=h, d=d, $fn=6);
             }
         }
     }
+    /*
     // three vertical holes
     for(vert=[-2:2:2]){
         translate([0,h/2, vert*6]){
             rotate([90,90,0]){
-                cylinder(h=h, d=d/8+(vert*vert));
+                cylinder(h=h, d=d/8+(vert*vert), $fn=6);
             }
         }
+    }
+    */
+    rotate([90,0,0]){
+        hextrude(h=20, grid_height=5 , grid_width=grid_width);
     }
         
 }    
@@ -204,128 +211,128 @@ module tool_bracket(width=30, thickness=2, left_size=5, right_size=4, seat_tube_
     echo("left_key_pos ", left_key_pos);
     echo("right_key_pos ", right_key_pos);
     
-    if(show_mock==true){
-        // mock cage gets move out to acommodate 
-        %translate([0, 2, 0]){
-            mock_cage(bolt_nub_svg=bolt_nub_svg);
+    rotate([-90,0,0]){
+
+        if(show_mock==true){
+            // mock cage gets move out to acommodate 
+            %translate([0, 2, 0]){
+                mock_cage(bolt_nub_svg=bolt_nub_svg);
+            }
+            // the mock seat tube stays
+            %mock_seat_tube(d=seat_tube_d, svg_name=svg_name);
+            // mock hex hey
+            %translate([-width/2, 0, 0]){
+                mock_hex_key(d=left_size, position=left_key_pos);
+                
+            }
+            // mock hex hey
+            %translate([width/2, 0, 0]){
+                mock_hex_key(d=right_size, position=right_key_pos);
+            }
         }
-        // the mock seat tube stays
-        %mock_seat_tube(d=seat_tube_d, svg_name=svg_name);
-        // mock hex hey
-        %translate([-width/2, 0, 0]){
-            mock_hex_key(d=left_size, position=left_key_pos);
+        // now we make the tool bracket
+        difference(){
+            // body of tool holder
+            union(){
+                cube([width, mx_thick, height], center=true);
+                // rounded ends
+                translate([width/2, 0, 0]){
+                    cylinder(d=mx_thick,h=height, center=true); 
+                }
+                // other rounded end
+                translate([-width/2, 0, 0]){
+                    cylinder(d=mx_thick,h=height, center=true); 
+                }
+                // text on top
+                translate([0,0.7,height/2-0.5])
+                    linear_extrude(1)
+                        text(text=label, size=3, halign="center", valign="center");
+            }
+            // name
             
-        }
-        // mock hex hey
-        %translate([width/2, 0, 0]){
-            mock_hex_key(d=right_size, position=right_key_pos);
-        }
-    }
-    // now we make the tool bracket
-    difference(){
-        // body of tool holder
-        union(){
-            cube([width, mx_thick, height], center=true);
-            // rounded ends
-            translate([width/2, 0, 0]){
-                cylinder(d=mx_thick,h=height, center=true); 
-            }
-            // other rounded end
+            
+            // holes for tools
+            chop_percentage=2.6;
+            // left
             translate([-width/2, 0, 0]){
-                cylinder(d=mx_thick,h=height, center=true); 
+                d=left_size;
+                mock_hex_key(d=d, h=height-(d*chop_percentage), position=left_key_pos, thickness=thickness, chopper=true);
             }
-            // text on top
-            translate([0,0.7,height/2-0.5])
-                linear_extrude(1)
-                    text(text=label, size=3, halign="center", valign="center");
-        }
-        // name
-        
-        
-        // holes for tools
-        chop_percentage=2.6;
-        // left
-        translate([-width/2, 0, 0]){
-            d=left_size;
-            mock_hex_key(d=d, h=height-(d*chop_percentage), position=left_key_pos, thickness=thickness, chopper=true);
-        }
-        // right
-        translate([width/2, 0, 0]){
-            d = right_size;
-            mock_hex_key(d=d, h=height-(d*chop_percentage), position=right_key_pos, thickness=thickness, chopper=true);
-        }
-        // remove cage area
-        // space out for bracket
-        translate([0, 2, 0]){
-            // remove the cage part
-            mock_cage(h=100, hollow=false,bolt_nub_svg=bolt_nub_svg);
-        }
-        // remove seat area
-        // note this includes rivnuts and drill holes
-        mock_seat_tube(d=seat_tube_d, svg_name=svg_name);
-        
-        // remove extra weight
-        lightner();
-    }            
+            // right
+            translate([width/2, 0, 0]){
+                d = right_size;
+                mock_hex_key(d=d, h=height-(d*chop_percentage), position=right_key_pos, thickness=thickness, chopper=true);
+            }
+            // remove cage area
+            // space out for bracket
+            translate([0, 2, 0]){
+                // remove the cage part
+                mock_cage(h=100, hollow=false,bolt_nub_svg=bolt_nub_svg);
+            }
+            // remove seat area
+            // note this includes rivnuts and drill holes
+            mock_seat_tube(d=seat_tube_d, svg_name=svg_name);
+            
+            // remove extra weight
+            lightner();
+        }            
+    }
 }
 
-canondale_seat_tube_d = 35.25;
-canondale_down_tube_d = 46.8;   //-48.25 lower end
-fuji = 32;
-height=85;
-show_mock=false;
-shift_amt_X= show_mock?40:20;
-shift_amt_Y= show_mock?40:5;
-/*
-translate([shift_amt_X*-1, shift_amt_Y*-1, height/2])
-    tool_bracket(left_size=3, right_size=4,
-                        thickness=1.5,
-                        label="CAD         DT",
-                        seat_tube_d=canondale_down_tube_d,
-                        show_mock=show_mock,
-                        height=height,
-                        extra_wide=true);
-translate([shift_amt_X*1, shift_amt_Y*-1, height/2])
-    tool_bracket(left_size=6, right_size=5,
-                        thickness=2,
-                        label="CAD          ST",
-                        seat_tube_d=canondale_seat_tube_d,
-                        show_mock=show_mock,
-                        height=height);
 
-translate([shift_amt_X*-1, shift_amt_Y*1, height/2])
-    tool_bracket(left_size=3, right_size=4,
-                        thickness=1.5,
-                        label="FUJI         DT",
-                        svg_name="FujiDowntubeProfile.svg",
-                        show_mock=show_mock,
-                        height=height);
+module test(){
+    canondale_seat_tube_d = 35.25;
+    canondale_down_tube_d = 46.8;   //-48.25 lower end
 
-translate([shift_amt_X*1, shift_amt_Y*1, height/2])
-    tool_bracket(left_size=6, right_size=5,
-                        thickness=2.0,
-                        label="FUJI         ST",
-                        seat_tube_d=fuji,
-                        show_mock=show_mock,
-                        height=height);
-*/
-/*
-// braces
-difference(){
-    translate([shift_amt_X, 5*shift_amt_Y, -1])
-        rotate([45,0,0])
-            cylinder(h=40.2, d=1);
-    translate([0,0,-50])
-        cube(100, center=true);
+    height=85;
+    show_mock=false;
+    shift_amt_X= show_mock?22:22;
+    shift_amt_Y= show_mock?-1:-1;
+
+    dt_thickness=1.5;
+    translate([shift_amt_X*1, shift_amt_Y, dt_thickness*2]){
+        tool_bracket(left_size=3, right_size=4,
+                            thickness=dt_thickness,
+                            label="CAD         DT",
+                            seat_tube_d=canondale_down_tube_d,
+                            show_mock=show_mock,
+                            height=height,
+                            angle_add=-0.1,
+                            bolt_nub_svg="CanondaleRedCageProfile.svg");
+    }
+    st_thickness=3;
+    translate([shift_amt_X*-1, shift_amt_Y, st_thickness*2]){
+        tool_bracket(left_size=8, right_size=5,
+                            thickness=st_thickness,
+                            label="CAD          ST",
+                            seat_tube_d=canondale_seat_tube_d,
+                            show_mock=show_mock,
+                            height=height,
+                            bolt_nub_svg="CanondaleRedCageProfile.svg");;
+                        
+    }
 }
-difference(){
-    translate([-shift_amt_X, 5*shift_amt_Y, -1])
-        rotate([45,0,0])
-            cylinder(h=40.8, d=1);
-    translate([0,0,-50])
-        cube(100, center=true);
+
+module braces(){
+    // braces
+    difference(){
+        translate([shift_amt_X, 5*shift_amt_Y, -1])
+            rotate([45,0,0])
+                cylinder(h=40.2, d=1);
+        translate([0,0,-50])
+            cube(100, center=true);
+    }
+    difference(){
+        translate([-shift_amt_X, 5*shift_amt_Y, -1])
+            rotate([45,0,0])
+                cylinder(h=40.8, d=1);
+        translate([0,0,-50])
+            cube(100, center=true);
+    }
 }
-*/
+
+test();
+
 // debug
 //mock_seat_tube(svg_name="FujiDowntubeProfile.svg");
 //rivnut(elongate=true);
