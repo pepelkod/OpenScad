@@ -11,7 +11,6 @@ module hextrude(h=4, d=5, grid_height=20, grid_width=10, do_rand=true){
 
     translate([d*(-grid_height/2), d*(-grid_width/2)-d/4, 0]){
         for(h_idx=[grid_height_start:1:grid_height_end]){
-            echo("h_idx ", h_idx);
             // should we toggle at center line?
             // calc the amount to shift up or down to hex_stack them
             half_shift_amt =  (h_idx%2)*d/2;

@@ -8,34 +8,6 @@ function defined(a) = str(a) != "undef";
 module mock_bottle(h=150, d=73){
     cylinder(h=h, d=d, center=true);
 }
-                       // bottle diameter 73 + thickness 4
-module mock_cage(h=40, d=73+4, hollow=true, bolt_nub_svg="CanondaleRedCageProfile.svg"){
-    // make upper and lower
-    for(z=[-32:64:32]){
-        translate([0,0,z]){
-            // mounting nub
-            rotate([0,0,90]){
-                if(defined(bolt_nub_svg)){
-                    echo("canondale");
-                    linear_extrude(27, center=true){
-                       import(bolt_nub_svg);
-                    }
-                }
-            }
-            // round cage part
-            translate([0, d/2+4, 0]){
-                if(hollow==true) {
-                    difference(){
-                        cylinder(h=h, d=d, center=true);
-                        mock_bottle();
-                    } 
-                }else{
-                   cylinder(h=h, d=d, center=true);            
-                }
-            }
-        }
-    }    
-}
 
 // Makes a rivnut and screw punch 
 // thickness...amount it sticks out of the seat tube
@@ -201,23 +173,19 @@ module lightner(h=20, d=60, left=true, grid_width=5){
 //     XOR
 //   svg_name = svg with profile of tube
 // }
-module tool_bracket(width=30, thickness=2, left_size=5, right_size=4, seat_tube_d=34.9, show_mock=false, label="", svg_name, angle_add=0, height=85, bolt_nub_svg){
+module tool_bracket(width=30, thickness=2, left_size=5, right_size=4, seat_tube_d=34.9, show_mock=false, label="", svg_name, angle_add=0, height=85){
     mx_thick=thickness*4;
     
     left_key_pos = 4+angle_add;
     right_key_pos = 5-angle_add;
     
-    echo("angle_add ", angle_add);
-    echo("left_key_pos ", left_key_pos);
-    echo("right_key_pos ", right_key_pos);
+    //echo("angle_add ", angle_add);
+    //echo("left_key_pos ", left_key_pos);
+    //echo("right_key_pos ", right_key_pos);
     
     rotate([-90,0,0]){
 
         if(show_mock==true){
-            // mock cage gets move out to acommodate 
-            %translate([0, 2, 0]){
-                mock_cage(bolt_nub_svg=bolt_nub_svg);
-            }
             // the mock seat tube stays
             %mock_seat_tube(d=seat_tube_d, svg_name=svg_name);
             // mock hex hey
@@ -263,22 +231,66 @@ module tool_bracket(width=30, thickness=2, left_size=5, right_size=4, seat_tube_
                 d = right_size;
                 mock_hex_key(d=d, h=height-(d*chop_percentage), position=right_key_pos, thickness=thickness, chopper=true);
             }
-            // remove cage area
-            // space out for bracket
-            translate([0, 2, 0]){
-                // remove the cage part
-                mock_cage(h=100, hollow=false,bolt_nub_svg=bolt_nub_svg);
-            }
             // remove seat area
             // note this includes rivnuts and drill holes
             mock_seat_tube(d=seat_tube_d, svg_name=svg_name);
             
             // remove extra weight
             lightner();
+            
         }            
     }
 }
 
+
+                       // bottle diameter 73 + thickness 4
+module mock_cage(h=40, d=73+4, hollow=true, bolt_nub_svg="CanondaleRedCageProfile.svg", bolt_nub_height=27){
+    // make upper and lower
+    for(z=[-32:64:32]){
+        translate([0,0,z]){
+            // mounting nub
+            rotate([0,0,90]){
+                if(defined(bolt_nub_svg)){
+                    linear_extrude(bolt_nub_height, center=true){
+                       import(bolt_nub_svg);
+                    }
+                }
+            }
+            // round cage part
+            translate([0, d/2+4, 0]){
+                if(hollow==true) {
+                    difference(){
+                        cylinder(h=h, d=d, center=true);
+                        mock_bottle();
+                    } 
+                }else{
+                   cylinder(h=h, d=d, center=true);            
+                }
+            }
+        }
+    }    
+}
+
+module cut_cage(show_mock=false){
+    difference(){
+        children(0);
+        // rotate to same position
+        rotate([-90,0,0]){
+            // remove cage area
+            // space out for bracket
+            translate([0, 2, 0]){
+                // remove the cage part
+                if(show_mock){
+                    %children(1);
+                    echo("mock");
+                }else{
+                    children(1);
+                    echo("not mock");
+                }
+            }
+        }
+    }   
+}
 
 module test(){
     canondale_seat_tube_d = 35.25;
@@ -288,28 +300,34 @@ module test(){
     show_mock=false;
     shift_amt_X= show_mock?22:22;
     shift_amt_Y= show_mock?-1:-1;
-
     dt_thickness=1.5;
-    translate([shift_amt_X*1, shift_amt_Y, dt_thickness*2]){
-        tool_bracket(left_size=3, right_size=4,
-                            thickness=dt_thickness,
-                            label="CAD         DT",
-                            seat_tube_d=canondale_down_tube_d,
-                            show_mock=show_mock,
-                            height=height,
-                            angle_add=-0.1,
-                            bolt_nub_svg="CanondaleRedCageProfile.svg");
-    }
     st_thickness=3;
+
+    translate([shift_amt_X*1, shift_amt_Y, dt_thickness*2]){
+        cut_cage(show_mock=true){
+            tool_bracket(left_size=3, right_size=4,
+                                thickness=dt_thickness,
+                                label="CAD         DT",
+                                seat_tube_d=canondale_down_tube_d,
+                                show_mock=show_mock,
+                                height=height,
+                                angle_add=-0.1);
+             mock_cage(h=100, hollow=false,bolt_nub_svg="CanondaleRedCageProfile.svg");
+        }
+    }
+    
     translate([shift_amt_X*-1, shift_amt_Y, st_thickness*2]){
-        tool_bracket(left_size=8, right_size=5,
+        cut_cage(){
+            tool_bracket(left_size=8, right_size=5,
                             thickness=st_thickness,
                             label="CAD          ST",
                             seat_tube_d=canondale_seat_tube_d,
                             show_mock=show_mock,
-                            height=height,
-                            bolt_nub_svg="CanondaleRedCageProfile.svg");;
-                        
+                            height=height);
+             mock_cage(h=100,
+                            hollow=false,
+                            bolt_nub_svg="CanondaleRedCageProfile.svg");           
+        }     
     }
 }
 
