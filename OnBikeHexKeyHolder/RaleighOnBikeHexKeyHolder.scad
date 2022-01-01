@@ -24,8 +24,10 @@ module make(){
                                 angle_add=-0.1);
              mock_cage(h=100,
                             hollow=false,
-                            bolt_nub_svg="RaleighCageProfile.svg",
-                            bolt_nub_height=100);
+                            bolt_nub_upper_svg="RaleighCageProfile.svg",
+                            bolt_nub_lower_svg="RaleighCageProfile.svg",
+                            bolt_nub_upper_height=100,
+                            bolt_nub_lower_height=100);
         }
     }
     
@@ -39,8 +41,10 @@ module make(){
                             height=height);
              mock_cage(h=100,
                             hollow=false,
-                            bolt_nub_svg="RaleighCageProfile.svg",
-                            bolt_nub_height=100);           
+                            bolt_nub_upper_svg="RaleighCageProfile.svg",
+                            bolt_nub_lower_svg="RaleighCageProfile.svg",
+                            bolt_nub_upper_height=100,
+                            bolt_nub_lower_height=100);
         }     
     }
 }

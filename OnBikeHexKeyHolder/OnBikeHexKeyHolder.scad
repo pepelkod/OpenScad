@@ -244,15 +244,21 @@ module tool_bracket(width=30, thickness=2, left_size=5, right_size=4, seat_tube_
 
 
                        // bottle diameter 73 + thickness 4
-module mock_cage(h=40, d=73+4, hollow=true, bolt_nub_svg="CanondaleRedCageProfile.svg", bolt_nub_height=27){
+module mock_cage(h=40, d=73+4, hollow=true, bolt_nub_upper_svg="CanondaleRedCageProfile.svg", bolt_nub_lower_svg="CanondaleRedCageProfile.svg", bolt_nub_upper_height=27, bolt_nub_lower_height=27){
     // make upper and lower
     for(z=[-32:64:32]){
         translate([0,0,z]){
             // mounting nub
             rotate([0,0,90]){
-                if(defined(bolt_nub_svg)){
-                    linear_extrude(bolt_nub_height, center=true){
-                       import(bolt_nub_svg);
+                if(defined(bolt_nub_lower_svg)){
+                    if(z<0){
+                        linear_extrude(bolt_nub_lower_height, center=true){
+                            import(bolt_nub_lower_svg);
+                        }
+                    }else{
+                        linear_extrude(bolt_nub_upper_height, center=true){
+                            import(bolt_nub_upper_svg);
+                        }
                     }
                 }
             }
@@ -312,7 +318,10 @@ module test(){
                                 show_mock=show_mock,
                                 height=height,
                                 angle_add=-0.1);
-             mock_cage(h=100, hollow=false,bolt_nub_svg="CanondaleRedCageProfile.svg");
+             mock_cage(h=100,
+                            hollow=false,
+                            bolt_nub_lower_svg="CanondaleRedCageProfile.svg",
+                            bolt_nub_upper_svg="CanondaleRedCageProfile.svg");           
         }
     }
     
@@ -326,7 +335,8 @@ module test(){
                             height=height);
              mock_cage(h=100,
                             hollow=false,
-                            bolt_nub_svg="CanondaleRedCageProfile.svg");           
+                            bolt_nub_lower_svg="CanondaleRedCageProfile.svg",
+                            bolt_nub_upper_svg="CanondaleRedCageProfile.svg");           
         }     
     }
 }
