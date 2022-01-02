@@ -12,14 +12,13 @@ module make(){
     
     
     translate([shift_amt_X*1, shift_amt_Y, dt_thickness*2]){
-        cut_cage(show_mock=true){
-            tool_bracket(left_size=3, right_size=4,
-                                thickness=dt_thickness,
-                                label="CAD         DT",
-                                seat_tube_d=canondale_down_tube_d,
-                                show_mock=show_mock,
-                                height=height,
-                                angle_add=-0.1);
+        tool_bracket(left_size=3, right_size=4,
+                            thickness=dt_thickness,
+                            label="CAD         DT",
+                            seat_tube_d=canondale_down_tube_d,
+                            show_mock=show_mock,
+                            height=height,
+                            angle_add=-0.1){
              mock_cage(h=100,
                                 hollow=false,
                                 bolt_nub_upper_svg="CanondaleRedCageProfile.svg",
@@ -31,13 +30,12 @@ module make(){
     
     st_thickness=3;
     translate([shift_amt_X*-1, shift_amt_Y, st_thickness*2]){
-        cut_cage(){
-            tool_bracket(left_size=8, right_size=5,
-                            thickness=st_thickness,
-                            label="CAD          ST",
-                            seat_tube_d=canondale_seat_tube_d,
-                            show_mock=show_mock,
-                            height=height);
+        tool_bracket(left_size=8, right_size=5,
+                        thickness=st_thickness,
+                        label="CAD          ST",
+                        seat_tube_d=canondale_seat_tube_d,
+                        show_mock=show_mock,
+                        height=height){
              mock_cage(h=100,
                             hollow=false,
                             bolt_nub_upper_svg="CanondaleRedCageProfile.svg",
