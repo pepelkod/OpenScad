@@ -191,11 +191,17 @@ module tool_bracket(width=30, thickness=2, left_size=5, right_size=4, seat_tube_
             // mock hex hey
             %translate([-width/2, 0, 0]){
                 mock_hex_key(d=left_size, position=left_key_pos);
-                
             }
             // mock hex hey
             %translate([width/2, 0, 0]){
                 mock_hex_key(d=right_size, position=right_key_pos);
+            }
+            // MOCK CAGE
+            // remove cage area
+            // space out for bracket
+            %translate([0, 2, 0]){
+                // remove the cage part
+                %children(0);
             }
         }
         // now we make the tool bracket
@@ -238,6 +244,12 @@ module tool_bracket(width=30, thickness=2, left_size=5, right_size=4, seat_tube_
             // remove extra weight
             lightner();
             
+            // CAGE
+            // remove cage area
+            // space out for bracket
+            translate([0, 2, 0]){
+                children(0);
+            }
         }            
     }
 }
@@ -277,47 +289,27 @@ module mock_cage(h=40, d=73+4, hollow=true, bolt_nub_upper_svg="CanondaleRedCage
     }    
 }
 
-module cut_cage(show_mock=false){
-    difference(){
-        children(0);
-        // rotate to same position
-        rotate([-90,0,0]){
-            // remove cage area
-            // space out for bracket
-            translate([0, 2, 0]){
-                // remove the cage part
-                if(show_mock){
-                    %children(1);
-                    echo("mock");
-                }else{
-                    children(1);
-                    echo("not mock");
-                }
-            }
-        }
-    }   
-}
+
 
 module test(){
     canondale_seat_tube_d = 35.25;
     canondale_down_tube_d = 46.8;   //-48.25 lower end
 
     height=85;
-    show_mock=false;
+    show_mock=true;
     shift_amt_X= show_mock?22:22;
     shift_amt_Y= show_mock?-1:-1;
     dt_thickness=1.5;
     st_thickness=3;
 
     translate([shift_amt_X*1, shift_amt_Y, dt_thickness*2]){
-        cut_cage(show_mock=true){
-            tool_bracket(left_size=3, right_size=4,
-                                thickness=dt_thickness,
-                                label="CAD         DT",
-                                seat_tube_d=canondale_down_tube_d,
-                                show_mock=show_mock,
-                                height=height,
-                                angle_add=-0.1);
+        tool_bracket(left_size=3, right_size=4,
+                            thickness=dt_thickness,
+                            label="CAD         DT",
+                            seat_tube_d=canondale_down_tube_d,
+                            show_mock=show_mock,
+                            height=height,
+                            angle_add=-0.1){
              mock_cage(h=100,
                             hollow=false,
                             bolt_nub_lower_svg="CanondaleRedCageProfile.svg",
@@ -326,19 +318,18 @@ module test(){
     }
     
     translate([shift_amt_X*-1, shift_amt_Y, st_thickness*2]){
-        cut_cage(){
-            tool_bracket(left_size=8, right_size=5,
-                            thickness=st_thickness,
-                            label="CAD          ST",
-                            seat_tube_d=canondale_seat_tube_d,
-                            show_mock=show_mock,
-                            height=height);
+         tool_bracket(left_size=8, right_size=5,
+                        thickness=st_thickness,
+                        label="CAD          ST",
+                        seat_tube_d=canondale_seat_tube_d,
+                        show_mock=show_mock,
+                        height=height){
              mock_cage(h=100,
                             hollow=false,
                             bolt_nub_lower_svg="CanondaleRedCageProfile.svg",
                             bolt_nub_upper_svg="CanondaleRedCageProfile.svg");           
-        }     
-    }
+        }
+    }     
 }
 
 module braces(){
