@@ -129,7 +129,7 @@ module mock_hex_key(h=150, d=5, position=0, thickness=8, chopper=false){
         // make the end of the hex key area square
         // by lifting the body up by diameter
         if(chopper==true){
-            cylinder(h=h+d*3, d=d, center=true, $fn=6);
+            cylinder(h=h+d*3, d=d*1.05, center=true, $fn=6);
         }else{
             cylinder(h=h, d=d, center=true, $fn=6);
         }            
