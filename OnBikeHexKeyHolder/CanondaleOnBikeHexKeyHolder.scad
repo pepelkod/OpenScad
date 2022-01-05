@@ -7,11 +7,11 @@ module make(){
     height=85;
     show_mock=false;
     shift_amt_X= show_mock?22:22;
-    shift_amt_Y= show_mock?-1:-1;
+    shift_amt_Y= show_mock?0:0;
     dt_thickness=1.5;
     
     
-    translate([shift_amt_X*1, shift_amt_Y, dt_thickness*2]){
+    translate([shift_amt_X*1, shift_amt_Y*1, dt_thickness*2]){
         tool_bracket(left_size=3, right_size=4,
                             thickness=dt_thickness,
                             label="CAD         DT",
@@ -29,7 +29,7 @@ module make(){
     }
     
     st_thickness=3;
-    translate([shift_amt_X*-1, shift_amt_Y, st_thickness*2]){
+    translate([shift_amt_X*-1, shift_amt_Y*-1, st_thickness*2]){
         tool_bracket(left_size=8, right_size=5,
                         thickness=st_thickness,
                         label="CAD          ST",
