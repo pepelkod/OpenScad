@@ -3,7 +3,7 @@
 $fn=80;
 
 
-
+// for wolftool tanpan sized bearing
 
 // PULLY_BY_FILENAME
 // This is a cutaway outline of a pully.  
