@@ -83,6 +83,7 @@ module mock_seat_tube(h=200, d=34.9, svg_name){
 }
 module mock_hex_key(h=150, d=5, position=0, thickness=8, chopper=false){
     head_ratio=h/8;
+    diameter_scaled = (chopper==true)?d*1.1:d;
     
     // rotate by 60 degrees (360/60 = 6 sides of hex key)
     rotate([0,0,position*60]){
@@ -98,11 +99,14 @@ module mock_hex_key(h=150, d=5, position=0, thickness=8, chopper=false){
         // head
         translate([head_ratio/2+d, 0, h/2+d]){
             rotate([0,90,0]){
-                // chop front half of tool area
-                if(chopper==true){
-                    cylinder(h=head_ratio+(d*1.5), d=d, center=true, $fn=6);
-                }else{
-                    cylinder(h=head_ratio, d=d, center=true, $fn=6);
+                rotate([0,0,30]){ // align flat top to bend
+
+                    // chop front half of tool area
+                    if(chopper==true){
+                        cylinder(h=head_ratio+(d*1.5), d=diameter_scaled, center=true, $fn=6);
+                    }else{
+                        cylinder(h=head_ratio, d=diameter_scaled, center=true, $fn=6);
+                    }
                 }
             }
         }
@@ -113,7 +117,9 @@ module mock_hex_key(h=150, d=5, position=0, thickness=8, chopper=false){
                 rotate([90, 0, 180]){
                     rotate_extrude(angle=90){
                         translate([d,0,0]){
-                            circle(d=d, $fn=6);
+                            rotate([0,0,30]){ // align flat top bend
+                                circle(d=diameter_scaled, $fn=6);
+                            }
                         }
                     }
                 }
@@ -128,11 +134,13 @@ module mock_hex_key(h=150, d=5, position=0, thickness=8, chopper=false){
         // if so chopper = true
         // make the end of the hex key area square
         // by lifting the body up by diameter
-        if(chopper==true){
-            cylinder(h=h+d*3, d=d*1.05, center=true, $fn=6);
-        }else{
-            cylinder(h=h, d=d, center=true, $fn=6);
-        }            
+        rotate([0,0,30]){ // align flat top bend
+            if(chopper==true){
+                cylinder(h=h+d*3, d=diameter_scaled, center=true, $fn=6);
+            }else{
+                cylinder(h=h, d=diameter_scaled, center=true, $fn=6);
+            }            
+        }
     }
 }
 // a cylinder used to cut away the tool bracket and make it lighter
@@ -352,7 +360,7 @@ module braces(){
 }
 
 test();
-
+//mock_hex_key(chopper=false);
 // debug
 //mock_seat_tube(svg_name="FujiDowntubeProfile.svg");
 //rivnut(elongate=true);
