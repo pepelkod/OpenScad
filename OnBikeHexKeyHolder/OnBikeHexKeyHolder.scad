@@ -174,7 +174,7 @@ module lightner(h=20, d=60, left=true, grid_width=5){
 //   svg_name = svg with profile of tube
 // }
 module tool_bracket(width=30, thickness=2, left_size=5, right_size=4, seat_tube_d=34.9, show_mock=false, label="", svg_name, angle_add=0, height=85){
-    mx_thick=thickness*4;
+    mx_thick=left_size>right_size?right_size:left_size;
     
     left_key_pos = 4+angle_add;
     right_key_pos = 5-angle_add;
@@ -208,14 +208,15 @@ module tool_bracket(width=30, thickness=2, left_size=5, right_size=4, seat_tube_
         difference(){
             // body of tool holder
             union(){
-                cube([width, mx_thick, height], center=true);
-                // rounded ends
-                translate([width/2, 0, 0]){
-                    cylinder(d=mx_thick,h=height, center=true); 
-                }
-                // other rounded end
-                translate([-width/2, 0, 0]){
-                    cylinder(d=mx_thick,h=height, center=true); 
+                hull(){
+                    // rounded ends
+                    translate([width/2, 0, 0]){
+                        cylinder(d=right_size*1.5,h=height, center=true); 
+                    }
+                    // other rounded end
+                    translate([-width/2, 0, 0]){
+                        cylinder(d=left_size*1.5,h=height, center=true); 
+                    }
                 }
                 // text on top
                 translate([0,0.7,height/2-0.5])
