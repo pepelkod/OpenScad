@@ -35,7 +35,9 @@ module make(){
                         label="CAD          ST",
                         seat_tube_d=canondale_seat_tube_d,
                         show_mock=show_mock,
-                        height=height){
+                        width=40,
+                        height=height,
+                        angle_add=0.3){
              mock_cage(h=100,
                             hollow=false,
                             bolt_nub_upper_svg="CanondaleRedCageProfile.svg",
