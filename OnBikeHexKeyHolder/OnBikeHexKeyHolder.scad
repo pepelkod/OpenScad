@@ -82,28 +82,30 @@ module mock_seat_tube(h=200, d=34.9, svg_name){
 }
 }
 module mock_hex_key(h=150, d=5, position=0, thickness=8, chopper=false){
+    curve_amount = d*2;
     head_ratio=h/8;
-    diameter_scaled = (chopper==true)?d*1.1:d;
+    diameter_scaled = (chopper==true)?d*1.2:d;
     
+    // numbers
     // rotate by 60 degrees (360/60 = 6 sides of hex key)
     rotate([0,0,position*60]){
         // text
-        for(i=[0:1:5]){
-            rotate([0,0,30+(i*60)])
+        for(i=[0:1:3]){
+            rotate([0,0,30+(i*90)])
                 translate([-((thickness*2)-0.5),0,-h*3/7])
                     rotate([90,0,0])
                         rotate([0,-90,0])
                             linear_extrude(2)
-                                #text(str(d), size=5, halign="center", valign="center");
+                                text(str(d), size=5, halign="center", valign="center");
         }
         // head
-        translate([head_ratio/2+d, 0, h/2+d]){
+        translate([head_ratio/2+curve_amount, 0, h/2+curve_amount]){ // align with elbow
             rotate([0,90,0]){
                 rotate([0,0,30]){ // align flat top to bend
 
                     // chop front half of tool area
                     if(chopper==true){
-                        cylinder(h=head_ratio+(d*1.5), d=diameter_scaled, center=true, $fn=6);
+                        cylinder(h=head_ratio+(d*4), d=diameter_scaled, center=true, $fn=6);
                     }else{
                         cylinder(h=head_ratio, d=diameter_scaled, center=true, $fn=6);
                     }
@@ -113,10 +115,10 @@ module mock_hex_key(h=150, d=5, position=0, thickness=8, chopper=false){
         // elbow in position
         translate([0, 0, h/2]){
             // elbow
-            translate([d, 0, 0]){
+            translate([curve_amount, 0, 0]){            // align back with body
                 rotate([90, 0, 180]){
                     rotate_extrude(angle=90){
-                        translate([d,0,0]){
+                        translate([curve_amount,0,0]){  // set actual curve amt by moving out
                             rotate([0,0,30]){ // align flat top bend
                                 circle(d=diameter_scaled, $fn=6);
                             }
@@ -136,7 +138,7 @@ module mock_hex_key(h=150, d=5, position=0, thickness=8, chopper=false){
         // by lifting the body up by diameter
         rotate([0,0,30]){ // align flat top bend
             if(chopper==true){
-                cylinder(h=h+d*3, d=diameter_scaled, center=true, $fn=6);
+                cylinder(h=h+d*4.1, d=diameter_scaled, center=true, $fn=6);
             }else{
                 cylinder(h=h, d=diameter_scaled, center=true, $fn=6);
             }            
@@ -182,6 +184,7 @@ module lightner(h=20, d=60, left=true, grid_width=5){
 //   svg_name = svg with profile of tube
 // }
 module tool_bracket(width=30, thickness=2, left_size=5, right_size=4, seat_tube_d=34.9, show_mock=false, label="", svg_name, angle_add=0, height=85){
+    cylinder_ratio=2.0;
     mx_thick=left_size>right_size?right_size:left_size;
     
     left_key_pos = 4+angle_add;
@@ -219,11 +222,11 @@ module tool_bracket(width=30, thickness=2, left_size=5, right_size=4, seat_tube_
                 hull(){
                     // rounded ends
                     translate([width/2, 0, 0]){
-                        cylinder(d=right_size*1.5,h=height, center=true); 
+                        cylinder(d=right_size*cylinder_ratio,h=height, center=true); 
                     }
                     // other rounded end
                     translate([-width/2, 0, 0]){
-                        cylinder(d=left_size*1.5,h=height, center=true); 
+                        cylinder(d=left_size*cylinder_ratio,h=height, center=true); 
                     }
                 }
                 // text on top
@@ -235,7 +238,7 @@ module tool_bracket(width=30, thickness=2, left_size=5, right_size=4, seat_tube_
             
             
             // holes for tools
-            chop_percentage=2.6;
+            chop_percentage=4;
             // left
             translate([-width/2, 0, 0]){
                 d=left_size;
@@ -305,7 +308,7 @@ module test(){
     canondale_down_tube_d = 46.8;   //-48.25 lower end
 
     height=85;
-    show_mock=true;
+    show_mock=false;
     shift_amt_X= show_mock?22:22;
     shift_amt_Y= show_mock?-1:-1;
     dt_thickness=1.5;
@@ -332,6 +335,7 @@ module test(){
                         label="CAD          ST",
                         seat_tube_d=canondale_seat_tube_d,
                         show_mock=show_mock,
+                        width=40,
                         height=height){
              mock_cage(h=100,
                             hollow=false,
@@ -358,7 +362,6 @@ module braces(){
             cube(100, center=true);
     }
 }
-
 test();
 //mock_hex_key(chopper=false);
 // debug
