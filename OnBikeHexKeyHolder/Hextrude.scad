@@ -1,5 +1,5 @@
 
-module hextrude(h=4, d=5, grid_height=20, grid_width=10, do_rand=true){
+module hextrude(h=4, d=5, grid_height=20, grid_width=10, do_rand=true, coverage=80){
     //grid_height_start=-grid_height/2;
     //grid_height_end = grid_height/2;
     //grid_width_start=-grid_width/2;
@@ -20,7 +20,7 @@ module hextrude(h=4, d=5, grid_height=20, grid_width=10, do_rand=true){
                 for(w_idx=[grid_width_start:1:grid_width_end]){
                     translate([0, w_idx*d, 0]){
                         rand_vect=rands(0, 99, 1);
-                        rand_val = do_rand ? rand_vect[0]<80?0:1 : 1;
+                        rand_val = do_rand ? rand_vect[0]<coverage?0:1 : 1;
                         //echo("rand is ", rand_val);
                         cylinder(h=h, d=d*round(rand_val), $fn=6, center = true);
                     }
