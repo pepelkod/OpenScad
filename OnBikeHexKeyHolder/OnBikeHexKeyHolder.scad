@@ -84,7 +84,10 @@ module mock_seat_tube(h=200, d=34.9, svg_name){
 module mock_hex_key(h=150, d=5, position=0, thickness=8, chopper=false){
     curve_amount = d*2;
     head_ratio=h/8;
-    diameter_scaled = (chopper==true)?d*1.2:d;
+    // diagonal width of hexagon is 1:1.1547005 of flat-to-flat width
+    diagonal_diameter = d * 1.1547005;
+    // if we are cutting a hole we want it to be 10% bigger
+    diameter_scaled = (chopper==true)?diagonal_diameter*1.1:diagonal_diameter;
     
     // numbers
     // rotate by 60 degrees (360/60 = 6 sides of hex key)
@@ -105,7 +108,7 @@ module mock_hex_key(h=150, d=5, position=0, thickness=8, chopper=false){
 
                     // chop front half of tool area
                     if(chopper==true){
-                        cylinder(h=head_ratio+(d*4), d=diameter_scaled, center=true, $fn=6);
+                        cylinder(h=head_ratio+(diameter_scaled*3), d=diameter_scaled, center=true, $fn=6);
                     }else{
                         cylinder(h=head_ratio, d=diameter_scaled, center=true, $fn=6);
                     }
@@ -150,6 +153,7 @@ module lightner(h=20, d=60, left=true, grid_width=5){
     //side = left==true ? 1: -1;
 
     // two big side cuts
+    
     for(side=[-1:2:1]){
         translate([(d/2+7)*side,h/2, 0]){
             rotate([90,90,0]){
@@ -157,6 +161,7 @@ module lightner(h=20, d=60, left=true, grid_width=5){
             }
         }
     }
+    
     /*
     // three vertical holes
     for(vert=[-2:2:2]){
@@ -167,9 +172,9 @@ module lightner(h=20, d=60, left=true, grid_width=5){
         }
     }
     */
-    rotate([90,0,0]){
-        hextrude(h=20, grid_height=5 , grid_width=grid_width);
-    }
+    /*rotate([90,0,0]){
+        hextrude(h=4, grid_height=1 , grid_width=grid_width, coverage=0);
+    }*/
         
 }    
 // thickness = thickness at center line
@@ -185,7 +190,7 @@ module lightner(h=20, d=60, left=true, grid_width=5){
 // }
 module tool_bracket(width=30, thickness=2, left_size=5, right_size=4, seat_tube_d=34.9, show_mock=false, label="", svg_name, angle_add=0, height=85){
     cylinder_ratio=2.0;
-    mx_thick=left_size>right_size?right_size:left_size;
+    mx_thick=left_size>right_size?right_size*cylinder_ratio:left_size*cylinder_ratio;
     
     left_key_pos = 4+angle_add;
     right_key_pos = 5-angle_add;
@@ -228,7 +233,8 @@ module tool_bracket(width=30, thickness=2, left_size=5, right_size=4, seat_tube_
                     translate([-width/2, 0, 0]){
                         cylinder(d=left_size*cylinder_ratio,h=height, center=true); 
                     }
-                }
+                    //cube([width, mx_thick, height], center=true);
+                }                
                 // text on top
                 translate([0,0.7,height/2-0.5])
                     linear_extrude(1)
