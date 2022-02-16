@@ -21,7 +21,7 @@ module pully_by_filename(erd=25, thickness=2.5, filename="pully.svg"){
 
 }
 
-module double_pully(ratio=0.8547, erd1=25){
+module double_pully(ratio=0.8547, erd1=25, letter="A"){
     bearing_hole=13;
     cable = 1.2;
     halfcable = cable/2;
@@ -58,47 +58,43 @@ module double_pully(ratio=0.8547, erd1=25){
         //    }
         //}
     }
-    color("green"){
-        // print ratio
-        translate([0,bearing_hole/2+1.5,thickness*2-0.2]){
-            linear_extrude(2){
-                text(str(ratio), size=2, halign="center", valign="center");
+    difference(){
+        color("green"){
+        // print text
+            translate([0,0,thickness*2-0.5  ]){
+                linear_extrude(2){
+                    text(str(letter), size=18, halign="center", valign="center");
+                }
             }
         }
-        // print erd
-        translate([0,-(bearing_hole/2+1.5),thickness*2-0.2]){
-            linear_extrude(2){
-                text(str(erd1), size=2, halign="center", valign="center");
-            }
+               // bearing hole
+        translate([0,0,-1]){
+            cylinder(h=20, d=bearing_hole);
         }
+
     }
 
 }
 
-translate([0, 30, 0]){
-    double_pully(ratio=0.8547, erd1=25);
-}
-translate([0, -30, 0]){
-    double_pully(ratio=0.7941, erd1=25);
+spacing=15;
+
+// this one is close
+// 2.7
+translate([-spacing,spacing, 0]){
+    double_pully(ratio=0.7941, erd1=22, letter="A");
 }
 
-translate([30, -30, 0]){
-    double_pully(ratio=0.8547, erd1=23);
+// 2.65
+translate([-spacing,-spacing, 0]){
+    double_pully(ratio=0.7794, erd1=22, letter="B");
 }
-translate([-30, -30, 0]){
-    double_pully(ratio=0.7941, erd1=23);
-}
-
-translate([30, 0, 0]){
-    double_pully(ratio=0.8547, erd1=21);
-}
-translate([-30,0, 0]){
-    double_pully(ratio=0.7941, erd1=21);
+// 2.6
+translate([spacing,-spacing, 0]){
+    double_pully(ratio=0.7647, erd1=22, letter="C");
 }
 
-translate([30, 30, 0]){
-    double_pully(ratio=0.8547, erd1=19);
+// 2.55
+translate([spacing,spacing, 0]){
+    double_pully(ratio=0.75, erd1=22, letter="Z");
 }
-translate([-30, 30, 0]){
-    double_pully(ratio=0.7941, erd1=19);
-}
+
