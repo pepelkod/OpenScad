@@ -87,7 +87,7 @@ module mock_hex_key(h=150, d=5, position=0, thickness=8, chopper=false){
     // diagonal width of hexagon is 1:1.1547005 of flat-to-flat width
     diagonal_diameter = d * 1.1547005;
     // if we are cutting a hole we want it to be 10% bigger
-    diameter_scaled = (chopper==true)?diagonal_diameter*1.1:diagonal_diameter;
+    diameter_scaled = (chopper==true)?diagonal_diameter*1.02 +0.4:diagonal_diameter;
     
     // numbers
     // rotate by 60 degrees (360/60 = 6 sides of hex key)
@@ -98,8 +98,8 @@ module mock_hex_key(h=150, d=5, position=0, thickness=8, chopper=false){
                 translate([-((thickness*2)-0.5),0,-h*3/7])
                     rotate([90,0,0])
                         rotate([0,-90,0])
-                            linear_extrude(2)
-                                text(str(d), size=5, halign="center", valign="center");
+                            linear_extrude(4)
+                                text(str(d), size=8, halign="center", valign="center");
         }
         // head
         translate([head_ratio/2+curve_amount, 0, h/2+curve_amount]){ // align with elbow
@@ -314,7 +314,7 @@ module test(){
     canondale_down_tube_d = 46.8;   //-48.25 lower end
 
     height=85;
-    show_mock=false;
+    show_mock=true;
     shift_amt_X= show_mock?22:22;
     shift_amt_Y= show_mock?-1:-1;
     dt_thickness=1.5;

@@ -79,22 +79,18 @@ module double_pully(ratio=0.8547, erd1=25, letter="A"){
 spacing=15;
 
 // this one is close
-// 2.7
+// 2.38
 translate([-spacing,spacing, 0]){
-    double_pully(ratio=0.7941, erd1=22, letter="A");
+    double_pully(ratio=0.70, erd1=24, letter="I");
 }
 
-// 2.65
+// 2.21
 translate([-spacing,-spacing, 0]){
-    double_pully(ratio=0.7794, erd1=22, letter="B");
+    double_pully(ratio=0.65, erd1=24, letter="J");
 }
-// 2.6
+// 2.04
 translate([spacing,-spacing, 0]){
-    double_pully(ratio=0.7647, erd1=22, letter="C");
+    double_pully(ratio=0.6, erd1=24, letter="K");
 }
 
-// 2.55
-translate([spacing,spacing, 0]){
-    double_pully(ratio=0.75, erd1=22, letter="Z");
-}
 
