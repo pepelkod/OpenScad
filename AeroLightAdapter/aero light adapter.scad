@@ -1,6 +1,7 @@
 
 
 
+
 module noclips(){
     union(){
         linear_extrude(30, center=false){
@@ -9,11 +10,13 @@ module noclips(){
         translate([-2.35,0,0]){
             scale([1.1,1,1]){
                 linear_extrude(3, center=false){
+
                     import("aero light adapter.svg");
                 }
             }
         }
     }
+
 }
 
 module clips(){
@@ -26,9 +29,9 @@ module clips(){
         noclips();
     }
 } 
-noclips();
+//noclips();
 
-//clips();
+clips();
 
 
 
