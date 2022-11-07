@@ -1,5 +1,5 @@
 
-$fn=80;
+$fn=160;
 
 module gasket(){
     r_in = 19/2;
@@ -74,10 +74,10 @@ translate([0,0,3.4]){
 }
 //alu_receiver();
 
-translate([0,0,-3.4]){
+/*translate([0,0,-3.4]){
     rotate([0,180,0]){
         insert(gasket=true);
     }
 }
-
+*/
 
