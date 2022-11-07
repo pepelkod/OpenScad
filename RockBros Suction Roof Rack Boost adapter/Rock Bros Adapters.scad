@@ -85,12 +85,15 @@ module rear_142x12mm_insert(){
     insert(axle_dia=12.0, width=142, gasket=false);
 }
 
+//*
 translate([16,0,0]){
     front_110x15mm_boost_insert();
 }
+/*/
 translate([-16,0,0]){
     rear_142x12mm_insert();
 }
+//*/
 
 //alu_receiver();
 
