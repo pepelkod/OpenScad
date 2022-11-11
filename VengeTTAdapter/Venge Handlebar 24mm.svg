@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg8"
+   sodipodi:docname="Venge Handlebar 24mm.svg"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="7.919596"
+     inkscape:cx="222.57355"
+     inkscape:cy="6.4834616"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:measure-start="-4758.3,1989.64"
+     inkscape:measure-end="-4373.75,1991.61"
+     inkscape:window-width="6400"
+     inkscape:window-height="3444"
+     inkscape:window-x="6384"
+     inkscape:window-y="-16"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       transform="translate(0,1.0583333)"
+       style="fill:#ffcc00;opacity:0.554"
+       inkscape:label="Layer 1"
+       id="g2533">
+      <path
+         id="path2531"
+         d="M 4.0910555e-4,280.6783 C 0.71199161,286.80364 4.8913157,293.0252 7.6505091,294.3112 c 2.6225049,1.22229 6.9030389,1.58437 8.0594389,1.63047 l -0.121721,-42.47951 c -5.2294,-0.5073 -8.6869091,6.11165 -10.5021222,9.25054 -3.6344555,6.28476 -5.08759569,16.6136 -5.0860956944474,17.9656 z"
+         style="fill:#ffcc00;fill-rule:evenodd;stroke-width:0.26458332"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="csccssc" />
+    </g>
+  </g>
+</svg>

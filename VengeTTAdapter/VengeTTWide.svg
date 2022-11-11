@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   sodipodi:docname="VengeOffsetWide.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="7.9195959"
+     inkscape:cx="75.207436"
+     inkscape:cy="120.64105"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:measure-start="1235.54,61.3393"
+     inkscape:measure-end="1214.29,41.6072"
+     inkscape:window-width="6400"
+     inkscape:window-height="3444"
+     inkscape:window-x="-16"
+     inkscape:window-y="-16"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.32014585;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4529"
+       width="966.10712"
+       height="117.92857"
+       x="-5.4672236"
+       y="13.495604"
+       rx="6.1139917"
+       ry="6.1139917" />
+    <path
+       style="opacity:1;fill:#ae6fb6;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.31522065;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 31.98535,288.52993 v 1.58543 c 0,0 -12.82539,8.3655 -19.79481,11.45474 C 8.29272,303.29784 0.009,305.4705 0.009,305.4705 L 0,288.52993 Z"
+       id="rect4531"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccaccc" />
+  </g>
+</svg>
