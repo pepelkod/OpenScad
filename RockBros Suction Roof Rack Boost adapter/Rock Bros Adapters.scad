@@ -199,16 +199,17 @@ module rear_142x12mm_insert(gasket=false){
         makeChainRing(numberOfTeeth = 11, numberOfBolts = 6,bcd = axle_dia*2);
     }    
 }
-module rear_148x12mm_insert(gasket=false){
+module rear_148x12mm_insert(gasket=false, cog=false){
     axle_dia = 12.0;
     insert(axle_dia=axle_dia, width=148, gasket=gasket);
 
     base_cog_position=63;
-    //translate ([(externalDiameter / 2), (externalDiameter / 2), -1]) {
-    translate ([0, 0, base_cog_position]) {
-        makeChainRing(numberOfTeeth = 11, numberOfBolts = 6,bcd = axle_dia*2);
-    }    
 
+    if(cog == true){
+        translate ([0, 0, base_cog_position]) {
+            makeChainRing(numberOfTeeth = 11, numberOfBolts = 6,bcd = axle_dia*2);
+        }    
+    }
 }
 
 /*
