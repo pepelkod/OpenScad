@@ -10,7 +10,7 @@ $fs = 1;
 
 
 
-module makeChainRing(numberOfTeeth = 50, numberOfBolts = 5, bcd = 110) {
+module makeChainRing(numberOfTeeth = 50, numberOfBolts = 5, bcd = 110, boltHoleDiameter=10) {
     ////////
     // CHAINRING OPTIONS
     //cam options
@@ -18,7 +18,7 @@ module makeChainRing(numberOfTeeth = 50, numberOfBolts = 5, bcd = 110) {
     doProjectionFor2dCam = "false";
 
     //general chainring options
-    boltHoleDiameter = 4; //10mm seems standard (a bit bigger to be safe)
+    //boltHoleDiameter 10mm seems standard (a bit bigger to be safe)
     internalDiameterOffsetFromHoles = 2.75; //seems typical
 
     ringThickness = 2.5;  //seems about right (and is 7075 stock I have..)
@@ -125,6 +125,9 @@ module insert(axle_dia=12.0, width=142, gasket=false){
     axle_dia_with_clearance=axle_dia*1.03;
     extension_len = 4.75 + ((width-100)/2);
     extension_dia = axle_dia * 1.3660130718954248366013071895425;
+    
+    translate([0,0,3]){  
+    union(){
     // insert
     color("gray"){
         
@@ -172,20 +175,36 @@ module insert(axle_dia=12.0, width=142, gasket=false){
                 gasket();
             }
         }
-    }        
+    }   
+    }
+    }
 }
 
-module alu_receiver(height=86.4){
+module alu_receivder(height=86.4){
     color("red"){
-        difference(){
-            cylinder(h=height, d=30, center=true);
-            translate([0,0,0]){
-                cylinder(h=height+2, d=24, center=true);
+        union(){
+            // round top
+            difference(){
+                cylinder(h=height, d=30, center=true);
+                translate([0,0,0]){
+                    cylinder(h=height+2, d=24, center=true);
+                }
+            }
+            // base
+        }  
+    }
+} 
+
+module alu_receiver(height=86){
+    translate([0,0, -height/2]){
+        color("red"){
+            linear_extrude(height=height){
+                import("RockBrosThruAxleSilhoet.svg", center=false);
             }
         }
     }
-} 
- 
+}
+
 module front_110x15mm_boost_insert(gasket=false){
     insert(axle_dia=15.0, width=110, gasket=gasket);
 }
@@ -217,28 +236,111 @@ translate([0,0,0]){
     front_110x15mm_boost_insert();
 }
 */
-//*
-translate([0,0,0]){
-    rotate([180,0,0]){
-        rear_148x12mm_insert(gasket=false);
-    }
-}
-/*/
+
+/*
 translate([0,0,0]){
     rotate([180,0,0]){
         rear_142x12mm_insert(gasket=false);
     }
 }
+*/
 
-/*
-translate([0,0,-3.5]){
-    #alu_receiver();
+module main_rack(){
+    len_main = 74 * 25.4;
+    width = 4 * 25.4;
+    height = 3 * 25.4;
+    len_ends = 4 * 25.4;
+    color("Silver"){
+        translate([0, -width/2,0]){
+            union(){
+                // main beam
+                cube([len_main, width, height], center=false);
+                // front
+                translate([0,0,height]){
+                    cube([len_ends, width, height], center=false);
+                }
+                // back
+                translate([len_main-len_ends,0,height]){
+                    cube([len_ends, width, height], center=false);
+                }
+            }
+        }
+    }
 }
-translate([0,0,-7]){
-    rotate([0,180,0]){
-        rear_148x12mm_insert(gasket=true);
+
+module back_end(){
+    rotate([90,0,0]){
+        union(){
+            translate([38.4,65.9,0]){
+                rotate([0,0,0]){
+                    rear_148x12mm_insert(gasket=true, cog=false);
+                }
+                rotate([0,180,0]){
+                    rear_148x12mm_insert(gasket=true, cog=true);
+                }
+            }
+            translate([0,0,0]){
+                alu_receiver();
+            }
+        }
+    }
+}
+module front_end(){
+    rotate([90,0,180]){
+
+        union(){
+            translate([38.4,65.9,0]){
+                rotate([0,0,0]){
+                    front_110x15mm_boost_insert(gasket=true);
+                }
+                rotate([0,180,0]){
+                    front_110x15mm_boost_insert(gasket=true);
+                }
+            }
+            translate([0,0,0]){
+                alu_receiver();
+            }
+        }
+    }
+}
+
+module tandem(height=52){
+       
+    rotate([90,0,180]){
+        union(){
+            // chainring
+            translate([-1410, 145, (2.2*25.4)]){
+                makeChainRing(numberOfTeeth = 53, numberOfBolts = 5, bcd = 110,                 boltHoleDiameter=10) ;
+                translate([0,0,-5.9]){
+                    color("LightYellow"){
+                    makeChainRing(numberOfTeeth = 39, numberOfBolts = 5, bcd = 110,                  boltHoleDiameter=10) ;
+                    }
+                }
+
+            }
+            // frame
+            translate([-(73.5*25.4),(4.75*25.4), -height/2]){
+                color("SteelBlue"){
+                    linear_extrude(height=height){
+                        import("TandemSilhouet.svg", center=false);
+                    }
+                }
+            }
+        }
     }
 }
 
 
-*/
+union(){
+    tandem();
+    
+    main_rack();
+    translate([0,0,(6*25.4)]){
+        translate([(71.325*25.4),0, 0]){
+            back_end();
+        }
+        translate([(2.5*25.4), 0, 0]){
+            front_end();
+        }
+    }
+}
