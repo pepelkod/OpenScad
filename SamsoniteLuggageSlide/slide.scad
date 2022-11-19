@@ -2,7 +2,7 @@
 $fn=20;
 
 
-slide_width=15.9;
+slide_width=15.7;
 
 module slide_body(){
     linear_extrude(slide_width, center=false){
@@ -43,10 +43,12 @@ module tab(){
     }
     
     // nubbin
-    translate([thick,-3.22,0]){
-        rotate([270,90,90]){
-            linear_extrude(thick){
-                polygon(points=[[-0.1,0],[width/2,0],[-0.1,width]]);
+    color("blue"){
+        translate([thick,-3.22,0]){
+            rotate([270,90,90]){
+                linear_extrude(thick){
+                    polygon(points=[[-0.1,0],[width/2,0],[-0.1,width]]);
+                }
             }
         }
     }
@@ -56,7 +58,7 @@ union(){
     tab_in=3.21;
     
     slide_body();
-    translate([10.42,0,(15.9/2)]){
+    translate([10.42,0,(slide_width/2)]){
         square();
     }
     // left side
