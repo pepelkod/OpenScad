@@ -329,18 +329,82 @@ module tandem(height=52){
         }
     }
 }
-
-
-union(){
-    tandem();
+module bolt(size=8, length=150){
+    head_height=size;
     
-    main_rack();
-    translate([0,0,(6*25.4)]){
-        translate([(71.325*25.4),0, 0]){
-            back_end();
-        }
-        translate([(2.5*25.4), 0, 0]){
-            front_end();
+    color("DimGray"){
+        union(){
+            // shaft
+            cylinder(d=8, h=length);
+            // head
+            translate([0,0,-head_height]){
+                difference(){
+                    cylinder(d=13, h=head_height);
+                    // hex hole
+                    translate([0,0,-1]){
+                        cylinder(d=size, h=7, $fn=6);
+                    }
+                }
+            }
         }
     }
 }
+module plate(){
+    length = 4*25.4;
+    width = 6*25.4;
+    thick = 0.5*25.4;
+    
+    cube([length, width, thick], center=true);
+}
+module plates(){
+    position_x = (74/2)*25.4;
+
+    translate([position_x, 0, 0]){
+        translate([0, 0, 3.25*25.4]){
+            plate();
+        }
+        translate([0, 0, -2.25*25.4]){
+            plate();
+        
+            for ( i = [-1,1] ){
+                for ( j = [-1,1] ){
+                    translate([i*(1.5*25.4), j*(2.5*25.4), -.15*25.4]){
+                        bolt();
+                    }
+                }
+            }
+        }
+    }
+}
+module thule(){
+    length = 32*25.4;
+    diameter = 2*25.4;
+    
+    translate([(74/2)*25.4, 0, -diameter/2]){
+        color("DarkGray"){
+            cube([diameter, length, diameter], center=true);
+        }
+    }
+}
+
+module whole_thing(){
+    union(){
+        tandem();
+        
+        main_rack();
+        translate([0,0,(6*25.4)]){
+            translate([(71.325*25.4),0, 0]){
+                back_end();
+            }
+            translate([(2.5*25.4), 0, 0]){
+                front_end();
+            }
+        }
+    }
+    thule();
+    plates();
+}
+
+//plates();
+whole_thing();
+//bolt();
