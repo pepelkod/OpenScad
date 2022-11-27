@@ -7,6 +7,7 @@ $fn=160;
 $fa = 4;
 $fs = 1;
  
+mms = 25.4;
 
 
 
@@ -246,10 +247,10 @@ translate([0,0,0]){
 */
 
 module main_rack(){
-    len_main = 74 * 25.4;
-    width = 4 * 25.4;
-    height = 3 * 25.4;
-    len_ends = 4 * 25.4;
+    len_main = 74 * mms;
+    width = 4 * mms;
+    height = 3 * mms;
+    len_ends = 4 * mms;
     color("Silver"){
         translate([0, -width/2,0]){
             union(){
@@ -309,7 +310,7 @@ module tandem(height=52){
     rotate([90,0,180]){
         union(){
             // chainring
-            translate([-1410, 145, (2.2*25.4)]){
+            translate([-1410, 145, (2.2*mms)]){
                 makeChainRing(numberOfTeeth = 53, numberOfBolts = 5, bcd = 110,                 boltHoleDiameter=10) ;
                 translate([0,0,-5.9]){
                     color("LightYellow"){
@@ -319,7 +320,7 @@ module tandem(height=52){
 
             }
             // frame
-            translate([-(73.5*25.4),(4.75*25.4), -height/2]){
+            translate([-(73.5*mms),(4.75*mms), -height/2]){
                 color("SteelBlue"){
                     linear_extrude(height=height){
                         import("TandemSilhouet.svg", center=false);
@@ -334,6 +335,10 @@ module bolt(size=8, length=150){
     
     color("DimGray"){
         union(){
+            // optional washers
+            translate([0,0, mms]){
+                cylinder(h=2, d=mms);
+            }
             // shaft
             cylinder(d=8, h=length);
             // head
@@ -350,25 +355,25 @@ module bolt(size=8, length=150){
     }
 }
 module plate(){
-    length = 4*25.4;
-    width = 6*25.4;
-    thick = 0.5*25.4;
+    length = 4*mms;
+    width = 6*mms;
+    thick = 0.5*mms;
     
     cube([length, width, thick], center=true);
 }
 module plates(){
-    position_x = (74/2)*25.4;
+    position_x = (74/2)*mms;
 
     translate([position_x, 0, 0]){
-        translate([0, 0, 3.25*25.4]){
+        translate([0, 0, 3.25*mms]){
             plate();
         }
-        translate([0, 0, -2.25*25.4]){
+        translate([0, 0, -2.25*mms]){
             plate();
         
             for ( i = [-1,1] ){
                 for ( j = [-1,1] ){
-                    translate([i*(1.5*25.4), j*(2.5*25.4), -.15*25.4]){
+                    translate([i*(1.5*mms), j*(2.5*mms), -.15*mms]){
                         bolt();
                     }
                 }
@@ -377,10 +382,10 @@ module plates(){
     }
 }
 module thule(){
-    length = 32*25.4;
-    diameter = 2*25.4;
+    length = 32*mms;
+    diameter = 2*mms;
     
-    translate([(74/2)*25.4, 0, -diameter/2]){
+    translate([(74/2)*mms, 0, -diameter/2]){
         color("DarkGray"){
             cube([diameter, length, diameter], center=true);
         }
@@ -392,11 +397,11 @@ module whole_thing(){
         tandem();
         
         main_rack();
-        translate([0,0,(6*25.4)]){
-            translate([(71.325*25.4),0, 0]){
+        translate([0,0,(6*mms)]){
+            translate([(71.325*mms),0, 0]){
                 back_end();
             }
-            translate([(2.5*25.4), 0, 0]){
+            translate([(2.5*mms), 0, 0]){
                 front_end();
             }
         }
