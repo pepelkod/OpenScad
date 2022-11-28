@@ -34,9 +34,9 @@ module end_cap(width_in=4, height_in=3, thick_in=0.125){
             square([internal_width_mm, internal_height_mm], center=true);
         }
         // hollow middle
-        linear_extrude(insert_depth_mm+(cap_thick_mm)){
-            square([internal_width_mm-6, internal_height_mm-6], center=true);
-        }
+        //linear_extrude(insert_depth_mm+(cap_thick_mm)){
+        //    square([internal_width_mm-6, internal_height_mm-6], center=true);
+        //}
         // radius corners
         translate([(internal_width_mm/2)-radius, internal_height_mm/2-radius, 0]){
             rotate([0,0,0]){
@@ -111,41 +111,35 @@ module end_cap(width_in=4, height_in=3, thick_in=0.125){
         }        
 
 
-    }    
+    }
+				inset = 4; 
+				diameter = inset*2.05;   
     difference(){
         // head
         linear_extrude(height=cap_thick_mm){
             square([external_width_mm, external_height_mm], center=true);
         }
-        // chamfer
-        translate([0, (external_height_mm/2)+4,0]){
-            rotate([45,0,0]){
-                linear_extrude(height=4){
-                    square([external_width_mm*2, external_height_mm], center=true);
-                }
+        // radius long sides
+        translate([-external_width_mm, (external_height_mm/2)-inset,inset]){
+            rotate([0,90,0]){
+                radiuser(d=diameter, h=1000);
             }
         }
-        translate([0, -(external_height_mm/2)-cap_thick_mm,0]){
-            rotate([-45,0,0]){
-                linear_extrude(height=4){
-                    square([external_width_mm*2, external_height_mm], center=true);
-                }
+        translate([external_width_mm, -(external_height_mm/2)+inset,inset]){
+            rotate([0,90,180]){
+                radiuser(d=diameter, h=1000);
             }
         }
-        // chamfer ends
-        translate([(external_width_mm/2)+cap_thick_mm,0,0]){
-            rotate([0,-45,0]){
-                linear_extrude(height=4){
-                    square([external_width_mm*2, external_height_mm], center=true);
-                }
+        // radius ends
+        translate([(-external_width_mm/2)+inset, -(external_height_mm),inset]){
+            rotate([0,90,90]){
+                radiuser(d=diameter, h=1000);
             }
         }
-        // chamfer ends
-        translate([-(external_width_mm/2)-cap_thick_mm,0,0]){
-            rotate([0,45,0]){
-                linear_extrude(height=4){
-                    square([external_width_mm*2, external_height_mm], center=true);
-                }
+        // radius ends
+        translate([(external_width_mm/2)-inset, +(external_height_mm),inset]){
+            rotate([0,90,270]){
+                radiuser(d=diameter, h=1000);
             }
         }
 
