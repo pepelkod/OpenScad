@@ -36,17 +36,19 @@ module cross_under(width, length, depth, thick){
  
 module taper_leg(width, length, thick, leg_angle, cross_angle, distance, offset, taper_angle=5){
     taper_amt = length*sin(taper_angle);
+    taper_width = width-taper_amt;
+    angle_amt = width*cos(leg_angle);
+    angled_length = length-angle_amt;
     rotate([0,0,cross_angle]){
-
-    rotate([90+leg_angle, 0, 0]){
-        translate([offset-thick/2, distance-width,length]){
-            rotate([90,90,90]){
-                linear_extrude(thick){
-	                   polygon(points=[[0,0],[0,width-taper_amt],[length,width],[length,0],[0,0]]);
-	               }
+        rotate([90+leg_angle, 0, 0]){
+            translate([offset-thick/2, distance-width,angled_length]){
+                rotate([90,90,90]){
+                    linear_extrude(thick){
+                           polygon(points=[[0,0],[0-angle_amt*(taper_width/width),taper_amt],[angled_length,width],[length,0],[0,0]]);
+                       }
+                }
             }
         }
-    }
     }
 }
 module leg_side(width, length, thick, leg_angle, cross_angle, distance, offset){
@@ -85,20 +87,19 @@ module base(width, length, cross_depth, leg_angle, leg_len, thick){
 }
 
 module desk(){
-    difference(){
         union(){
             translate([0,0,cross_depth]){
                 top(width, length, thick);
             }
             base(width, length, cross_depth, leg_angle, leg_len, thick);
         }
-        // cut plane to flatten bottoms of legs
-        translate([0,0,-leg_len+cross_depth]){
-            top(width*2, length*2, thick*2);
-        }
-    }
+   
 }
 
 desk();
-//taper_leg(width=6*mms, length=31*mms, thick=1*mms, leg_angle= 90, cross_angle= 45, distance= 0, offset=mms, taper_angle=5);
-//leg_side(width=6*mms, length=31*mms, thick=1*mms, leg_angle= 90, cross_angle= 45, distance= 0, offset=mms);
+/* debug stuff
+color("Green")
+translate([-mms, -mms, 0])
+taper_leg(width=6*mms, length=31*mms, thick=1*mms, leg_angle= 45, cross_angle= 0, distance= 0, offset=mms, taper_angle=5);
+leg_side(width=6*mms, length=31*mms, thick=1*mms, leg_angle= 80, cross_angle= 0, distance= 0, offset=mms);
+*/
