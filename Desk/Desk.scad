@@ -34,13 +34,21 @@ module cross_under(width, length, depth, thick){
 }
 
  
-  /*  rotate([0,0,cross_angle]){
-        rotate([90+leg_angle, 0, 0]){
-            translate([thick, distance-(width/2),length/2]){
-                cube([thick, width, length], center = true);
+module taper_leg(width, length, thick, leg_angle, cross_angle, distance, offset, taper_angle=5){
+    taper_amt = length*sin(taper_angle);
+    rotate([0,0,cross_angle]){
+
+    rotate([90+leg_angle, 0, 0]){
+        translate([offset-thick/2, distance-width,length]){
+            rotate([90,90,90]){
+                linear_extrude(thick){
+	                   polygon(points=[[0,0],[0,width-taper_amt],[length,width],[length,0],[0,0]]);
+	               }
             }
         }
-    }*/
+    }
+    }
+}
 module leg_side(width, length, thick, leg_angle, cross_angle, distance, offset){
     rotate([0,0,cross_angle]){
         rotate([90+leg_angle, 0, 0]){
@@ -51,8 +59,8 @@ module leg_side(width, length, thick, leg_angle, cross_angle, distance, offset){
     }
 }
 module leg(width, length, thick, leg_angle, cross_angle, distance){
-    leg_side(width=width, length=length, thick=thick, leg_angle=leg_angle, cross_angle=cross_angle, distance=distance, offset=-thick);
-    leg_side(width=width, length=length, thick=thick, leg_angle=leg_angle, cross_angle=cross_angle, distance=distance, offset=+ thick);
+    taper_leg(width=width, length=length, thick=thick, leg_angle=leg_angle, cross_angle=cross_angle, distance=distance, offset=-thick);
+    taper_leg(width=width, length=length, thick=thick, leg_angle=leg_angle, cross_angle=cross_angle, distance=distance, offset=+ thick);
 
 }
 
@@ -65,7 +73,7 @@ module base(width, length, cross_depth, leg_angle, leg_len, thick){
     ratio = cross_len/total_cross_len;
     
     cross_under(width*ratio, length*ratio, cross_depth, thick);
-
+ 
     cross_angle = atan(width/length);
 
     leg(cross_depth, leg_len, thick, leg_angle, cross_angle, cross_len/2);
@@ -91,14 +99,6 @@ module desk(){
     }
 }
 
-module taper_leg(width, length, thick, leg_angle, cross_angle, distance){
-    difference(){
-        leg(width=width, length=length, thick=thick, leg_angle=leg_angle, cross_angle=cross_angle, distance=distance);
-        translate([0,150,0])
-        rotate([-5,0,0]){
-        leg(width=width+1, length=length+10, thick=thick+1, leg_angle=leg_angle, cross_angle=cross_angle, distance=distance);
-        }
-    }
-}
 desk();
-//leg(width=6*mms, length=31*mms, thick=1*mms, leg_angle= 90, cross_angle= 0, distance= 0);
+//taper_leg(width=6*mms, length=31*mms, thick=1*mms, leg_angle= 90, cross_angle= 45, distance= 0, offset=mms, taper_angle=5);
+//leg_side(width=6*mms, length=31*mms, thick=1*mms, leg_angle= 90, cross_angle= 45, distance= 0, offset=mms);
