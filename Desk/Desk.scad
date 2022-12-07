@@ -72,9 +72,10 @@ module taper_leg(width, length, thick, leg_angle, cross_angle, distance, offset_
 }
 
 module leg(width, length, thick, leg_angle, cross_angle, distance, taper_angle){
+    color("Peru"){
     taper_leg(width=width, length=length, thick=thick, leg_angle=leg_angle, cross_angle=cross_angle, distance=distance, offset_dir=-1, taper_angle=taper_angle);
     taper_leg(width=width, length=length, thick=thick, leg_angle=leg_angle, cross_angle=cross_angle, distance=distance, offset_dir=+1, taper_angle=taper_angle);
-
+    }
 }
 
 module base(width, length, cross_depth, leg_angle, leg_len, thick, taper_angle){
