@@ -1,4 +1,4 @@
-
+/* original desk measurements
 mms = 25.4;
 width = 42*mms;
 length= 71*mms;
@@ -9,6 +9,20 @@ leg_angle = 15;             // 0 to 45 degrees
 leg_len = 34*mms;           // will be 
 taper_angle = 5;            // 0 to 10 degrees
 extra_inset = 2*mms;       // extra amount to move legs in from edge of table
+*/
+
+// Remi's desk measurements
+mms = 25.4;
+width = 34.7*mms;
+length= 52*mms;
+thick = (7/8)*mms;
+cross_depth = 3*mms;
+leg_depth = 4*mms;
+
+leg_angle = 14;             // 0 to 45 degrees
+leg_len = 32*mms;           // will be 
+taper_angle = 3.5;            // 0 to 10 degrees
+extra_inset = 0*mms;       // extra amount to move legs in from edge of table
 
 
 module top(width, length, thick){
@@ -78,7 +92,7 @@ module leg(width, length, thick, leg_angle, cross_angle, distance, taper_angle){
     }
 }
 
-module base(width, length, cross_depth, leg_angle, leg_len, thick, taper_angle){
+module base(width, length, cross_depth, leg_depth, leg_angle, leg_len, thick, taper_angle){
     // how far in will leg angle hit cross piece?
     angle_amt = cross_depth*tan(leg_angle);           // amt to chop off top because leg is angled
     angled_leg_length = length-angle_amt;       // new outside leg length once we angled the leg          
@@ -97,20 +111,20 @@ module base(width, length, cross_depth, leg_angle, leg_len, thick, taper_angle){
     cross_angle = atan(width/length);
 
     leg_distance = (total_cross_len/2)-extra_inset;//-leg_top_hypotenuse;
-    leg(width=cross_depth, length=leg_len, thick=thick, leg_angle=leg_angle,
+    leg(width=leg_depth, length=leg_len, thick=thick, leg_angle=leg_angle,
         cross_angle=cross_angle, distance=leg_distance, taper_angle=taper_angle);
-    leg(width=cross_depth, length=leg_len, thick=thick, leg_angle=leg_angle,
+    leg(width=leg_depth, length=leg_len, thick=thick, leg_angle=leg_angle,
         cross_angle=cross_angle-180, distance=leg_distance, taper_angle=taper_angle);
-    leg(width=cross_depth, length=leg_len, thick=thick, leg_angle=leg_angle,
+    leg(width=leg_depth, length=leg_len, thick=thick, leg_angle=leg_angle,
         cross_angle=-cross_angle, distance=leg_distance, taper_angle=taper_angle);
-    leg(width=cross_depth, length=leg_len, thick=thick, leg_angle=leg_angle,
+    leg(width=leg_depth, length=leg_len, thick=thick, leg_angle=leg_angle,
         cross_angle=-cross_angle-180, distance=leg_distance, taper_angle=taper_angle);
 }
 
 module desk(){
         union(){
             top(width, length, thick);
-            base(width, length, cross_depth, leg_angle, leg_len, thick, taper_angle);
+            base(width, length, cross_depth, leg_depth, leg_angle, leg_len, thick, taper_angle);
         }
    
 }
