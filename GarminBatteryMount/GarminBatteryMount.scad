@@ -52,11 +52,25 @@ module round_battery_holder(){
     body();
 }*/
 module flat_mount_remix(){
-    union(){
-        translate([0,0,-10.5]){
-            female();
+    intersection(){
+        #union(){
+            translate([0,0,-8.5]){
+                difference(){
+                    cylinder(r=18,h=8);
+                    translate([0,0,-1]){
+                        cylinder(r=14.7,h=12);
+                    }
+                }
+            }
+            translate([0,0,-10.5]){
+                female();
+            }
+            //cylinder(r1=17, r2=20, h=4);
         }
-        //cylinder(r1=17, r2=20, h=4);
+        translate([0,0,-8.5]){
+            cylinder(r=18,h=4.68 );
+        }
+        
     }
 }
 rotate([0,90,0]){
