@@ -37,7 +37,7 @@ module battery(){
 
 
 
-module body(){
+module round_battery_holder(){
     translate([0,0,15]){
         male();
     }
@@ -48,7 +48,18 @@ module body(){
     }
 }
 
-rotate([90,90,0]){
+/*rotate([90,90,0]){
     body();
+}*/
+module flat_mount_remix(){
+    union(){
+        translate([0,0,-10.5]){
+            female();
+        }
+        //cylinder(r1=17, r2=20, h=4);
+    }
+}
+rotate([0,90,0]){
+    flat_mount_remix();
 }
     
