@@ -20,7 +20,7 @@ cross_depth = 3*mms;
 leg_depth = 4*mms;
 
 leg_angle = 14;             // 0 to 45 degrees
-leg_len = 32*mms;           // will be 
+leg_len = 30*mms;           // will be 
 taper_angle = 3.5;            // 0 to 10 degrees
 extra_inset = 0*mms;       // extra amount to move legs in from edge of table
 
