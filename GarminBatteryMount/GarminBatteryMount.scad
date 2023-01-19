@@ -120,36 +120,60 @@ module flat_battery_holder(){
     }
 }
 module flat_mount_remix(){
-    intersection(){
-        #union(){
+    screw_distance=22;
+    screw_height=6.2;
+    difference(){
+        union(){
+            // extra thick ring
             translate([0,0,-8.5]){
                 difference(){
-                    cylinder(r=18,h=8);
+                    cylinder(r=18,h=8.9);
                     translate([0,0,-1]){
                         cylinder(r=14.7,h=12);
                     }
                 }
             }
+            // acutal mount
             translate([0,0,-10.5]){
                 female();
             }
-            //cylinder(r1=17, r2=20, h=4);
+            // new screw holes
+            translate([-screw_distance/2,0,-screw_height+0.4]){
+                cylinder(d=10, h=screw_height);
+            }
+            translate([screw_distance/2,0,-screw_height+0.4]){
+                cylinder(d=10, h=screw_height);
+            }
+
         }
-        translate([0,0,-8.5]){
-            cylinder(r=18,h=4.68 );
+        // screw holes need to go through everything
+        translate([screw_distance/2,0,-screw_height]){
+                cylinder(d=2, h=screw_height*2);
+        }
+        translate([-screw_distance/2,0,-screw_height]){
+                cylinder(d=2, h=screw_height*2);
+        }
+        // and screw heads
+        translate([screw_distance/2,0,-screw_height]){
+                cylinder(d=6, h=3);
+        }
+        translate([-screw_distance/2,0,-screw_height]){
+                cylinder(d=6, h=3);
         }
         
+
     }
 }
-flat_battery_holder();
+
+//flat_battery_holder();
 
 /*rotate([90,90,0]){
     round_battery_holder();
 }*/
 
-/*
+
 rotate([0,90,0]){
     flat_mount_remix();
 }
-    */
+
 
