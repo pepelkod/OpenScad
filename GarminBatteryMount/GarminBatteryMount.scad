@@ -48,9 +48,38 @@ module round_battery_holder(){
     }
 }
 
-/*rotate([90,90,0]){
-    body();
-}*/
+module flat_mount_remix(){
+    union(){
+        translate([0,0,-10.5]){
+            female();
+        }
+        //cylinder(r1=17, r2=20, h=4);
+    }
+}
+module flat_battery_holder(){
+    union(){
+        translate([-6,-32,0]){
+            cube([12,64,64]);
+        }
+        translate([0,32,0]){
+            sphere(d=12);
+        }
+        translate([0,-32,0]){
+            sphere(d=12);
+        }
+        translate([0, 32, 0]){
+            cylinder(d=12, h=64);
+        }
+        translate([0, 32, 0]){
+            rotate([90,0,0]){
+                cylinder(d=12, h=64);
+            }
+        }
+        translate([0, -32, 0]){
+            cylinder(d=12, h=64);
+        }
+    }
+}
 module flat_mount_remix(){
     intersection(){
         #union(){
@@ -73,7 +102,15 @@ module flat_mount_remix(){
         
     }
 }
+flat_battery_holder();
+
+/*rotate([90,90,0]){
+    round_battery_holder();
+}*/
+
+/*
 rotate([0,90,0]){
     flat_mount_remix();
 }
-    
+    */
+
