@@ -96,11 +96,22 @@ module flat_battery_holder(){
                 }
             } 
         }
+        // hollow for battery
         color("Black"){
-            translate([-thickness/2, -(width/2), 0]){ 
-                cube([thickness, 62,  96]);
+            union(){
+                translate([-thickness/2, -((width-2)/2), 0]){ 
+                    cube([thickness, width-2,  96]);
+                }
+                translate([0, -(width-4)/2, 0]){
+                    cylinder(d=thickness, h=96);
+                }
+                   translate([0, (width-4)/2, 0]){
+                    cylinder(d=thickness, h=96);
+                }
+
             }
         }
+        // cut hole bottom
         translate([-10,0,-42]){
             rotate([0,90,0]){
                 cylinder(d=86, h=20);
