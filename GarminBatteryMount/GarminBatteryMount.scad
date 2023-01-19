@@ -57,26 +57,54 @@ module flat_mount_remix(){
     }
 }
 module flat_battery_holder(){
-    union(){
-        translate([-6,-32,0]){
-            cube([12,64,64]);
+    thickness = 8.6;
+    width = 62;
+    length = 96;
+    wall = -4;
+    outer_width=width+wall;
+
+    difference(){
+        union(){
+            translate([-6,-(outer_width/2),0]){
+                cube([12,outer_width,outer_width]);
+            }
+            translate([0,outer_width/2,0]){
+                sphere(d=12);
+            }
+            translate([0,-(outer_width/2),0]){
+                sphere(d=12);
+            }
+            translate([0, outer_width/2, 0]){
+                cylinder(d=12, h=outer_width);
+            }
+            translate([0, outer_width/2, 0]){
+                rotate([90,0,0]){
+                    cylinder(d=12, h=outer_width);
+                }
+            }
+            translate([0, -(outer_width/2), 0]){
+                cylinder(d=12, h=outer_width);
+            }
+            translate([4.31,0,20]){
+                rotate([0,90,0]){
+                    male();
+                }
+            } 
+            translate([-14,0,20]){
+                rotate([0,90,0]){
+                    female();
+                }
+            } 
         }
-        translate([0,32,0]){
-            sphere(d=12);
-        }
-        translate([0,-32,0]){
-            sphere(d=12);
-        }
-        translate([0, 32, 0]){
-            cylinder(d=12, h=64);
-        }
-        translate([0, 32, 0]){
-            rotate([90,0,0]){
-                cylinder(d=12, h=64);
+        color("Black"){
+            translate([-thickness/2, -(width/2), 0]){ 
+                cube([thickness, 62,  96]);
             }
         }
-        translate([0, -32, 0]){
-            cylinder(d=12, h=64);
+        translate([-10,0,-42]){
+            rotate([0,90,0]){
+                cylinder(d=86, h=20);
+            }
         }
     }
 }
