@@ -1,4 +1,5 @@
 
+$fn=160;
 
 module side (thickness){
     linear_extrude(thickness, center=true){
@@ -110,34 +111,66 @@ module hinge(height, radius){
     num = 5;
     
     translate([0,0,-height/2]){
-    difference(){
-        for(i=[0:num]){
-            translate([0,0,(height/num)*i]){
-                hinge_element(height/num*0.9, radius);
-            }
-            if(i%2==0){
-                translate([radius,0,(height/num)*i]){
-                    cube(height/num*0.6, center=true);
+        difference(){
+            for(i=[0:num]){
+                translate([0,0,(height/num)*i]){
+                    hinge_element(height/num*0.9, radius);
                 }
-            }else{
-                translate([-radius,0,(height/num)*i]){
-                    cube(height/num*0.6, center=true);
-                }            
+                if(i%2==0){
+                    translate([radius,0,(height/num)*i]){
+                        cube(height/num*0.6, center=true);
+                    }
+                }else{
+                    translate([-radius,0,(height/num)*i]){
+                        cube(height/num*0.6, center=true);
+                    }            
+                }
             }
+            cylinder(h=height*4, r=radius/2, center=true);
         }
-        cylinder(h=height*4, r=radius/2, center=true);
     }
 }
+module latch(){
+    height = 40;
+    size = 5;
+    // female
+    difference(){
+        cylinder(r=size, h=height, center=true);
+        cylinder(r=size*0.6, h=height+2, center=true);
+        translate([size,-2.2,0]){
+            cube([size*2,size*2,height+2], center=true);
+        }
+    }
+    cylinder(r=size*0.5, h=height, center=true);
+}
+module handle(){
+    size=12;
+    
+    difference(){
+        cylinder(r=size, h=4, center=true);
+        cylinder(r=size/2, h=7, center=true);
+        translate([-400, 0, 0]){
+            cylinder(r=400, h=7, center=true);
+        }
+    }
 }
 
 module all(){
     difference(){
         body(44);
+        // hole for hinge
         translate([62, 129, 0]){
             rotate([0,0,-30]){
                 cube([13, 13,60],center=true);
             }
         }
+        // hole for latch
+        translate([-2, -100, 0]){
+            rotate([0,0,-45]){
+                cube([10,5,60],center=true);
+            }
+        }
+
     }
     
     // hinge
@@ -164,6 +197,18 @@ module all(){
     translate([-15,134,0]){
         rotate([0, 0, 92.4]){
             loop(50, 52, 4);
+        }
+    }
+    // latch
+    translate([0, -100, 0]){
+        rotate([0,0,45]){
+            latch();
+        }
+    }
+    //handle
+    translate([14.2, -84.2, 0]){
+        rotate([45,0,-35]){
+            handle();
         }
     }
 
