@@ -1,4 +1,4 @@
-
+$fn=160;
 
 module teeth(){
     slices=8;
