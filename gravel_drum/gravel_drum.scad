@@ -81,11 +81,11 @@ module main(gravel=true, middle=true){
         */
         // hole
         rotate([0,90,0]){
-            cylinder(d=85, h=1000, center=true);
+            cylinder(d=85.1, h=1000, center=true);
         }
     }
     // 85 diameter
     // 385 len
 }
 
-main(gravel=true, middle=true);
+main(gravel=true, middle=false);
