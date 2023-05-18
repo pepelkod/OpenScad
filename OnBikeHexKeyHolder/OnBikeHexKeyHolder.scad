@@ -92,7 +92,7 @@ module mock_hex_key(h=150, d=5, position=0, thickness=8, chopper=false){
     // numbers
     // rotate by 60 degrees (360/60 = 6 sides of hex key)
     rotate([0,0,position*60]){
-        // text
+        /* size text
         for(i=[0:1:3]){
             rotate([0,0,30+(i*90)])
                 translate([-((thickness*2)-0.5),0,-h*3/7])
@@ -100,7 +100,7 @@ module mock_hex_key(h=150, d=5, position=0, thickness=8, chopper=false){
                         rotate([0,-90,0])
                             linear_extrude(4)
                                 text(str(d), size=8, halign="center", valign="center");
-        }
+        }*/
         // head
         translate([head_ratio/2+curve_amount, 0, h/2+curve_amount]){ // align with elbow
             rotate([0,90,0]){
@@ -227,11 +227,11 @@ module tool_bracket(width=30, thickness=2, left_size=5, right_size=4, seat_tube_
                 hull(){
                     // rounded ends
                     translate([width/2, 0, 0]){
-                        cylinder(d=right_size*cylinder_ratio,h=height, center=true); 
+                        cylinder(d=right_size*cylinder_ratio+2,h=height, center=true); 
                     }
                     // other rounded end
                     translate([-width/2, 0, 0]){
-                        cylinder(d=left_size*cylinder_ratio,h=height, center=true); 
+                        cylinder(d=left_size*cylinder_ratio+2,h=height, center=true); 
                     }
                     //cube([width, mx_thick, height], center=true);
                 }                
@@ -257,8 +257,9 @@ module tool_bracket(width=30, thickness=2, left_size=5, right_size=4, seat_tube_
             }
             // remove seat area
             // note this includes rivnuts and drill holes
-            mock_seat_tube(d=seat_tube_d, svg_name=svg_name);
-            
+            translate([0,-thickness,0]){
+                mock_seat_tube(d=seat_tube_d, svg_name=svg_name);
+            }
             // remove extra weight
             lightner();
             
