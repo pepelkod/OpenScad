@@ -59,21 +59,51 @@ module ribble_plate(){
     }
 }
 
-translate([0,0,-1.9]){
-    ribble_plate();
-}
-color("Blue"){
-    difference(){
-        large_array(5,15);
-        translate([-7.155,13.16,-0.1]){
-            cylinder(d1=6, d2=6, h=4);
+module ribble_plate_with_velcro(){
+    union(){
+        translate([0,0,-1.9]){
+            ribble_plate();
         }
-        translate([7.155,-13.16,-0.1]){
-            cylinder(d1=6, d2=6, h=4);
-        }
+        color("Blue"){
+            difference(){
+                large_array(5,15);
+                translate([-7.155,13.16,-0.1]){
+                    cylinder(d1=6, d2=6, h=4);
+                }
+                translate([7.155,-13.16,-0.1]){
+                    cylinder(d1=6, d2=6, h=4);
+                }
 
+            }
+        }
     }
 }
+module holder_with_velcro(){
+    height=37;
+    
+    union(){
+        translate([0,0,9.7]){
+            large_array(5,15);
+        }
+        color("Purple"){
+            translate([0, height/2,0]){
+                rotate([90,0,0]){
+                    linear_extrude(height){
+                        import("HolderHollow.svg", center=true);
+                    }
+                }
+            }
+        }
+    }
+}
+    
+
+/*translate([0,40,0]){
+    ribble_plate_with_velcro();
+}
+*/
+
+holder_with_velcro();
 /*
     translate([0,10,-50]){
 
