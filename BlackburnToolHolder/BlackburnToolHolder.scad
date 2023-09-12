@@ -33,7 +33,7 @@ module venge_stem(){
 
 use <velcro.scad>
 
-module ribble_plate(){
+module ribble_plate(head_size=5){
     thick = 2;
 
     difference(){
@@ -45,7 +45,7 @@ module ribble_plate(){
                 // chamfer for bolt head
                 color("Green"){
                     translate([-7.155,13.16,1]){
-                        cylinder(d1=3, d2=6, h=1.01);
+                        cylinder(d1=3, d2=head_size, h=1.01);
                     }
                 }
             }
@@ -53,25 +53,25 @@ module ribble_plate(){
         // chamfer for 2nd bolt head
         color("Green"){
             translate([-7.155,13.16,1]){
-                cylinder(d1=3, d2=6, h=1.01);
+                cylinder(d1=3, d2=head_size, h=1.01);
             }
         }
     }
 }
 
-module ribble_plate_with_velcro(){
+module ribble_plate_with_velcro(head_size=5){
     union(){
         translate([0,0,-1.9]){
-            ribble_plate();
+            ribble_plate(head_size);
         }
         color("Blue"){
             difference(){
                 large_array(5,15);
                 translate([-7.155,13.16,-0.1]){
-                    cylinder(d1=6, d2=6, h=4);
+                    cylinder(d1=head_size, d2=head_size, h=4);
                 }
                 translate([7.155,-13.16,-0.1]){
-                    cylinder(d1=6, d2=6, h=4);
+                    cylinder(d1=head_size, d2=head_size, h=4);
                 }
 
             }
@@ -94,17 +94,48 @@ module holder_with_velcro(){
                 }
             }
         }
+        
     }
 }
-    
+module holder_standalone(head_size){
+    height = 36.25;
+    difference(){
+        translate([0, -height/2,9.6]){
+            rotate([-90,0,0]){
+                
+                linear_extrude(height){
+                    import("HolderShapeWithHoles.svg", center=true);
+                }
+            }
+        }
+        translate([-7.155,13.16,0]){
+            cylinder(d1=head_size, d2=head_size, h=40);
+        }
+        translate([7.155,-13.16,0]){
+            cylinder(d1=head_size, d2=head_size, h=40);
+        }
+    }
+}
 
-/*translate([0,40,0]){
+module ribble_plate_with_holder(){
+    head_size=6;
+    union(){
+        ribble_plate(head_size=head_size);
+         color("Purple"){
+            holder_standalone(head_size=head_size);
+         }
+    }
+}
+
+ribble_plate_with_holder();
+/*
+translate([0,40,0]){
     ribble_plate_with_velcro();
 }
-*/
 
-holder_with_velcro();
-/*
+
+//holder_with_velcro();
+
     translate([0,10,-50]){
 
         h = 100;
