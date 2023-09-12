@@ -33,8 +33,8 @@ module venge_stem(){
 
 use <velcro.scad>
 
-module ribble_plate(head_size=5){
-    thick = 2;
+module ribble_plate(screw_size=3.2, head_size=6){
+    thick = 3.2;
 
     difference(){
         rotate([0,0,180]){
@@ -44,22 +44,22 @@ module ribble_plate(head_size=5){
                 }
                 // chamfer for bolt head
                 color("Green"){
-                    translate([-7.155,13.16,1]){
-                        cylinder(d1=3, d2=head_size, h=1.01);
+                    translate([-7.155,13.16,thick-1]){
+                        cylinder(d1=screw_size, d2=head_size, h=1.01);
                     }
                 }
             }
         }
         // chamfer for 2nd bolt head
         color("Green"){
-            translate([-7.155,13.16,1]){
+            translate([-7.155,13.16,thick-1]){
                 cylinder(d1=3, d2=head_size, h=1.01);
             }
         }
     }
 }
 
-module ribble_plate_with_velcro(head_size=5){
+module ribble_plate_with_velcro(screw_size=3.2, head_size=6){
     union(){
         translate([0,0,-1.9]){
             ribble_plate(head_size);
@@ -119,8 +119,9 @@ module holder_standalone(head_size){
 
 module ribble_plate_with_holder(){
     head_size=6;
+    screw_size = 3.2;
     union(){
-        ribble_plate(head_size=head_size);
+        ribble_plate(screw_size=screw_size, head_size=head_size);
          color("Purple"){
             holder_standalone(head_size=head_size);
          }
