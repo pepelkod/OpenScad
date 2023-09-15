@@ -1,40 +1,6 @@
 $fn=80;
 
-module venge_clip(){
-//difference(){
-    color("red"){
-
-        translate([0,0,0]){
-
-            h = 25;
-            linear_extrude(h){
-                import("VengeClipProfile.svg", center=true);
-            }
-        }
-    }
-}
-module strap_nub(){
-    leng=40;
-    translate([0, leng/2,1]){
-        rotate([90,0,0]){
-            cylinder(h=leng,d=2);
-        }
-    }
-}
-
-module venge_stem(){
-    translate([22.0,0,0]){
-        strap_nub();
-        translate([0,0,25-2]){
-            strap_nub();
-        }
-    }
-}
-
-use <velcro.scad>
-
-module ribble_plate(screw_size=3.2, head_size=6){
-    thick = 3.2;
+module ribble_plate(screw_size=3.2, head_size=6, thick = 3.2){
 
     difference(){
         rotate([0,0,180]){
@@ -42,115 +8,156 @@ module ribble_plate(screw_size=3.2, head_size=6){
                 linear_extrude(thick){
                     import("RibblePanel.svg", center=true);
                 }
-                // chamfer for bolt head
-                color("Green"){
-                    translate([-7.155,13.16,thick-1]){
-                        cylinder(d1=screw_size, d2=head_size, h=1.01);
-                    }
-                }
-            }
-        }
-        // chamfer for 2nd bolt head
-        color("Green"){
-            translate([-7.155,13.16,thick-1]){
-                cylinder(d1=3, d2=head_size, h=1.01);
             }
         }
     }
 }
-
-module ribble_plate_with_velcro(screw_size=3.2, head_size=6){
-    union(){
-        translate([0,0,-1.9]){
-            ribble_plate(head_size);
-        }
-        color("Blue"){
-            difference(){
-                large_array(5,15);
-                translate([-7.155,13.16,-0.1]){
-                    cylinder(d1=head_size, d2=head_size, h=4);
-                }
-                translate([7.155,-13.16,-0.1]){
-                    cylinder(d1=head_size, d2=head_size, h=4);
-                }
-
-            }
-        }
-    }
-}
-module holder_with_velcro(){
-    height=37;
-    
-    union(){
-        translate([0,0,9.7]){
-            large_array(5,15);
-        }
-        color("Purple"){
-            translate([0, height/2,0]){
-                rotate([90,0,0]){
-                    linear_extrude(height){
-                        import("HolderHollow.svg", center=true);
-                    }
-                }
-            }
-        }
-        
-    }
-}
-module holder_standalone(head_size){
+module holder_standalone(head_size, tool1upper, tool2upper, tool3upper, handleupper,
+                                    tool1lower, tool2lower, tool3lower, handlelower){
+    tool1x = 15.5;
+    tool2x = 6.5;
+    tool3x = -2.5;
+                                        
     height = 36.25;
     difference(){
         translate([0, -height/2,9.6]){
             rotate([-90,0,0]){
-                
-                linear_extrude(height){
-                    import("HolderShapeWithHoles.svg", center=true);
+                difference(){
+                    linear_extrude(height){
+                        import("HolderShape.svg", center=true);
+                    }
+                    // Tool holes
+                    translate([tool1x, 1.6, 14]){
+                        #cylinder(h=40, d=tool1upper, center=true, $fn=6);
+                        echo(tool1upper);
+                    }
+                    translate([tool2x, 1.6, 14]){
+                        #cylinder(h=40, d=tool2upper, center=true, $fn=6);
+                    }
+                    translate([tool3x, 1.6, 14]){
+                        #cylinder(h=40, d=tool3upper, center=true, $fn=6);
+                        echo(tool3upper);
+                    }
+                    translate([-12.8, 0, 14]){
+                        cylinder(h=40, d=handleupper, center=true, $fn=60);
+                    }
+                    // lower (smaller) tool holes
+                    translate([tool1x, 1.6, 20]){
+                        cylinder(h=40, d=tool1lower, center=true, $fn=6);
+                    }
+                    translate([tool2x, 1.6, 20]){
+                        cylinder(h=40, d=tool2lower, center=true, $fn=6);
+                    }
+                    translate([tool3x, 1.6, 20]){
+                        cylinder(h=40, d=tool3lower, center=true, $fn=6);
+                    }
+                    translate([-12.8, 0, 20]){
+                        cylinder(h=40, d=handlelower, center=true, $fn=60);
+                    }
+
                 }
             }
         }
-        translate([-7.155,13.16,0]){
-            cylinder(d1=head_size, d2=head_size, h=40);
-        }
-        translate([7.155,-13.16,0]){
-            cylinder(d1=head_size, d2=head_size, h=40);
-        }
     }
 }
 
-module ribble_plate_with_holder(){
+module ribble_plate_with_holder(tool1upper, tool2upper, tool3upper, handleupper,
+                                tool1lower, tool2lower, tool3lower, handlelower){
     head_size=6;
     screw_size = 3.2;
-    union(){
-        ribble_plate(screw_size=screw_size, head_size=head_size);
-         color("Purple"){
-            holder_standalone(head_size=head_size);
-         }
+    thick = 3.2;
+    screw_head_height = 6;
+
+    difference(){
+        union(){
+            ribble_plate(screw_size=screw_size, head_size=head_size, thick = thick);
+            translate([0,0,1.2]){
+                color("Purple"){
+                    echo("tool holder", tool1upper, tool3upper, handleupper);
+                    holder_standalone(head_size=head_size, tool1upper=tool1upper, tool2upper=tool2upper, tool3upper=tool3upper, handleupper=handleupper,
+                                    tool1lower=tool1lower,tool2lower=tool2lower,tool3lower=tool3lower,handlelower=handlelower);
+                }
+            }
+        }
+        // screw holes for mounting
+        translate([-7.155,13.16,screw_head_height]){
+            union(){
+                // big hole for head
+                cylinder(d=head_size,  h=40);
+                // chamfer for head
+                translate([0,0,-1]){
+                    cylinder(d1=screw_size, d2=head_size, h=1.01);
+                }
+                // screw hole
+                translate([0,0,-20]){
+                    cylinder(d=screw_size,  h=40);
+                }
+            }
+        }
+
+        translate([7.155,-13.16,screw_head_height]){
+            union(){
+                // big hole for head
+                cylinder(d=head_size,  h=40);
+                // chamfer for head
+                translate([0,0,-1]){
+                    cylinder(d1=screw_size, d2=head_size, h=1.01);
+                }
+                // screw hole
+                translate([0,0,-20]){
+                    cylinder(d=screw_size,  h=40);
+                }
+            }
+        }
     }
 }
 
-ribble_plate_with_holder();
-/*
-translate([0,40,0]){
-    ribble_plate_with_velcro();
-}
 
 
-//holder_with_velcro();
-
-    translate([0,10,-50]){
-
-        h = 100;
-        linear_extrude(h){
+module test_sizes(d1, d2, d3, d4){
+    height = 4;
+    
+    difference(){
+        linear_extrude(height){
             import("HolderShape.svg", center=true);
         }
-    }
-
-    translate([0,-22.5,-50]){
-
-        h = 100;
-        linear_extrude(h){
-            import("HandlebarProfile.svg", center=true);
+        translate([14, 1.6, 0]){
+            cylinder(h=40, d=d1, center=true, $fn=6);
         }
+        translate([6, 1.6, 0]){
+            cylinder(h=40, d=d2, center=true, $fn=6);
+        }
+        translate([-2, 1.6, 0]){
+            cylinder(h=40, d=d3, center=true, $fn=6);
+        }
+        translate([-12.8, 0, 0]){
+            cylinder(h=40, d=d4, center=true, $fn=60);
+        }
+        
+
     }
-    */
-//}
+}
+ribble_plate_with_holder(tool1upper=8.05, tool2upper=8.05, tool3upper=8.05, handleupper=10.2,
+                         tool1lower=6.05, tool2lower=5.05, tool3lower=7.15, handlelower=10.1);
+
+/*
+union(){
+    thick = 4;
+    translate([0, 21, 0]){
+        test_sizes(7.05, 7.15, 7.25, 10.6);
+    }
+    translate([0, 7, 0]){
+        test_sizes(7.35, 7.45, 7.55, 10.8);
+    }
+    translate([0, -7, 0]){
+        test_sizes(7.65, 7.75, 7.85, 11.0);
+    }
+    translate([0, -21, 0]){
+        test_sizes(7.95, 8.05, 8.15, 11.2);
+    }
+    translate([20,0,thick/2]){
+        cube([4, 50, thick], center=true);
+    }
+
+}
+*/
