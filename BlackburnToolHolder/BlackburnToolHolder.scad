@@ -14,7 +14,7 @@ module ribble_plate(screw_size=3.2, head_size=6, thick = 3.2){
 }
 module wing_cutter(){
     leng = 31;
-    fatness = 1.1;
+    fatness = 1.2;
     rotate([0,0,0]){
         cube([8.4,fatness,leng], center=true);
     }
@@ -97,18 +97,18 @@ module holder_standalone(head_size, tool1upper, tool2upper, tool3upper, handleup
                         cylinder(h=40, d=handlelower, center=true, $fn=60);
                     }
                     // grooves for little wings to fit
-                    translate([tool1x, 1.6, 15]){
+                    translate([tool1x, 1.6, -8]){
                         wing_cutter();
                     }
-                    translate([tool2x, 1.6, 15]){
+                    translate([tool2x, 1.6, -8]){
                         wing_cutter();
                     }
-                    translate([tool3x, 1.6, 15]){
+                    translate([tool3x, 1.6, -8]){
                         wing_cutter();
                     }
                     // ball bearings
                     translate([tool1x, 1.6, 15]){
-                        #bb_cutter();
+                        bb_cutter();
                     }
                     translate([tool2x, 1.6, 15]){
                         bb_cutter();
@@ -199,14 +199,13 @@ module test_sizes(d1, d2, d3, d4){
 
     }
 }
-wiggle_room = 0.1;
 
-ribble_plate_with_holder(   tool1upper=8.05+wiggle_room,
-                            tool2upper=8.05+wiggle_room,
-                            tool3upper=8.05+wiggle_room,
+ribble_plate_with_holder(   tool1upper=8.0,
+                            tool2upper=8.0,
+                            tool3upper=8.0,
                             handleupper=10.4,
-                            tool1lower=6.05,
-                            tool2lower=5.05,
+                            tool1lower=7.15,
+                            tool2lower=7.15,
                             tool3lower=7.15,
                             handlelower=10.2);
 
