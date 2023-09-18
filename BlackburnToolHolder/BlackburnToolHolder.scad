@@ -12,6 +12,50 @@ module ribble_plate(screw_size=3.2, head_size=6, thick = 3.2){
         }
     }
 }
+module wing_cutter(){
+    leng = 31;
+    fatness = 1.1;
+    rotate([0,0,0]){
+        cube([8.4,fatness,leng], center=true);
+    }
+    rotate([0,0,60]){
+        cube([8.4,fatness,leng], center=true);
+    }
+    rotate([0,0,-60]){
+        cube([8.4,fatness,leng], center=true);
+    }
+
+}
+module bb_cutter_one_set(){
+    diam = 3;  // ball diameter
+    v_spread = 8.5/2;   // spacing between balls
+    h_spread = 3;        /// spacing across hex
+    translate([0,0,-8]){    // move to end of tool
+        translate([0,h_spread,-v_spread]){
+            sphere(d=diam);
+        }
+        translate([0,-h_spread,-v_spread]){
+            sphere(d=diam);
+        }
+        translate([0,h_spread,v_spread]){
+            sphere(d=diam);
+        }
+        translate([0,-h_spread,v_spread]){
+            sphere(d=diam);
+        }
+    }
+}
+module bb_cutter(){
+    rotate([0,0,-60]){
+        bb_cutter_one_set();
+    }
+    rotate([0,0,0]){
+        bb_cutter_one_set();
+    }
+    rotate([0,0,60]){
+        bb_cutter_one_set();
+    }
+}
 module holder_standalone(head_size, tool1upper, tool2upper, tool3upper, handleupper,
                                     tool1lower, tool2lower, tool3lower, handlelower){
     tool1x = 15.5;
@@ -28,15 +72,13 @@ module holder_standalone(head_size, tool1upper, tool2upper, tool3upper, handleup
                     }
                     // Tool holes
                     translate([tool1x, 1.6, 14]){
-                        #cylinder(h=40, d=tool1upper, center=true, $fn=6);
-                        echo(tool1upper);
+                        cylinder(h=40, d=tool1upper, center=true, $fn=6);
                     }
                     translate([tool2x, 1.6, 14]){
-                        #cylinder(h=40, d=tool2upper, center=true, $fn=6);
+                        cylinder(h=40, d=tool2upper, center=true, $fn=6);
                     }
                     translate([tool3x, 1.6, 14]){
-                        #cylinder(h=40, d=tool3upper, center=true, $fn=6);
-                        echo(tool3upper);
+                        cylinder(h=40, d=tool3upper, center=true, $fn=6);
                     }
                     translate([-12.8, 0, 14]){
                         cylinder(h=40, d=handleupper, center=true, $fn=60);
@@ -54,7 +96,27 @@ module holder_standalone(head_size, tool1upper, tool2upper, tool3upper, handleup
                     translate([-12.8, 0, 20]){
                         cylinder(h=40, d=handlelower, center=true, $fn=60);
                     }
-
+                    // grooves for little wings to fit
+                    translate([tool1x, 1.6, 15]){
+                        wing_cutter();
+                    }
+                    translate([tool2x, 1.6, 15]){
+                        wing_cutter();
+                    }
+                    translate([tool3x, 1.6, 15]){
+                        wing_cutter();
+                    }
+                    // ball bearings
+                    translate([tool1x, 1.6, 15]){
+                        #bb_cutter();
+                    }
+                    translate([tool2x, 1.6, 15]){
+                        bb_cutter();
+                    }
+                    translate([tool3x, 1.6, 15]){
+                        bb_cutter();
+                    }
+                    
                 }
             }
         }
@@ -66,7 +128,7 @@ module ribble_plate_with_holder(tool1upper, tool2upper, tool3upper, handleupper,
     head_size=6;
     screw_size = 3.2;
     thick = 3.2;
-    screw_head_height = 6;
+    screw_head_height = 5.5;
 
     difference(){
         union(){
@@ -137,8 +199,16 @@ module test_sizes(d1, d2, d3, d4){
 
     }
 }
-ribble_plate_with_holder(tool1upper=8.05, tool2upper=8.05, tool3upper=8.05, handleupper=10.2,
-                         tool1lower=6.05, tool2lower=5.05, tool3lower=7.15, handlelower=10.1);
+wiggle_room = 0.1;
+
+ribble_plate_with_holder(   tool1upper=8.05+wiggle_room,
+                            tool2upper=8.05+wiggle_room,
+                            tool3upper=8.05+wiggle_room,
+                            handleupper=10.4,
+                            tool1lower=6.05,
+                            tool2lower=5.05,
+                            tool3lower=7.15,
+                            handlelower=10.2);
 
 /*
 union(){
