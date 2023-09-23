@@ -63,9 +63,9 @@ module rim(){
         // rim cutaway
     rotate([90,90,0]){
         translate([-550,0,0]){
-            rotate_extrude(angle = 360, convexity = 2, $fn=240){
+            rotate_extrude(angle = 360, convexity = 2, $fn=80){
                 translate([550,0,0]){
-                    import("Fake Rim Profile.svg", center=false);
+                    import("Venge Rim Profile.svg", center=false);
                 }
             }
         }
@@ -93,4 +93,4 @@ module body(){
 }
 
 body();
-cap();
+//cap();
