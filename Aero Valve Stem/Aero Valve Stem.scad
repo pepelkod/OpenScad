@@ -25,7 +25,7 @@ module cap_part(){
         translate([0,0,10.5]){
             rotate([180,0,0]){
                 union(){
-                    for(scale = [10 : -0.1 : 0]){
+                    for(scale = [10 : -0.9 : 0]){
                         nonlinear_scale = pow(scale, power);
                         next_scale = pow(scale+1, power);
                         extrude_scale = next_scale/nonlinear_scale;
@@ -39,24 +39,27 @@ module cap_part(){
 
 module cap(){
     // cap
-    translate([0,0,hbod]){
-        valve_hole_height = 11;
-        difference(){
-            scale([1, 1, 0.4]){
-                cap_part();
+    union(){
+        translate([0,0,hbod-0.01]){
+            valve_hole_height = 11;
+            difference(){
+                scale([1, 1, 0.4]){
+                    cap_part();
+                }
+                // nut holder
+                /*translate([hole_offset,0,0]){
+                    cylinder(h=3, d=10, center=true);
+                }*/
+                // valve stem
+                translate([hole_offset,0,valve_hole_height/2]){
+                    cylinder(h=valve_hole_height+0.1, d1=stem_dia, d2=stem_dia/3, center=true);
+                }
             }
-            // nut holder
-            translate([hole_offset,0,0]){
-                cylinder(h=3, d=10, center=true);
-            }
-            // valve stem
-            translate([hole_offset,0,valve_hole_height/2]){
-                cylinder(h=valve_hole_height, d1=stem_dia, d2=stem_dia/3, center=true);
-            }
-            // valve stem
-            
         }
+        // straight lower body part
+        body(rim_cut = false);
     }
+
 }
 
 module rim(){
@@ -71,7 +74,7 @@ module rim(){
         }
     }
 }
-module body(){
+module body(rim_cut=false){
     difference(){
         // body
         translate([0,0,hbod/2]){
@@ -85,12 +88,14 @@ module body(){
                 }
             }
         }
-        // rim cutaway
-        translate([0,0,8]){
-            rim();
+        if(rim_cut){
+            // rim cutaway-
+            translate([0,0,8]){
+                rim();
+            }
         }
     }
 }
 
-body();
-//cap();
+//body(rim_cut=true);
+cap();
