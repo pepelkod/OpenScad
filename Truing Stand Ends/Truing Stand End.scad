@@ -18,19 +18,32 @@ module body(axle_dia=15){
         // side notch
         translate([0, -body_dia/2-8, body_dia/2+body_len/2]){
             union(){
+                // angled entrance cuts
+                translate([0,0,15]){
+                    rotate([0,45,0]){
+                        cube([22,100,22], center=true);
+                    }
+                }
+                // vert slot
                 translate([0,25,0]){
                     cube([22,10,30], center=true);
                 }
+                // round hole
                 rotate([0,90,0]){
                     cylinder(d=body_dia*2, h=100, center=true);
                 }
             }
         }
+        
+        
         //////////////////////
         // axle
         translate([0,0,32]){
             rotate([90,90,0]){
-                cylinder(h=100, d=axle_dia+1, center=true);
+                cylinder(h=100, d=axle_dia, center=true);
+            }
+            translate([0,0,50]){
+                cube([axle_dia,100, 100], center=true);
             }
         }
     }
@@ -51,11 +64,11 @@ module body(axle_dia=15){
 
 
 translate([15, 0, 0]){
-    body(9);
+    body(9+0.5);
 }
 translate([-15, 0, 0]){
-    body(12);
+    body(12+0.5);
 }
 translate([15, 30, 0]){
-    body(15);
+    body(15+0.5);
 }
