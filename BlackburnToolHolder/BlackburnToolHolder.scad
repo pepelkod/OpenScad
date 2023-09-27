@@ -142,7 +142,7 @@ module ribble_plate_with_holder(tool1upper, tool2upper, tool3upper, handleupper,
             }
         }
         // screw holes for mounting
-        translate([-7.155,13.16,screw_head_height]){
+        translate([7.155,13.16,screw_head_height-1]){
             union(){
                 // big hole for head
                 cylinder(d=head_size,  h=40);
@@ -157,7 +157,7 @@ module ribble_plate_with_holder(tool1upper, tool2upper, tool3upper, handleupper,
             }
         }
 
-        translate([7.155,-13.16,screw_head_height]){
+        translate([-7.155,-13.16,screw_head_height-1]){
             union(){
                 // big hole for head
                 cylinder(d=head_size,  h=40);
@@ -204,9 +204,9 @@ ribble_plate_with_holder(   tool1upper=8.0,
                             tool2upper=8.0,
                             tool3upper=8.0,
                             handleupper=10.4,
-                            tool1lower=7.15,
-                            tool2lower=7.15,
-                            tool3lower=7.15,
+                            tool1lower=6.05,
+                            tool2lower=6.05,
+                            tool3lower=6.05,
                             handlelower=10.2);
 
 /*
