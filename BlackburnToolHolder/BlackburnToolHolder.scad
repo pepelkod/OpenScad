@@ -58,17 +58,20 @@ module bb_cutter(){
 }
 module holder_standalone(head_size, tool1upper, tool2upper, tool3upper, handleupper,
                                     tool1lower, tool2lower, tool3lower, handlelower){
-    tool1x = 15.5;
-    tool2x = 6.5;
-    tool3x = -2.5;
+    tool1x = -15.5;
+    tool2x = -6.5;
+    tool3x = 2.5;
+    handlex = 12.8;    
                                         
     height = 36.25;
     difference(){
         translate([0, -height/2,9.6]){
             rotate([-90,0,0]){
                 difference(){
-                    linear_extrude(height){
-                        import("HolderShape.svg", center=true);
+                    mirror([1,0,0]){
+                        linear_extrude(height){
+                            import("HolderShape.svg", center=true);
+                        }
                     }
                     // Tool holes
                     translate([tool1x, 1.6, 14]){
@@ -80,7 +83,7 @@ module holder_standalone(head_size, tool1upper, tool2upper, tool3upper, handleup
                     translate([tool3x, 1.6, 14]){
                         cylinder(h=40, d=tool3upper, center=true, $fn=6);
                     }
-                    translate([-12.8, 0, 14]){
+                    translate([handlex, 0, 14]){
                         cylinder(h=40, d=handleupper, center=true, $fn=60);
                     }
                     // lower (smaller) tool holes
@@ -93,7 +96,7 @@ module holder_standalone(head_size, tool1upper, tool2upper, tool3upper, handleup
                     translate([tool3x, 1.6, 20]){
                         cylinder(h=40, d=tool3lower, center=true, $fn=6);
                     }
-                    translate([-12.8, 0, 20]){
+                    translate([handlex, 0, 20]){
                         cylinder(h=40, d=handlelower, center=true, $fn=60);
                     }
                     // grooves for little wings to fit
@@ -142,7 +145,7 @@ module ribble_plate_with_holder(tool1upper, tool2upper, tool3upper, handleupper,
             }
         }
         // screw holes for mounting
-        translate([7.155,13.16,screw_head_height-1]){
+        translate([-7.155,13.16,screw_head_height-1]){
             union(){
                 // big hole for head
                 cylinder(d=head_size,  h=40);
@@ -157,7 +160,7 @@ module ribble_plate_with_holder(tool1upper, tool2upper, tool3upper, handleupper,
             }
         }
 
-        translate([-7.155,-13.16,screw_head_height-1]){
+        translate([7.155,-13.16,screw_head_height-1]){
             union(){
                 // big hole for head
                 cylinder(d=head_size,  h=40);
