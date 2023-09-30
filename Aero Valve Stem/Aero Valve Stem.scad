@@ -4,8 +4,23 @@ $fn=80;
 hbod = 10;
 hcap = 30;
 hole_offset = -7.2;
-stem_dia = 6.2;
+presta_stem_dia = 6.2;
+schrader_stem_dia= 8.0;  // just enough space for the imported stl
 
+module presta_stem_hole(){
+    intersection(){
+        import("presta_hole_2.stl");
+        cylinder(d=8,h=100, center=true);
+    }
+}
+module presta_cap_hole(){
+    intersection(){
+        translate([-60,-67.5,0]){
+            import("presta_cap.stl");
+        }
+        //cylinder(d=8,h=100, center=true);
+    }
+}    
 module cap_layer(scale=1, pos=1, extrude_scale){
     color([rands(0,1,1)[0],rands(0,1,1)[0],rands(0,1,1)[0]]){
 
@@ -52,12 +67,18 @@ module cap(){
                 }*/
                 // valve stem
                 translate([hole_offset,0,valve_hole_height/2]){
-                    cylinder(h=valve_hole_height+0.1, d1=stem_dia, d2=stem_dia/3, center=true);
+                    cylinder(h=valve_hole_height+0.1, d1=schrader_stem_dia, d2=schrader_stem_dia/3, center=true);
                 }
             }
         }
         // straight lower body part
-        body(rim_cut = false);
+        body(rim_cut = false, stem_dia=schrader_stem_dia);
+        // threaded presta hole
+        translate([-7,0,3]){
+            color("Blue"){
+                presta_cap_hole();
+            }
+        }
     }
 
 }
@@ -74,7 +95,7 @@ module rim(){
         }
     }
 }
-module body(rim_cut=false){
+module body(rim_cut=false, stem_dia=presta_stem_dia){
     difference(){
         // body
         translate([0,0,hbod/2]){
@@ -99,3 +120,4 @@ module body(rim_cut=false){
 
 //body(rim_cut=true);
 cap();
+//presta_cap_hole();
