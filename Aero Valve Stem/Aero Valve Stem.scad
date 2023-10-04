@@ -119,5 +119,13 @@ module body(rim_cut=false, stem_dia=presta_stem_dia){
 }
 
 //body(rim_cut=true);
-cap();
+
+// Cap but trim tail to fit between spokes
+intersection(){
+    translate([7,0,0]){
+        cap();
+    }
+    // this cube represents the gap between spokes in the rear
+    cube([53,53,53], center=true);
+}
 //presta_cap_hole();
