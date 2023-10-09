@@ -118,8 +118,20 @@ module body(rim_cut=false, stem_dia=presta_stem_dia){
     }
 }
 
-//body(rim_cut=true);
+// lower half that fits over rim
+// tail trimmed off
+intersection(){
+    translate([7,12,0]){
+        rotate([180,0,0]){
+            translate([0, 0, -hbod]){
+                body(rim_cut=true);
+            }
+        }
+    }
+    // this cube represents the gap between spokes in the rear
+    cube([53,53,53], center=true);
 
+}
 // Cap but trim tail to fit between spokes
 intersection(){
     translate([7,0,0]){

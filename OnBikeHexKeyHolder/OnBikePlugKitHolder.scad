@@ -44,7 +44,7 @@ module rivnut(thickness=1, d=12.5, d_screw=5, elongate=false){
     }
 }    
 
-module mock_seat_tube(h=200, d=34.9, svg_name){
+module mock_seat_tube(h=200, svg_name){
     if(svg_name){
         translate([0,0,-h/2]){
             rotate([0,0,-90]){
@@ -54,73 +54,28 @@ module mock_seat_tube(h=200, d=34.9, svg_name){
             }
         }
        // rivnuts
-       // upper
-       translate([0,0,32]){
-           rivnut();
-       }
-       // lower oval
-       translate([0,0,-32]){
-           rivnut(elongate=true);
-       }
-
-    }else{
-    // offset to surface of 0
-    translate([0, -d/2, 0]){
-        // main seat_tube
-        cylinder(h=h, d=d, center=true);
-        // rivnuts
         // upper
-        translate([0,d/2,32]){
+        translate([0,0,32]){
             rivnut();
         }
         // lower oval
-        translate([0,d/2,-32]){
+        translate([0,0,-32]){
             rivnut(elongate=true);
         }
+    }
+}
 
-    }
-}
-}
 module mock_plug_kit(h=150, d=5, position=0, thickness=8, chopper=false){
-    curve_amount = d*2;
-    head_ratio=h/8;
-    // diagonal width of hexagon is 1:1.1547005 of flat-to-flat width
-    diagonal_diameter = d * 1.1547005;
-    // if we are cutting a hole we want it to be 10% bigger
-    diameter_scaled = (chopper==true)?diagonal_diameter*1.02 +0.4:diagonal_diameter;
-    
-    // numbers
-    // rotate by 60 degrees (360/60 = 6 sides of hex key)
-    rotate([0,0,position*60]){
-        /* size text
-        for(i=[0:1:3]){
-            rotate([0,0,30+(i*90)])
-                translate([-((thickness*2)-0.5),0,-h*3/7])
-                    rotate([90,0,0])
-                        rotate([0,-90,0])
-                            linear_extrude(4)
-                                text(str(d), size=8, halign="center", valign="center");
-        }*/
-        // body
-        // chop_dist is used to make a full
-        // cut out like it had a square corner
-        // not a rounded corner like
-        // from rotate extrude
-        // is this used for difference in tool body?
-        // if so chopper = true
-        // make the end of the hex key area square
-        // by lifting the body up by diameter
-        rotate([0,0,30]){ // align flat top bend
-            if(chopper==true){
-                cylinder(h=h+d*4.1, d=diameter_scaled, center=true, $fn=6);
-            }else{
-                cylinder(h=h, d=diameter_scaled, center=true, $fn=6);
-            }            
-        }
-    }
+    // body
+    cylinder(h=h, d=d, center=true, $fn=60);
 }
+module mock_co2_kit(h=150, d=5, position=0, thickness=8, chopper=false){
+    // body
+    cylinder(h=h, d=d, center=true, $fn=60);
+}
+
 // a cylinder used to cut away the tool bracket and make it lighter
-module lightner(h=20, d=60, left=true, grid_width=5){
+module lightner(h=400, d=60, left=true, grid_width=5){
     //side = left==true ? 1: -1;
 
     // two big side cuts
@@ -148,104 +103,84 @@ module lightner(h=20, d=60, left=true, grid_width=5){
     }*/
         
 }    
-// thickness = thickness at center line
-// left_size = size of left hex key
-// width = width
-// height = height
-// show_mock = show the tools, seat-tube and bottle cage
-// label = text that get printed on top to ID the bike it goes on
-// {
-//   seat_tube_d = diameter of seat tube
-//     XOR
-//   svg_name = svg with profile of tube
-// }
-module tool_bracket(width=30, thickness=2, left_size=5, right_size=4, seat_tube_d=34.9, show_mock=false, label="", svg_name, angle_add=0, height=85){
-    cylinder_ratio=1.5;
-    mx_thick=left_size>right_size?right_size*cylinder_ratio:left_size*cylinder_ratio;
-    
-    left_key_pos = 4+angle_add;
-    right_key_pos = 5-angle_add;
-    
-    shift_out_amt = 10;
-    shift_up_amt = 1;
-    //echo("angle_add ", angle_add);
-    //echo("left_key_pos ", left_key_pos);
-    //echo("right_key_pos ", right_key_pos);
-    
-    
-    rotate([-90,0,0]){
 
-        if(show_mock==true){
-            // the mock seat tube stays
-            %mock_seat_tube(d=seat_tube_d, svg_name=svg_name);
-            // mock hex hey
-            %translate([-(width+shift_out_amt)/2, shift_up_amt, 0]){
-                mock_plug_kit(d=left_size, position=left_key_pos);
-            }
-            // mock hex hey
-            %translate([(width)/2, 0, 0]){
-                mock_plug_kit(d=right_size, position=right_key_pos);
-            }
-            // MOCK CAGE
-            // remove cage area
-            // space out for bracket
-            %translate([0, 2, 0]){
-                // remove the cage part
-                %children(0);
+module mock_cage_nub(svg="LezyneCageProfile.svg", length=20, position=32, cage_thickness=3){
+    difference(){
+        #translate([0,0,position]){
+            translate([0,0,-length/2]){
+                rotate([0,0,0]){
+                    linear_extrude(length){
+                        import(svg);
+                    }
+                }
             }
         }
-        // now we make the tool bracket
-        difference(){
-            // body of tool holder
-            union(){
-                hull(){
-                    // rounded ends
-                    translate([width/2, 0, 0]){
-                        cylinder(d=right_size*cylinder_ratio+2,h=height, center=true); 
-                    }
-                    // other rounded end
-                    translate([-width/2, 0, 0]){
-                        cylinder(d=left_size*cylinder_ratio+2,h=height, center=true); 
-                    }
-                    //cube([width, mx_thick, height], center=true);
-                }                
-                // text on top
-                translate([0,0.7,height/2-0.5])
-                    linear_extrude(1)
-                        text(text=label, size=3, halign="center", valign="center");
+        rotate([0,90,0]){
+            hull(){
+                offset = -5;
+                space = 10;
+                translate([-space,offset,0]){
+                    cylinder(d=20, h=40, center=true);
+                }
+                translate([space,offset,0]){
+                    cylinder(d=20, h=40, center=true);
+                }
             }
-            // name
-            
-            
-            // holes for tools
-            chop_percentage=4;
-            // left
-            translate([-(width+shift_out_amt)/2, shift_up_amt, 0]){
-                d=left_size;
-                mock_plug_kit(d=d, h=height-(d*chop_percentage), position=left_key_pos, thickness=thickness, chopper=true);
-            }
-            // right
-            translate([width/2, 0, 0]){
-                d = right_size;
-                mock_plug_kit(d=d, h=height-(d*chop_percentage), position=right_key_pos, thickness=thickness, chopper=true);
-            }
-            // remove seat area
-            // note this includes rivnuts and drill holes
-            translate([0,-thickness,0]){
-                mock_seat_tube(d=seat_tube_d, svg_name=svg_name);
-            }
-            // remove extra weight
-            lightner();
-            
-            // CAGE
-            // remove cage area
-            // space out for bracket
-            translate([0, 2, 0]){
-                children(0);
-            }
-        }            
+        }
     }
 }
+
+
+module tool_body(width=60, thickness=1, left_size=17.5, right_size=22, seat_tube_d=34.9, show_mock=false, label="", tube_name="RibbleDownTubeProfile.svg", cage_name="LezyneCageProfile.svg", angle_add=0, height=85){
+    
+    cylinder_ratio=1.2;
+    left_outer_size = left_size*cylinder_ratio;
+    right_outer_size = right_size*cylinder_ratio;
+
+    difference(){
+        // body of tool holder
+        union(){
+            hull(){
+                // rounded ends
+                translate([width/2, right_outer_size/2 , 0]){
+                    cylinder(d=right_size*cylinder_ratio,h=height, center=true); 
+                }
+                // other rounded end
+                translate([-width/2, left_outer_size/2, 0]){
+                    cylinder(d=left_size*cylinder_ratio,h=height, center=true); 
+                }
+                //cube([width, mx_thick, height], center=true);
+            }                
+        }
+        // holes for tools
+        // left
+        translate([-width/2, left_outer_size/2, 0]){
+            d=left_size;
+            mock_plug_kit(d=left_size, h=height*2);
+        }
+        // right
+        translate([width/2, right_outer_size/2, 0]){
+            d = right_size;
+            mock_co2_kit(d=right_size, h=height*2);
+        }
+
+        // remove seat area
+        // note this includes rivnuts and drill holes
+        translate([0,thickness,0]){
+            mock_seat_tube(svg_name=tube_name);
+        }
+
+        // remove extra weight
+        lightner();
+        
+        // CAGE
+        // remove cage area
+        translate([0,5,0]){
+            mock_cage_nub();
+            mock_cage_nub(position=-32);
+        }
+    }
+}            
 
 
                        // bottle diameter 73 + thickness 4
@@ -282,74 +217,4 @@ module mock_cage(h=40, d=73+4, hollow=true, bolt_nub_upper_svg="CanondaleRedCage
     }    
 }
 
-
-
-module test(){
-    canondale_seat_tube_d = 35.25;
-    canondale_down_tube_d = 46.8;   //-48.25 lower end
-
-    height=85;
-    show_mock=true;
-    shift_amt_X= show_mock?22:22;
-    shift_amt_Y= show_mock?-1:-1;
-    dt_thickness=1.5;
-    st_thickness=3;
-
-    translate([shift_amt_X*1, shift_amt_Y, dt_thickness*2]){
-        tool_bracket(left_size=3, right_size=4,
-                            thickness=dt_thickness,
-                            label="CAD         DT",
-                            seat_tube_d=canondale_down_tube_d,
-                            show_mock=show_mock,
-                            height=height,
-                            angle_add=-0.1){
-             mock_cage(h=100,
-                            hollow=false,
-                            bolt_nub_lower_svg="CanondaleRedCageProfile.svg",
-                            bolt_nub_upper_svg="CanondaleRedCageProfile.svg");           
-        }
-    }
-    
-    translate([shift_amt_X*-1, shift_amt_Y, st_thickness*2]){
-         tool_bracket(left_size=8, right_size=5,
-                        thickness=st_thickness,
-                        label="CAD          ST",
-                        seat_tube_d=canondale_seat_tube_d,
-                        show_mock=show_mock,
-                        width=40,
-                        height=height){
-             mock_cage(h=100,
-                            hollow=false,
-                            bolt_nub_lower_svg="CanondaleRedCageProfile.svg",
-                            bolt_nub_upper_svg="CanondaleRedCageProfile.svg");           
-        }
-    }     
-}
-
-module braces(){
-    // braces
-    difference(){
-        translate([shift_amt_X, 5*shift_amt_Y, -1])
-            rotate([45,0,0])
-                cylinder(h=40.2, d=1);
-        translate([0,0,-50])
-            cube(100, center=true);
-    }
-    difference(){
-        translate([-shift_amt_X, 5*shift_amt_Y, -1])
-            rotate([45,0,0])
-                cylinder(h=40.8, d=1);
-        translate([0,0,-50])
-            cube(100, center=true);
-    }
-}
-test();
-//mock_plug_kit(chopper=false);
-// debug
-//mock_seat_tube(svg_name="FujiDowntubeProfile.svg");
-//rivnut(elongate=true);
-/*translate([-10,0,0])
-    mock_plug_kit(d=3);
-mock_plug_kit(d=5);
-*/
-//mock_cage(bolt_nub_svg="CanondaleRedCageProfile.svg");
+tool_body();

@@ -1,6 +1,6 @@
 use <OnBikePlugKitHolder.scad>;
 
-show_mock=true;
+show_mock=false;
 
 module mock_nub(svg="LezyneCageProfile.svg", length=0, position=32, cage_thickness=3){
     difference(){
@@ -29,7 +29,7 @@ module mock_nub(svg="LezyneCageProfile.svg", length=0, position=32, cage_thickne
 }
     
 module make(){
-    ribble_down_tube_d = 100.8;
+    ribble_down_tube_d = 10000.8;
 
     height=85;
     shift_amt_X= show_mock?40:22;
@@ -54,7 +54,7 @@ module make(){
     width = 54;
     translate([shift_amt_X*-1, shift_amt_Y,st_thickness*2]){
         difference(){
-            tool_bracket(left_size=15, right_size=5,
+            tool_bracket(left_size=17.65, right_size=5,
                 width=width,
                 thickness=st_thickness,
                 label="RIB                DT",
@@ -68,6 +68,14 @@ module make(){
             // remove right side
             translate([50+width/3,0,0]){    
                 cube([100,100,100], center=true);
+            }
+            // remove excess on cage side
+            translate([0,0,-4]){
+                rotate([0, 45, 0]){
+                    translate([0, 0, -30]){
+                        #cube([10,100,40], center=true);
+                    }
+                }
             }
         }
     }

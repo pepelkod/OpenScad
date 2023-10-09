@@ -83,9 +83,10 @@ module body(axle_dia=15){
 translate([15, 0, 0]){
     body(9+0.5);
 }
+/*
 translate([-15, 0, 0]){
     body(12+0.5);
 }
 translate([15, 30, 0]){
     body(15+0.5);
-}
+}*/
