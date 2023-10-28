@@ -4,10 +4,11 @@ pitch = 3.5;
 stack = [11, 12, 13, 14, 15, 17, 19, 21, 23, 27, 30];
 n_cog = 11;
 
-module cassette(){
+module cassette(stack){
+  n_gear = len(stack);
   difference(){
     union(){
-      for(i=[0:10]){
+      for(i=[0:n_gear-1]){
 	s = str("cogs/cog_",stack[i], ".stl");
       //translate([0,0,10 * pitch])import("cogs/cog_11.stl");
 	translate([0,0,(10 - i) * pitch ])import(s);
@@ -18,5 +19,5 @@ module cassette(){
 }
 
 v = .4;
-color([v, v, v])translate([0, 0, -30])rotate([180, 0, 0])cassette();
+color([v, v, v])translate([0, 0, -30])rotate([180, 0, 0])cassette(stack);
 wheel();
