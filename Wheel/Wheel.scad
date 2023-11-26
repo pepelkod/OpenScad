@@ -5,6 +5,8 @@ use <thread.scad>
 $fn=80;
 no_threads=true;
 
+FN=80;
+
 // ROTATE_ABOUT_PT
 // rotate as per a, v, but around point pt
 // a: angle to rotate in degrees
@@ -46,7 +48,7 @@ module nipple(length=12.1, spoke_diameter=2.0, wrench_width=3.27, body_diameter=
 
       difference(){
         union(){
-          rotate_extrude($fn=200)
+          rotate_extrude($fn=FN)
             polygon(
                                    points=[
                                             [0,length], [head_diameter/2, length],                // top of head
@@ -83,7 +85,7 @@ module spoke_head(diameter_head=5, diameter_spoke=2, extra_length=2){
         letter("W", letter_size=1.5);
     hull(){
     
-     rotate_extrude($fn=200)
+     rotate_extrude($fn=FN)
         translate([offset, extra_length, 0])
             intersection(){
                 circle(r=subrad);
@@ -378,7 +380,7 @@ module centerlock(length=8){
     union(){  
         translate([0,0,(length-2)])
             cylinder(h=2, r=17);
-        linear_extrude(height=length-1, center=false, $fn=200)
+        linear_extrude(height=length-1, center=false, $fn=FN)
             import(file="centerlock.svg");    
     }
     translate([0,0, (length/4)]){
@@ -394,7 +396,7 @@ module centerlock(length=8){
 // SIX BOLT
 // Creates a disc brake piece for a hub
 module six_bolt(length=8){
-  linear_extrude(height=length, center=false, $fn=200)
+  linear_extrude(height=length, center=false, $fn=FN)
       import(file="six_bolt.svg");
 }
 
@@ -479,7 +481,7 @@ module rear_hub(old=142, nds_dist=33, nds_pcd=57, ds_dist=19, ds_pcd=57, hole_co
                freehub();
             color(body_color){
                 if(filename!=""){
-                     rotate_extrude($fn=200)
+                     rotate_extrude($fn=FN)
                          import(file=filename);
                 }else{
                     translate([0,0,body_offset]){
@@ -515,7 +517,7 @@ module rear_hub(old=142, nds_dist=33, nds_pcd=57, ds_dist=19, ds_pcd=57, hole_co
 // filename: The name of an SVG file 
 module front_hub_by_filename(filename="hub.svg", body_color="#302040"){
     color(body_color)
-        rotate_extrude($fn=200)
+        rotate_extrude($fn=FN)
             import(file=filename);
 }
 
@@ -531,7 +533,7 @@ module rim_by_points(rim_points){
     // if erd is 0 assume the polygon is already AT the correct position (near x=erd)
     err = (erd==0) ? 0 : (erd/2) - 2.5; // the  2.5 is wall thickness.
     
-    rotate_extrude($fn=200)
+    rotate_extrude($fn=FN)
         translate([err, 0, 0])      // only translate if erd != 0
             polygon(rim_points);
 }
@@ -543,7 +545,7 @@ module rim_by_polygon(rim_polygon, erd=0){
     // if erd is 0 assume the polygon is already AT the correct position (near x=erd)
     err = (erd==0) ? 0 : (erd/2) - 2.5; // the  2.5 is wall thickness.
         
-    rotate_extrude($fn=200)
+    rotate_extrude($fn=FN)
         translate([err, 0, 0])      // only translate if erd != 0
             rim_polygon();
 }
@@ -557,7 +559,7 @@ module rim_by_polygon(rim_polygon, erd=0){
 module rim_by_filename(erd=602, filename="rim.svg"){    
     err = (erd/2) - 2.5; // the  2.5 is wall thickness.
     
-    rotate_extrude($fn=200)
+    rotate_extrude($fn=FN)
         translate([err, 0, 0])
             import(file=filename);
 
