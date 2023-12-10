@@ -629,13 +629,13 @@ module wheel(){
 module test(){
     //spoke_elbow(extra_length=1);
     //spoke_head();
-    // nipple(length=12.1, wrench_width=3.27, body_diameter=3.92, head_diameter=6.0, body_length=9, slot_width=1.5);
+    //nipple(length=12.1, wrench_width=3.27, body_diameter=3.92, head_diameter=6.0, body_length=9, slot_width=1.5);
     //nipples(erd=erd);
  
     //echo("rim_points", import(file="rim.svg"));
     //import(file="rim.svg");
     
-    rear_hub();
+    //rear_hub();
     //color("LightGray")
     //    freehub();
     
@@ -643,6 +643,13 @@ module test(){
     //six_bolt();
     //translate([0,0,10])
     //    centerlock();
+
+    //rim_by_filename(erd=erd,    filename="rim.svg");
+
+    //spokes(spoke_count=2, num_crosses=0, erd=erd, nds_dist=nds_dist, nds_pcd=nds_pcd, ds_dist=ds_dist, ds_pcd=ds_pcd, spoke_color="#202020", nipple_color="silver");
+    //spoke(length=250);
+    half_spokes(spoke_count=4, num_crosses=3, erd=605, pcd=57, dist=30, offset=true, flange_thickness=2, spoke_color="#202020", nipple_color="silver");
+
 }
  
 //test();
