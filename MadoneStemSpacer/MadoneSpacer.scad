@@ -16,13 +16,17 @@ module madone_spacer(height=16, skew=0.26){
 intersection(){
     angle = 16.2;
     skew = tan(angle);
-    translate([0,0,8]){
-        madone_spacer(16, skew);
-        //cylinder(d=32,h=16, center=true);
-    }
-    translate([0,0,-8]){
-        rotate([-angle,0,0]){
-            cube([100,100,32], center=true);
+    echo("angle ", angle)
+    echo("skew ", skew)
+    //difference(){ 
+        translate([0,0,8]){
+            madone_spacer(20, skew);
+            //cylinder(d=32,h=16, center=true);
         }
-    }
+        translate([0,0,-8]){
+            rotate([angle,0,0]){
+                cube([100,100,32], center=true);
+            }
+        }
+    //}
 }
