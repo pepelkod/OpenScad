@@ -205,6 +205,12 @@ module alu_receiver(height=86){
         }
     }
 }
+module front_100x15mm_insert(gasket=false){
+    insert(axle_dia=15.0, width=100, gasket=gasket);
+}
+module front_100x12mm_insert(gasket=false){
+    insert(axle_dia=12.0, width=100, gasket=gasket);
+}
 
 module front_110x15mm_boost_insert(gasket=false){
     insert(axle_dia=15.0, width=110, gasket=gasket);
@@ -410,6 +416,14 @@ module whole_thing(){
     plates();
 }
 
+
+front_100x15mm_insert(gasket=false);
+
+/*translate([-16, 0, 0]){
+    insert(axle_dia=12.0, width=100, gasket=false);
+}
+*/
+
 //plates();
-whole_thing();
+//whole_thing();
 //bolt();
