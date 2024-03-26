@@ -13,7 +13,7 @@ module madone_spacer(height=16, skew=0.26){
     }
 }
 
-intersection(){
+module madone_adapter(){
     height=18;
     angle = 16.2;
     skew = tan(angle);
@@ -21,13 +21,15 @@ intersection(){
     echo("skew ", skew)
     intersection(){
         difference(){ 
+            // main body
             translate([0,0,8]){
                 madone_spacer(height, skew);
                 //cylinder(d=32,h=16, center=true);
             }
+            // cable holes
             translate([0,-24,-2]){
                 rotate([45,0,0]){
-                    #hull(){
+                    hull(){
                     translate([3,0,0]){
                         cylinder(h=100,d=8, center=true);
                     }
@@ -37,6 +39,7 @@ intersection(){
                 }
             }
         }
+        // sloped area
         translate([0,0,-8]){
             rotate([-angle,0,0]){
                 cube([100,100,32], center=true);
@@ -44,3 +47,5 @@ intersection(){
         }
     }
 }
+
+madone_adapter();
