@@ -423,8 +423,17 @@ module whole_thing(){
 }
 
 
-front_100x15mm_insert(gasket=false, upper_gasket_groove = false);
-
+module receiver_with_inserts(){
+    
+    translate([38.4,65.9,0]){
+        front_100x15mm_insert(gasket=false, upper_gasket_groove = false);
+        rotate([0,180,0]){
+            front_100x15mm_insert(gasket=false, upper_gasket_groove = false);
+        }
+    }
+    alu_receiver();
+}
+receiver_with_inserts();
 /*translate([-16, 0, 0]){
     insert(axle_dia=12.0, width=100, gasket=false);
 }
@@ -433,3 +442,4 @@ front_100x15mm_insert(gasket=false, upper_gasket_groove = false);
 //plates();
 //whole_thing();
 //bolt();
+
