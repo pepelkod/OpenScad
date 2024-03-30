@@ -433,7 +433,69 @@ module receiver_with_inserts(){
     }
     alu_receiver();
 }
-receiver_with_inserts();
+
+
+    
+
+
+module sucker_post(post_dia){
+    cylinder(d=post_dia,h=25.4);
+}
+module sucker_base(sucker_dia, post_dia){
+    color("Gray"){
+        cylinder(d1=sucker_dia, d2=post_dia, h=25.4);
+    }
+}
+module sucker(sucker_dia, post_dia){
+    sucker_base(sucker_dia, post_dia);
+    translate([0,0,25.4]){
+        sucker_post(post_dia);
+    }
+}
+module alu(bar_len, bar_wid, bar_thick){
+    cube([bar_wid, bar_len, bar_thick], center=true);
+}
+
+module short_rack(){
+    mms = 25.4;
+    sucker_dia = 6*mms;
+    post_dia = 56;
+    bar_len = 610;
+    bar_wid = 63.5;
+    bar_thick = 4.7625;
+    receiver_wid = 86.4;
+
+    // main bar
+    translate([0, bar_len/2 - post_dia/2,mms * 2 + 2]){
+        alu(bar_len, bar_wid, bar_thick);
+    }
+    // suckers
+    bolt_to_bolt = bar_len-post_dia;
+    space_between = bolt_to_bolt/3;
+    for(idx = [0: 1: 3]){
+        offset = idx * space_between;
+        echo("offset ", offset+post_dia/2);
+        translate([0, offset, 0]){ 
+            sucker(sucker_dia, post_dia);
+        }
+    }
+    // receivers
+    for(idx = [1:2:3]){
+        translate([0,(bar_len/4*idx),0]){
+            translate([-bar_wid/3,-post_dia/2,2*mms+bar_thick]){
+                rotate([90,0,0]){
+                    receiver_with_inserts();
+ 
+                }
+            }
+        }
+    }
+}
+
+short_rack();
+
+
+
 /*translate([-16, 0, 0]){
     insert(axle_dia=12.0, width=100, gasket=false);
 }
