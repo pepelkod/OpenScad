@@ -122,7 +122,7 @@ module gasket(){
 }
 
 
-module insert(axle_dia=12.0, width=142, gasket=false){
+module insert(axle_dia=12.0, width=142, gasket=false, upper_gasket_groove=true){
     axle_dia_with_clearance=axle_dia*1.03;
     extension_len = 4.75 + ((width-100)/2);
     extension_dia = axle_dia * 1.3660130718954248366013071895425;
@@ -159,9 +159,15 @@ module insert(axle_dia=12.0, width=142, gasket=false){
             translate([0,0,10]){
                 gasket();
             }
-            // second groove
-            translate([0,0,35]){
-                gasket();
+            if(upper_gasket_groove){
+                // second groove
+                translate([0,0,35]){
+                    gasket();
+                }
+            }
+            // entrance chamfer for easier axle insert
+            translate([0,0,-0.1]){
+                cylinder(h = 10, d1=axle_dia*1.2, d2=axle_dia*0.9);
             }
         }
     }
@@ -205,11 +211,11 @@ module alu_receiver(height=86){
         }
     }
 }
-module front_100x15mm_insert(gasket=false){
-    insert(axle_dia=15.0, width=100, gasket=gasket);
+module front_100x15mm_insert(gasket=false, upper_gasket_groove=false){
+    insert(axle_dia=15.0, width=100, gasket=gasket, upper_gasket_groove=upper_gasket_groove);
 }
-module front_100x12mm_insert(gasket=false){
-    insert(axle_dia=12.0, width=100, gasket=gasket);
+module front_100x12mm_insert(gasket=false, upper_gasket_groove=false){
+    insert(axle_dia=12.0, width=100, gasket=gasket, upper_gasket_groove=upper_gasket_groove);
 }
 
 module front_110x15mm_boost_insert(gasket=false){
@@ -417,7 +423,7 @@ module whole_thing(){
 }
 
 
-front_100x15mm_insert(gasket=false);
+front_100x15mm_insert(gasket=false, upper_gasket_groove = false);
 
 /*translate([-16, 0, 0]){
     insert(axle_dia=12.0, width=100, gasket=false);
