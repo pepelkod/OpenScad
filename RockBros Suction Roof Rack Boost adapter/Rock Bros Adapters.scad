@@ -480,16 +480,21 @@ module short_rack(){
         }
     }
     // receivers
-    for(idx = [1:2:3]){
-        translate([0,(bar_len/4*idx),0]){
-            translate([-bar_wid/3,-post_dia/2,2*mms+bar_thick]){
-                rotate([90,0,0]){
-                    receiver_with_inserts();
- 
-                }
+    translate([-bar_wid/3,-post_dia/2,2*mms+bar_thick]){
+        translate([0,490.0 ,0]){
+            rotate([90,0,0]){
+                receiver_with_inserts();
+
+            }
+        }
+        translate([0,120.3333,0]){
+            rotate([90,0,0]){
+                receiver_with_inserts();
+
             }
         }
     }
+    //}
 }
 
 short_rack();
