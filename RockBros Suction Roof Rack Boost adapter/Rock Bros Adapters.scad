@@ -497,14 +497,14 @@ module short_rack(){
     //}
 }
 
-short_rack();
+//short_rack();
 
 
 
-/*translate([-16, 0, 0]){
+translate([-16, 0, 0]){
     insert(axle_dia=12.0, width=100, gasket=false);
 }
-*/
+
 
 //plates();
 //whole_thing();

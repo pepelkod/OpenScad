@@ -2,7 +2,8 @@
 $fn=20;
 
 
-slide_width=15.7;
+//slide_width=15.7;
+slide_width=15;
 
 module slide_body(){
     linear_extrude(slide_width, center=false){
@@ -47,18 +48,19 @@ module tab(){
         translate([thick,-3.22,0]){
             rotate([270,90,90]){
                 linear_extrude(thick){
-                    polygon(points=[[-0.1,0],[width/2,0],[-0.1,width]]);
+                    polygon(points=[[-0.1,0],[width/1,0],[-0.1,width*2]]);
                 }
             }
         }
     }
 }
 union(){
-    tab_right=10.12;
+    tab_right=8.12;
     tab_in=3.21;
     
     slide_body();
-    translate([10.42,0,(slide_width/2)]){
+    // active ingredient
+    translate([8.42,0,(slide_width/2)]){
         square();
     }
     // left side
