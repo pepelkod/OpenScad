@@ -122,30 +122,48 @@ module gasket(){
 }
 
 
-module insert(axle_dia=12.0, width=142, gasket=false, upper_gasket_groove=true){
+module insert(axle_dia=12.0, width=142, gasket=false, upper_gasket_groove=true, text_thick=0.5){
     axle_dia_with_clearance=axle_dia*1.03;
     extension_len = 4.75 + ((width-100)/2);
     extension_dia = axle_dia * 1.3660130718954248366013071895425;
+    text_size = 4;
+    flange_dia = 30;
     
     translate([0,0,3]){  
     union(){
     // insert
-    color("gray"){
+    //color("gray"){
         
         difference(){
             union(){
+                // diameterlabel
+                color("Green"){
+                    translate([0,0,23.5]){
+                        translate([0,-flange_dia/2+text_size,0]){
+                            linear_extrude(text_thick){
+                                text(str(width), text_size, halign="center", valign="center");
+                            }
+                        }
+                        translate([0,flange_dia/2-text_size,0]){
+                            linear_extrude(text_thick){
+                                text(str(axle_dia), 6, halign="center", valign="center");
+                            }
+                        }
+
+                    }
+                }
                 // insert part
-                cylinder(h=41, d=23.75);
-                translate([0,0,40]){
+                cylinder(h=21, d=23.75);
+                translate([0,0,20]){
                     union(){
                         // lip
-                        cylinder(h=3.5, d = 30);
+                        cylinder(h=3.5, d = flange_dia);
                         translate([0, 0, 3.5]){
                             union(){
                                 // extension
                                 cylinder(h=extension_len, d=extension_dia);
                                 // strengthen extension  with CONE
-                                cylinder(h=extension_len-5, d1=30, d2=extension_dia);
+                                cylinder(h=extension_len-5, d1=flange_dia, d2=extension_dia);
                             }
                         }
                     }
@@ -170,7 +188,7 @@ module insert(axle_dia=12.0, width=142, gasket=false, upper_gasket_groove=true){
                 cylinder(h = 10, d1=axle_dia*1.2, d2=axle_dia*0.9);
             }
         }
-    }
+   // }
     if(gasket==true){
         // rubber gasket
         color("DarkSlateGray"){            
@@ -502,7 +520,28 @@ module short_rack(){
 
 
 translate([-16, 0, 0]){
-    insert(axle_dia=12.0, width=100, gasket=false);
+    translate([0, -16, 0]){
+        insert(axle_dia=12.0, width=100, gasket=false);
+    }
+    translate([0, 16, 0]){
+        insert(axle_dia=12.0, width=100, gasket=false);
+    }
+}
+translate([16, 0, 0]){
+    translate([0, -16, 0]){
+        insert(axle_dia=15.0, width=100, gasket=false);
+    }
+    translate([0, 16, 0]){
+        insert(axle_dia=15.0, width=100, gasket=false);
+    }
+}
+translate([48, 0, 0]){
+    translate([0, -16, 0]){
+        insert(axle_dia=15.0, width=110, gasket=false, text_thick=5.5);
+    }
+    translate([0, 16, 0]){
+        insert(axle_dia=15.0, width=110, gasket=false, text_thick=5.5);
+    }
 }
 
 
