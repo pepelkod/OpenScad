@@ -26,19 +26,23 @@ module head_mine(thread_dia=18, length=10, tolerance=0.4, head_len=5, head_dia=2
     + 0.75*tolerance;
 
   difference() {
-    // head
-    echo("head_len" , head_len);
-    echo("head_dia", head_dia);
-    cylinder(h=head_len, d=head_dia);
+    union(){
+        // threads
+        translate([0,0,head_len-0.01]){
+            ScrewThread(thread_dia, length+0.01, tolerance=tolerance,
+                tip_height=ThreadPitch(thread_dia), tip_min_fract=0.75);
+        }
+
+        // head
+        echo("head_len" , head_len);
+        echo("head_dia", head_dia);
+        cylinder(h=head_len, d=head_dia);
+    }
     // hex key socket
-    cylinder(h=thread_dia,
-      r=(HexDriveAcrossCorners(hex_size)+drive_tolerance)/2, $fn=6,
-      center=true);
+    cylinder(h=length,
+        r=(HexDriveAcrossCorners(hex_size)+drive_tolerance)/2, $fn=6,
+        center=true);
   }
-  // threads
-  translate([0,0,head_len-0.01])
-    ScrewThread(thread_dia, length+0.01, tolerance=tolerance,
-      tip_height=ThreadPitch(thread_dia), tip_min_fract=0.75);
 }
 
 
@@ -52,20 +56,24 @@ module holder(od, id, internal_length, thread_thick=4, bottom_thick=2, head_len=
     echo("bottom_thick", bottom_thick);
     
     color("White"){
-        translate([0,0,0]){
-            difference(){
-                // main body
-                cylinder(h=internal_length+bottom_thick, d=od);
-                // main battery hole
-                translate([0,0,-bottom_thick]){
-                    cylinder(h=internal_length+bottom_thick, d=id);
-                }
-                // thread hole
-                translate([0, 0, -head_len]){
-                    //head(diameter=(id+thread_thick)*1.04, length=11, head_len=head_len, head_dia=od);
-                    echo("thread_dia", thread_dia);
-                    echo("od", od);
-                    head_mine(thread_dia=thread_dia, length=thread_len*1.1, tolerance=0.4, head_len=head_len, head_dia=od, hex_size=8);
+        ScrewHole(outer_diam=id+thread_thick, height=thread_len*1.1, position=[0,0,0], rotation=[0,0,0], pitch=0, tooth_angle=30, tolerance=0.4, tooth_height=0){
+            translate([0,0,0]){
+                difference(){
+                    // main body
+                    cylinder(h=internal_length+bottom_thick, d=od);
+                    // main battery hole
+                    translate([0,0,-bottom_thick]){
+                        cylinder(h=internal_length+bottom_thick, d=id);
+                    }
+                    /*
+                    // thread hole
+                    translate([0, 0, -head_len]){
+                        //head(diameter=(id+thread_thick)*1.04, length=11, head_len=head_len, head_dia=od);
+                        echo("thread_dia", thread_dia);
+                        echo("od", od);
+                        head_mine(thread_dia=thread_dia, length=thread_len*1.1, tolerance=0.4, head_len=head_len, head_dia=od, hex_size=8);
+                    }
+                    */
                 }
             }
         }
