@@ -1,12 +1,14 @@
 
 use <threads.scad>
 
-module seatpost(dia=27.2, len=200, wall_thick=2){
+module seatpost(dia=27.2, length=200, wall_thick=2){
     color("Gray"){
         difference(){
-            cylinder(h=len, d=dia);
-            translate([0,0,-1]){
-                cylinder(h=len+2, d=dia-wall_thick);
+            cylinder(h=length, d=dia);
+            translate([0,0,-1.5]){
+                linear_extrude(length+2){
+                    import("SeatpostInside.svg");
+                }
             }
         }
     }
@@ -47,9 +49,9 @@ module head_mine(thread_dia=18, length=10, tolerance=0.4, head_len=5, head_dia=2
 
 
 
-module holder(od, id, internal_length, thread_thick=4, bottom_thick=2, head_len=5, thread_len=10){
+module holder(id, internal_length, thread_thick=4, bottom_thick=2, head_len=5, thread_len=10){
     thread_dia = id+thread_thick * 1.1;
-    echo("od", od);
+
     echo("id", id);
     echo("internal_length", internal_length);
     echo("thread_thick", thread_thick);
@@ -60,20 +62,13 @@ module holder(od, id, internal_length, thread_thick=4, bottom_thick=2, head_len=
             translate([0,0,0]){
                 difference(){
                     // main body
-                    cylinder(h=internal_length+bottom_thick, d=od);
+                    linear_extrude(internal_length+bottom_thick){
+                        import("SeatpostInside.svg");
+                    }
                     // main battery hole
                     translate([0,0,-bottom_thick]){
                         cylinder(h=internal_length+bottom_thick, d=id);
                     }
-                    /*
-                    // thread hole
-                    translate([0, 0, -head_len]){
-                        //head(diameter=(id+thread_thick)*1.04, length=11, head_len=head_len, head_dia=od);
-                        echo("thread_dia", thread_dia);
-                        echo("od", od);
-                        head_mine(thread_dia=thread_dia, length=thread_len*1.1, tolerance=0.4, head_len=head_len, head_dia=od, hex_size=8);
-                    }
-                    */
                 }
             }
         }
@@ -86,14 +81,14 @@ $fn=160;
 
 //seatpost();
 
-seatpost_dia=27.2;
-seatpost_wall_thick=2;
-holder_dia=seatpost_dia-seatpost_wall_thick;
-battery_dia = 18;
+//seatpost_dia=27.2;
+//seatpost_wall_thick=2;
+//holder_dia=seatpost_dia-seatpost_wall_thick;
+battery_dia = 18.5;
 one_battery_len = 65;
 thread_len = 10;
 
-module holder_unit(holder_dia, battery_dia, num_batts){
+module holder_unit(battery_dia, num_batts){
     thread_thick = 4;
     thread_dia = battery_dia+thread_thick;
     bottom_thick=2;
@@ -102,26 +97,30 @@ module holder_unit(holder_dia, battery_dia, num_batts){
     
     internal_len = (num_batts * one_battery_len) + thread_len;
 
-    echo("holder_dia", holder_dia);
     echo("battery_dia", battery_dia);
     echo("total_len", internal_len+bottom_thick);
     echo("thread_thick", thread_thick);
     
     translate([0,0,internal_len+bottom_thick]){
         rotate([180,0,0]){
-            holder(od=holder_dia, id=battery_dia, internal_length=internal_len, thread_thick=thread_thick, bottom_thick=bottom_thick, head_len=head_len, thread_len=thread_len);
+            holder(id=battery_dia, internal_length=internal_len, thread_thick=thread_thick, bottom_thick=bottom_thick, head_len=head_len, thread_len=thread_len);
         }
     }
     //echo("holder_dia", holder_dia);
     //echo("battery_dia", battery_dia);
 
     translate([30, 0, 0]){
-       head_mine(thread_dia=thread_dia, length=thread_len, tolerance=0.4, head_len=head_len, head_dia=holder_dia, hex_size=8);
+       head_mine(thread_dia=thread_dia-1, length=thread_len, tolerance=0.4, head_len=head_len, head_dia=24.5, hex_size=8);
 
+    }
+    // ears to keep it from slipping into the seatpost
+    translate([0,0,bottom_thick/2]){
+        cube([4,27.8,bottom_thick-0.1], center=true);
     }
 }
 //echo("first holder_dia", holder_dia);
-holder_unit(holder_dia=holder_dia, battery_dia=battery_dia, num_batts=1);
+holder_unit(battery_dia=battery_dia, num_batts=0.1);
+translate([-35, 0, 0]){
 
-
-
+    seatpost(31.6);
+}
