@@ -48,6 +48,31 @@ module head_mine(thread_dia=18, length=10, tolerance=0.4, head_len=5, head_dia=2
 }
 
 
+electronics_height = 45;    // main electronics body len
+module di2_electronics(){
+    small_height = 10;  // small plug height
+    //translate([0,0,small_height]){
+        union(){
+            // plug end
+            translate([0,0,small_height/2]){
+                union(){
+                    cylinder(h=small_height+0.1, d=8.7,
+                                center=true);
+                    // square bit
+                    translate([0,2,0]){
+                        cube([6, 6.9, small_height+0.1],
+                                center=true);
+                    }
+                }
+            }
+            // bigger dia and electronics
+            translate([0,0,-electronics_height/2]){
+                cylinder(h=electronics_height+0.2, d=16.8, center=true);
+            }
+        }
+    //}
+}
+
 
 module holder(id, internal_length, thread_thick=4, bottom_thick=2, head_len=5, thread_len=10){
     thread_dia = id+thread_thick * 1.1;
@@ -62,12 +87,24 @@ module holder(id, internal_length, thread_thick=4, bottom_thick=2, head_len=5, t
             translate([0,0,0]){
                 difference(){
                     // main body
-                    linear_extrude(internal_length+bottom_thick){
-                        import("SeatpostInside.svg");
+                    union(){
+                        // oval seatpost hole
+                        linear_extrude(internal_length+bottom_thick){
+                            import("SeatpostInside.svg");
+                        }
+                        // ears to keep it from
+                        // slipping into the seatpost
+                        translate([0,0,internal_length]){
+                            cube([4,27.8,bottom_thick*2-0.1], center=true);
+                        }
                     }
                     // main battery hole
                     translate([0,0,-bottom_thick]){
-                        cylinder(h=internal_length+bottom_thick, d=id);
+                        cylinder(h=internal_length-electronics_height+bottom_thick, d=id);
+                    }
+                    // electronics 
+                    translate([0,0,internal_length]){
+                        di2_electronics();
                     }
                 }
             }
@@ -95,7 +132,7 @@ module holder_unit(battery_dia, num_batts){
     head_len = 2;
     thread_len = 10;
     
-    internal_len = (num_batts * one_battery_len) + thread_len;
+    internal_len = electronics_height + (num_batts * one_battery_len) + thread_len;
 
     echo("battery_dia", battery_dia);
     echo("total_len", internal_len+bottom_thick);
@@ -113,14 +150,14 @@ module holder_unit(battery_dia, num_batts){
        head_mine(thread_dia=thread_dia-1, length=thread_len, tolerance=0.4, head_len=head_len, head_dia=24.5, hex_size=8);
 
     }
-    // ears to keep it from slipping into the seatpost
-    translate([0,0,bottom_thick/2]){
-        cube([4,27.8,bottom_thick-0.1], center=true);
-    }
 }
 //echo("first holder_dia", holder_dia);
-holder_unit(battery_dia=battery_dia, num_batts=0.1);
+holder_unit(battery_dia=battery_dia, num_batts=2);
 translate([-35, 0, 0]){
 
-    seatpost(31.6);
+   // seatpost(31.6);
 }
+
+/*translate([0, -35, 0]){
+    di2_electronics();
+}*/
