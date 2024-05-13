@@ -5,20 +5,21 @@ module body(axle_dia=15){
     insert_len = 33.5;
     body_len = 45;
     body_dia = 28.6;
-    shim_len = 15;
+    shim_len = 16;
     taper_len = 10;
     insert_dia = 26;
     taper_dia = insert_dia - 4;
     
     union(){
-        translate([0,0,shim_len-0.1]){
+        translate([0,0,shim_len-1.2]){
+          rotate([-5,0,0]){
             // upper body
             difference(){
                 translate([0,0,body_len/2]){
                     cylinder(d=body_dia, h=body_len, center=true);
                     // flat plate
-                    translate([0,body_dia/2-3,0]){
-                        cube([20,6,45], center=true);
+                    translate([0,body_dia/2-6,0]){
+                        cube([30,12,45], center=true);
                     }
                 }
                 // side notch
@@ -46,17 +47,18 @@ module body(axle_dia=15){
                 // axle
                 translate([0,0,32]){
                     rotate([90,90,0]){
-                        cylinder(h=100, d=axle_dia, center=true);
+                        cylinder(h=100, d=axle_dia*1.01, center=true);
                     }
                     translate([0,0,50]){
-                        cube([axle_dia,100, 100], center=true);
+                        cube([axle_dia*1.01,100, 100], center=true);
                     }
                 }
-            }
-        }
+            } // difference
+          } // rotate
+        } // translate
         // spacer between upper an insert
         translate([0,0,shim_len/2]){
-            #cylinder(d=body_dia, h=shim_len, center=true);
+            cylinder(d=body_dia, h=shim_len, center=true);
         }
         // lower insert
         difference(){
