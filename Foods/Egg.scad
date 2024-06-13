@@ -1,18 +1,24 @@
 
 
-module egg(){
-    scale([100, 100, 100])
+module food(name){
     linear_extrude(4){
-        import("EggBase.svg");
+        import(str(name,"Base.svg"));
         
     }
     
     translate([0,0,4]){
         linear_extrude(2){
-            import("EggTop.svg");
+            import(str(name,"Top.svg"));
         }
     }
 }
 
 
-egg();
+translate([30,0,0])
+food("Egg");
+translate([-30,0,0])
+food("Cake");
+translate([0,-30,0])
+food("Strawberry");
+translate([0,30,0])
+food("Bread");
