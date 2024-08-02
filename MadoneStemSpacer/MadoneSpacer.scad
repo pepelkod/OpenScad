@@ -31,10 +31,23 @@ module madone_adapter(angle=16.2){
         }
         intersection(){
             difference(){ 
-                // main body
-                translate([0,0,8]){
-                    madone_spacer(height, skew);
-                    //cylinder(d=32,h=16, center=true);
+                union(){
+                    // main body
+                    translate([0,0,8]){
+                        madone_spacer(height, skew);
+                        //cylinder(d=32,h=16, center=true);
+                    }
+
+                    // roof
+                    color("Blue"){
+                        translate([0,0,8.1]){
+                            rotate([-angle,0,0]){
+                                linear_extrude(1, center=true, slices=100){
+                                    import(file="MadoneSpacerTop.svg", center=true);
+                                }
+                            }
+                        }         
+                    }       
                 }
                 // cable holes
                 translate([0,-24,-2]){
@@ -62,14 +75,13 @@ module madone_adapter(angle=16.2){
 vspace=30;
 hspace=20;
 translate([-hspace,-vspace,0]){
-    madone_adapter(15.8);
+    madone_adapter(16.4);
 }
+/*
 translate([-hspace,vspace,0]){
-    madone_adapter(16.8);
+    madone_adapter(16.5);
 }
 translate([hspace,-vspace,0]){
-    madone_adapter(17.0);
+    madone_adapter(16.6);
 }
-translate([hspace,vspace,0]){
-    madone_adapter(17.2);
-}
+*/

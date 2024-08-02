@@ -108,26 +108,28 @@ module tooth(toothAspectRatio, ringThickness, cutDepth, roundingOffset, rounding
 // spacer
 
 module gasket(){
-    r_in = 19/2;
+    r_in = 20.3/2;
     r_gask = 3/2;    
     pos = r_in+r_gask;
     
     rotate_extrude(){
         translate([pos,0,0]){
             //rotate([90,0,0]){   
-                circle(d=3);
+                circle(d=1.55);
             //}
         }
     }
 }
 
 
-module insert(axle_dia=12.0, width=142, gasket=false, upper_gasket_groove=true, text_thick=0.5){
+module insert(axle_dia=12.0, width=142, gasket=false, lower_gasket_groove=true, upper_gasket_groove=true, text_thick=0.5){
     axle_dia_with_clearance=axle_dia*1.03;
     extension_len = 4.75 + ((width-100)/2);
     extension_dia = axle_dia * 1.3660130718954248366013071895425;
     text_size = 4;
     flange_dia = 30;
+    upper_gasket_height = 16;
+    lower_gasket_height = 4;
     
     translate([0,0,3]){  
     union(){
@@ -140,13 +142,16 @@ module insert(axle_dia=12.0, width=142, gasket=false, upper_gasket_groove=true, 
                 color("Green"){
                     translate([0,0,23.5]){
                         translate([0,-flange_dia/2+text_size,0]){
-                            linear_extrude(text_thick){
-                                text(str(width), text_size, halign="center", valign="center");
+                            rotate([90,0,0]){
+                                linear_extrude(text_thick){
+                                    text(str(width), text_size, halign="center", valign="center");}
                             }
                         }
                         translate([0,flange_dia/2-text_size,0]){
-                            linear_extrude(text_thick){
-                                text(str(axle_dia), 6, halign="center", valign="center");
+                            rotate([-90,0,0]){
+                                linear_extrude(text_thick){
+                                    text(str(axle_dia), 6, halign="center", valign="center");
+                                }
                             }
                         }
 
@@ -173,33 +178,39 @@ module insert(axle_dia=12.0, width=142, gasket=false, upper_gasket_groove=true, 
             translate([0,0,-1]){     
                 cylinder(h=100, d=axle_dia_with_clearance);
             }
-            // groove for rubber gasket
-            translate([0,0,10]){
-                gasket();
+            if(lower_gasket_groove){
+                // groove for rubber gasket
+                translate([0,0,lower_gasket_height]){
+                    gasket();
+                }
             }
             if(upper_gasket_groove){
                 // second groove
-                translate([0,0,35]){
+                translate([0,0,upper_gasket_height]){
                     gasket();
                 }
             }
             // entrance chamfer for easier axle insert
             translate([0,0,-0.1]){
-                cylinder(h = 10, d1=axle_dia*1.2, d2=axle_dia*0.9);
+                cylinder(h = 10, d1=axle_dia*1.1, d2=axle_dia*0.9);
             }
         }
    // }
     if(gasket==true){
         // rubber gasket
-        color("DarkSlateGray"){            
-            translate([0,0,10]){
-                gasket();
+        //color("DarkSlateGray"){                        
+            if(lower_gasket_groove){
+                translate([0,0,lower_gasket_height]){
+                    gasket();
+                }
             }
-            // second 
-            translate([0,0,35]){
-                gasket();
+            if(upper_gasket_groove){
+                // second 
+                translate([0,0,upper_gasket_height]){
+                    gasket();
+                }
             }
-        }
+        //}
     }   
     }
     }
@@ -236,9 +247,10 @@ module front_100x12mm_insert(gasket=false, upper_gasket_groove=false){
     insert(axle_dia=12.0, width=100, gasket=gasket, upper_gasket_groove=upper_gasket_groove);
 }
 
-module front_110x15mm_boost_insert(gasket=false){
-    insert(axle_dia=15.0, width=110, gasket=gasket);
+module front_110x15mm_boost_insert(gasket=false,lower_gasket_groove=false, upper_gasket_groove=false){
+    insert(axle_dia=15.0, width=110, gasket=gasket, lower_gasket_groove=lower_gasket_groove, upper_gasket_groove=upper_gasket_groove, text_thick=4.5);
 }
+
 module rear_142x12mm_insert(gasket=false){
     axle_dia = 12.0;
     insert(axle_dia=axle_dia, width=142, gasket=gasket);
@@ -517,7 +529,7 @@ module short_rack(){
 
 //short_rack();
 
-
+/*
 
 translate([-16, 0, 0]){
     translate([0, -16, 0]){
@@ -535,14 +547,9 @@ translate([16, 0, 0]){
         insert(axle_dia=15.0, width=100, gasket=false);
     }
 }
-translate([48, 0, 0]){
-    translate([0, -16, 0]){
-        insert(axle_dia=15.0, width=110, gasket=false, text_thick=5.5);
-    }
-    translate([0, 16, 0]){
-        insert(axle_dia=15.0, width=110, gasket=false, text_thick=5.5);
-    }
-}
+*/
+front_110x15mm_boost_insert(gasket=true, lower_gasket_groove=true, upper_gasket_groove=true);
+
 
 
 //plates();
