@@ -527,6 +527,47 @@ module short_rack(){
     //}
 }
 
+module shipping_spacer(axle_dia=12, axle_len=148, text_thick=2){
+    axle_dia_with_clearance=axle_dia*1.03;
+    extension_dia = axle_dia * 1.2660130718954248366013071895425;
+    text_size = 4;
+    
+    union(){
+        // len and diameter labels
+        color("Green"){
+            translate([0,0,23.5]){
+                translate([0,-extension_dia/2+1,0]){
+                    rotate([90,90,0]){
+                        linear_extrude(text_thick){
+                            text(str(axle_len), text_size, halign="center", valign="center");}
+                    }
+                }
+                translate([0,extension_dia/2-1,0]){
+                    rotate([-90,90,0]){
+                        linear_extrude(text_thick){
+                            text(str(axle_dia), 6, halign="center", valign="center");
+                        }
+                    }
+                }
+
+            }
+        }
+        // Tube
+        difference(){
+            // body
+            cylinder(h=axle_len, d=extension_dia);
+            // axle hole
+            translate([0,0,-1]){     
+                cylinder(h=axle_len+2, d=axle_dia_with_clearance);
+            }
+            // entrance chamfer for easier axle insert
+            translate([0,0,-0.1]){
+                cylinder(h = 10, d1=axle_dia*1.1, d2=axle_dia*0.9);
+            }
+        }
+    }
+}
+
 //short_rack();
 
 /*
@@ -548,7 +589,12 @@ translate([16, 0, 0]){
     }
 }
 */
-front_110x15mm_boost_insert(gasket=true, lower_gasket_groove=true, upper_gasket_groove=true);
+//front_110x15mm_boost_insert(gasket=true, lower_gasket_groove=true, upper_gasket_groove=true);
+
+shipping_spacer(12, 148);
+translate([20,10,0]){
+    shipping_spacer(15, 110);
+}
 
 
 
