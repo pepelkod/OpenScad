@@ -529,7 +529,7 @@ module short_rack(){
 
 module shipping_spacer(axle_dia=12, axle_len=148, text_thick=2){
     axle_dia_with_clearance=axle_dia*1.03;
-    extension_dia = axle_dia * 1.2660130718954248366013071895425;
+    extension_dia = axle_dia * 1.5 ;//1.2660130718954248366013071895425;
     text_size = 4;
     
     union(){
@@ -591,12 +591,29 @@ translate([16, 0, 0]){
 */
 //front_110x15mm_boost_insert(gasket=true, lower_gasket_groove=true, upper_gasket_groove=true);
 
-shipping_spacer(12, 148);
-translate([20,10,0]){
-    shipping_spacer(15, 110);
+module mtb_shipping_spacers(){
+    // rear mtb
+    shipping_spacer(12, 148);
+    // front mtb
+    translate([20,10,0]){
+        shipping_spacer(15, 110);
+    }
 }
 
+module road_shipping_spacers(){
+    // rear road
+    shipping_spacer(12, 142);
+    // front road
+    translate([20,10,0]){
+        shipping_spacer(12, 100);
+    }
+}
 
+mtb_shipping_spacers();
+
+translate([-40, 10, 0]){
+    road_shipping_spacers();
+}
 
 //plates();
 //whole_thing();

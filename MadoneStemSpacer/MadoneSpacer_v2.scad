@@ -60,7 +60,7 @@ module madone_adapter(angle=16.2){
                 // stem groove
                 translate([0,0,-19]){
                     rotate([90-angle,0,0]){
-                        #cylinder(h=100, d=25.4, center=true);
+                        cylinder(h=100, d=25.4, center=true);
                     }
                 }
                 
@@ -76,12 +76,6 @@ module madone_adapter(angle=16.2){
 }
 vspace=30;
 hspace=20;
-translate([-hspace,-vspace,0]){
-    madone_adapter(16.4);
-}
 translate([-hspace,vspace,0]){
     madone_adapter(16.5);
-}
-translate([hspace,-vspace,0]){
-    madone_adapter(16.6);
 }
