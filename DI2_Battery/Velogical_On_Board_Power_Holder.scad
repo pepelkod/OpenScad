@@ -51,7 +51,13 @@ module head_mine(thread_dia, length, tolerance, head_len, head_dia) {
 }
 // extra bit to plug hole after putting wires thru...should be
 // made of TPU
-module plug(length, ){
+module plug(length, usb_wide = 8.7, usb_high = 16.6){
+    
+    // wire diameters
+    usb_wd = 3;
+    wd = 2.25;
+    // usb dims
+    
     intersection(){
         // limit z to "length"
         translate([0,0,length/2]){
@@ -70,14 +76,39 @@ module plug(length, ){
                         center=true);
                 }
                 // rectangular usb hole plug
-                cube([16.6-0.1, 8.7-0.1, 100], center=true);
+                cube([usb_high-0.1, usb_wide-0.1, 100], center=true);
             }
-            // thru hole
+            /* thru hole
             translate([0,0,1]){
                 cylinder(h=length*3,
                     r=5, $fn=186,
                     center=true);
+            }*/
+            // usb wire hole
+            translate([8.7-wd/2,0,0]){
+                cylinder(h=length*3, d=usb_wd, $fn=186, center=true);
             }
+            // wire hole
+            translate([8.7-wd/2,3,0]){
+                cylinder(h=length*3, d=wd, $fn=186, center=true);
+            }
+            // wire hole
+            translate([8.7-wd/2, -3,0]){
+                cylinder(h=length*3, d=wd, $fn=186, center=true);
+            }
+            // wire hole
+            translate([-8.7+wd/2,0,0]){
+                cylinder(h=length*3, d=wd, $fn=186, center=true);
+            }
+            // wire hole
+            translate([-8.7+wd/2,3,0]){
+                cylinder(h=length*3, d=wd, $fn=186, center=true);
+            }
+            // wire hole
+            translate([-8.7+wd/2,-3,0]){
+                cylinder(h=length*3, d=wd, $fn=186, center=true);
+            }
+
       }
    }
 }
@@ -187,9 +218,11 @@ one_battery_len = 185+5;  /// velogical electronics len + 5mm
 thread_len = 10;
 
 //echo("first holder_dia", holder_dia);
-intersection(){
+/*intersection(){
     cube(840, center=true);
     holder_unit(seatpost_dia=seatpost_dia, battery_dia=battery_dia, num_batts=1);
-}
+}*/
+
+plug(length=thread_len);
 
 
