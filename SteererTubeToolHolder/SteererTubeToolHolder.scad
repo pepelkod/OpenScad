@@ -98,7 +98,7 @@ module tool(cut=false){
         if(cut==true){
             // this makes smooth inside curves for tools chunk.
             // then shift back in by amount to cut from "tools"
-            shift_amt = shift_out - 0.5;
+            shift_amt = shift_out - 0.25;
             tools_cutout(shrink_z_percent=0.585, shift_amt=shift_amt, tools_thick=tools_thick);
         }else{
             // then shift back in by amount to cut from "tools"
@@ -114,32 +114,38 @@ module tool(cut=false){
 
 module body(){
     top_thick = 3.6;
-    
-    union(){
-        translate([0,0,-top_thick+0.1]){
-            // center of top
-            cylinder(h=top_thick, d=32.2);
-            intersection(){
-                // wings
-                cylinder(h=top_thick, d1=40.2, d2=32.2);
-                // only wings
-                cube([45,14,10], center=true);
-                // bevel
-                cylinder(h=top_thick, d1=39, d2=40);
-                
+
+    intersection(){
+        union(){
+            translate([0,0,-top_thick+0.1]){
+                // center of top
+                cylinder(h=top_thick, d=32.2);
+                intersection(){
+                    // wings
+                    cylinder(h=top_thick, d1=40.2, d2=32.2);
+                    // only wings
+                    cube([45,14,10], center=true);
+                    // bevel
+                    cylinder(h=top_thick, d1=38, d2=40);
+                    
+                }
+            }
+            // inside part
+            difference(){
+                cylinder(h=20, d=21.25);
+                // o-ring groove
+                translate([0,0,2]){
+                    o_ring(d_small=2, d_big=18.5);
+                }
+                // tool hole
+                translate([0,0,51/2+top_thick+6]){
+                    tool(cut=true);
+                }
             }
         }
-        // inside part
-        difference(){
-            cylinder(h=20, d=21.25);
-            // o-ring groove
-            translate([0,0,2]){
-                o_ring(d_small=2, d_big=18.5);
-            }
-            // tool hole
-            translate([0,0,51/2+top_thick+6]){
-                tool(cut=true);
-            }
+        // add bevel by making union with giant cone
+        translate([0,0,-top_thick]){
+            cylinder(h=20, d1=40, d2=19);
         }
     }
 }   
