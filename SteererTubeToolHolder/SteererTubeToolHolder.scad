@@ -20,16 +20,17 @@ module o_ring(d_small, d_big){
         }
     }
 }
-module side_rounded_end(offset){
+module side_rounded_end(offset_amt, side_thick){
     // side rounded end
-    translate([-1.2,0,offset]){
+    //translate([(-(side_thick/2)),0,offset_amt]){
+    translate([(-(side_thick/2)),0,offset_amt]){
         rotate([0,90,0]){
-            cylinder(d=11, h=2.4);
+            cylinder(d=11, h=side_thick);
         }   
     }
 }
 module tool_side(trans_amt, length=51){
-    thick=2.4;
+    thick=2.5;
     if(trans_amt > 0){
         trans_amt2 = trans_amt+thick/2;
         translate([trans_amt2,0,0]){
@@ -38,8 +39,8 @@ module tool_side(trans_amt, length=51){
                 // side
                 cube([thick, 11, length], center=true);
                 // side rounded end
-                side_rounded_end(length/2);
-                side_rounded_end(-length/2);
+                side_rounded_end(offset_amt=length/2, side_thick=thick);
+                side_rounded_end(offset_amt=-length/2, side_thick=thick);
             }
         }
     }
@@ -51,8 +52,8 @@ module tool_side(trans_amt, length=51){
                 // side
                 cube([thick, 11, length], center=true);
                 // side rounded end
-                side_rounded_end(length/2);
-                side_rounded_end(-length/2);
+                side_rounded_end(offset_amt=length/2, side_thick=thick);
+                side_rounded_end(offset_amt=-length/2, side_thick=thick);
             }
         }
     }        
@@ -71,27 +72,43 @@ module tools(length, tools_thick){
         }
     }
     // body
-    translate([0,1,0]){
-        cube([tools_thick, 8, length], center=true);
+    translate([0,0,0]){
+        cube([tools_thick, 10, length], center=true);
     }
 }
 
     
-
-module tool(){
+module tools_cutout(shrink_z_percent,shift_amt, tools_thick){
+        translate([0,-shift_amt,0]){
+            scale([1,0.5,shrink_z_percent]){
+                tools(length=76.2, tools_thick=tools_thick);
+            }
+        }
+    }    
+module tool(cut=false){
     tools_thick=16.3;
+
     difference(){
         tools(length=51, tools_thick=tools_thick);
         
         // cut out of tool middle
-        translate([0,-5,0]){
-            scale([1,0.5,0.5]){
-                tools(length=80, tools_thick=tools_thick);
-            }
+        // shift all the way out.... 1/2 of full size "tools" and 1/2 of scaled "tools"
+        shift_out = (10/2 + 5/2);
+ 
+        if(cut==true){
+            // this makes smooth inside curves for tools chunk.
+            // then shift back in by amount to cut from "tools"
+            shift_amt = shift_out - 0.5;
+            tools_cutout(shrink_z_percent=0.585, shift_amt=shift_amt, tools_thick=tools_thick);
+        }else{
+            // then shift back in by amount to cut from "tools"
+            shift_amt = shift_out - 4;
+            tools_cutout(shrink_z_percent=0.5, shift_amt=shift_amt, tools_thick=tools_thick);
         }
+        
     }
-    tool_side(tools_thick/2);
-    tool_side(tools_thick/-2);
+    tool_side(trans_amt=tools_thick/2 - 0.01);
+    tool_side(trans_amt=tools_thick/-2 + 0.01);
 
 }
 
@@ -115,14 +132,18 @@ module body(){
         // inside part
         difference(){
             cylinder(h=20, d=21.25);
-            // o-ring grove
+            // o-ring groove
             translate([0,0,2]){
                 o_ring(d_small=2, d_big=18.5);
+            }
+            // tool hole
+            translate([0,0,51/2+top_thick+6]){
+                tool(cut=true);
             }
         }
     }
 }   
 //o_ring(d_small=2, d_big=18.6);
-//body();
-tool();
+body();
+//.tool();
 
