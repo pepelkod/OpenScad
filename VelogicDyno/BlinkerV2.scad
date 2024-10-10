@@ -132,5 +132,5 @@ module holder_unit(outer_dia, inner_dia, internal_length, bottom_thick, print_bo
 
 //////////////////////// 
 // just head and plug
-holder_unit(outer_dia=outer_dia, inner_dia=inner_dia, internal_length=100, bottom_thick=5, print_body=true);
+holder_unit(outer_dia=outer_dia, inner_dia=inner_dia, internal_length=112, bottom_thick=5, print_body=true);
 
