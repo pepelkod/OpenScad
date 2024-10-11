@@ -44,7 +44,11 @@ module plug(length, usb_wide = 8.7, usb_high = 16.6, cut=true, one_wire=true){
     intersection(){
         // limit z to "length"
         translate([0,0,length/2]){
-            cube([100, 100, length], center=true);
+            if(cut==true){
+                cube([100, 100, length*8], center=true);
+            }else{
+                cube([100, 100, length], center=true);
+            }
         }
         difference(){
             union(){
@@ -74,7 +78,22 @@ module zip_tie(od,h){
         cylinder(h=h*2, d=od-0.5);
     }
 }
-    
+
+module inside_cylinder_cut(id, length){
+    cl = length * 0.55;
+    intersection(){
+        cylinder(d=id, h=length, center=true);
+        union(){
+            translate([0,0,-0.01]){
+                cylinder(d1=cl*2, d2=0, h=cl+0.01);
+            }
+            rotate([0,180,0]){
+                cylinder(d1=cl*2, d2=0, h=cl);
+            }
+        }
+    }
+}
+
 module holder(od, id, internal_length, bottom_thick){
     //thread_dia = thread_dia * 1.1;
 
@@ -86,7 +105,8 @@ module holder(od, id, internal_length, bottom_thick){
     
     difference(){
         cylinder(d=od, h=total_length, center=true);
-        cylinder(d=id, h=internal_length, center=true);
+        //cylinder(d=id, h=internal_length, center=true);
+        inside_cylinder_cut(id=id, length=internal_length);
         translate([0,0,(-total_length/2)-0.01]){
             plug(length=bottom_thick+0.02, cut=true, one_wire=false);
         }
@@ -132,5 +152,7 @@ module holder_unit(outer_dia, inner_dia, internal_length, bottom_thick, print_bo
 
 //////////////////////// 
 // just head and plug
+
 holder_unit(outer_dia=outer_dia, inner_dia=inner_dia, internal_length=112, bottom_thick=5, print_body=true);
 
+//inside_cylinder_cut(id=20, length=100);

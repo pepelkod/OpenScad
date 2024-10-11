@@ -1,7 +1,34 @@
 
+use <roundedcube.scad>;
 
-module clamp(){
-    
+$fn=185;
+
+module clamp(dia=35, clamp_dia=16.25, space_between=10, clamp_height=10){
+    union(){
+   translate(v = [dia/2, 0, -7]){
+        color("Orange"){
+            difference(){
+                roundedcube([space_between*2, 10, 10], true, 2); 
+                //cube([space_between*2, 10, 10], center=true); 
+                translate(v = [-dia/2, 0, +7]){
+                    sphere(d=dia);
+                }
+            }
+            
+        }
+   }
+   translate([dia/2+clamp_dia/2+space_between,0,-7]){
+       difference(){
+           cylinder(d=clamp_dia*1.25, h=clamp_height, center=true);
+           translate([0,0,-0.5]){
+            cylinder(d=clamp_dia, h=clamp_height+2, center=true);
+           }
+           translate([clamp_dia/2,0,0]){
+            cube([clamp_dia, clamp_dia*.8, 100], center=true);
+           }
+       }
+   }
+   }
 }
 
 
@@ -50,5 +77,12 @@ module shield(dia=35, length=15){
     }    
 }
 
+module whole_thing(dia=35){
+    union(){
+        shield(dia=35, length=15);
+        clamp(dia=35, clamp_dia=16.25, space_between=10, clamp_height=10);
 
-shield();
+    }
+}
+
+whole_thing();
