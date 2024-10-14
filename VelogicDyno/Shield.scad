@@ -1,7 +1,7 @@
 
 use <roundedcube.scad>;
 
-$fn=185;
+$fn=85;
 
 module clamp(dia=35, clamp_dia=16.25, space_between=10, clamp_height=10){
     union(){
@@ -57,7 +57,7 @@ module shield(dia=35, length=15){
         // connector cutout
         cutout=40;
         translate([20,-(dia/2-(20/2)),cutout/2]){
-            cube([20,10,cutout],center=true);
+            #roundedcube([20,10,cutout],center=true, radius=4);
         }
         // tire cutout
         hull(){
