@@ -14,8 +14,10 @@ module co2_holder(){
         intersection(){
             // height/2 is how high to raise it
             // height/4 is 1/2 of its height since it is centered
-            translate([od/2+2, 0, height/2 + height/4]){
-                roundedcube([200,10,20], radius=2, center=true);
+            // 100 is 1/2 of x width 200...so we only get one loop
+            translate([belt_loop_od/4, 0, height/2 + height/4]){
+                roundedcube([belt_loop_od/2,10,20], radius=2, center=true);
+                //cube([belt_loop_od/2,10,20], center=true);
             }
             union(){
                 // belt loop outside
