@@ -1,4 +1,9 @@
-
+module test_plug(size){
+    difference(){
+        cube([size+12, size+12, 2], center=true);
+        cube(size, center=true);
+    }
+}
 
     
 module square(width, height){
@@ -23,5 +28,22 @@ module insert(id, od, sq_width, sq_height){
     }
     
 }
-insert(id=24.5, od=32, sq_width=14, sq_height=26);
+dist = 14;
+translate([dist,dist,0]){
+    test_plug(12);
+}
+translate([-dist,dist,0]){
+    test_plug(13);
+}
+translate([dist,-dist,0]){
+    test_plug(14);
+}
+translate([-dist,-dist,0]){
+    test_plug(15);
+}
+
+
+
+
+//insert(id=24.5, od=32, sq_width=14, sq_height=26);
 //square(width=14, height=26);
