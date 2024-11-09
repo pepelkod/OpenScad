@@ -12,22 +12,36 @@ module square(width, height){
     }
     
 }
-
+$fn=360;
 module insert(id, od, sq_width, sq_height){
-    difference(){
-        union(){
-            translate([0,0,5]){
-                cylinder(sq_height, d=id);
+
+    intersection(){
+        difference(){
+            union(){
+                // upper taper
+                translate([0,0,29.9]){
+                    cylinder(h=30, d1=id+0.5, d2=id-1);
+                }
+                // middle lip
+                translate([0,0,26]){
+                    cylinder(h=5, d=od);
+                }
+                // lower taper            
+                cylinder(h=30, d2=id+0.5, d1=id-2);
             }
-            translate([0,0,0.1]){
-                cylinder(5, d=od);
+            translate([0,0,-0.1]){
+                square(sq_width, sq_height);
             }
+            // side notch
+            translate([(id/2), 0,0]){
+                cylinder(d=5, h=200, center=true);
+            }
+            
+            
         }
-        square(sq_width, sq_height);
-        
-    }
-    
+    }    
 }
+/*
 dist = 14;
 translate([dist,dist,0]){
     test_plug(12);
@@ -42,8 +56,8 @@ translate([-dist,-dist,0]){
     test_plug(15);
 }
 
+*/
 
 
-
-//insert(id=24.5, od=32, sq_width=14, sq_height=26);
+insert(id=26.5, od=30, sq_width=15, sq_height=26);
 //square(width=14, height=26);
