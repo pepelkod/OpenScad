@@ -28,7 +28,7 @@ module jack(od, sq_width, sq_height, depth){
     }
 }
 
-module insert(id, od, sq_width, lower_taper_height){
+module insert(id, sq_width, lower_taper_height){
 
     intersection(){
         difference(){
@@ -39,7 +39,7 @@ module insert(id, od, sq_width, lower_taper_height){
                 }
                 // middle lip
                 translate([0,0,lower_taper_height-0.1]){
-                    cylinder(h=5.2, d=od);
+                    cylinder(h=5.2, d=id+0.5);
                 }
                 // lower taper            
                 cylinder(h=lower_taper_height, d2=id+0.5, d1=id-2);
@@ -62,8 +62,9 @@ hole_depth_in = 2;
 hole_depth_mm = hole_depth_in * in2mm;
 sq_height_mm = 15.875;
 
-insert(id=26.8, od=29, sq_width=15, lower_taper_height=28.3);
-
+rotate([180,0,0]){
+    insert(id=26.8, sq_width=15, lower_taper_height=28.3);
+}
 
 //jack(od=30, sq_width=15, sq_height=sq_height_mm, depth=hole_depth_mm);
 
