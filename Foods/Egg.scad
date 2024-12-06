@@ -1,4 +1,5 @@
 
+use <BOSL2/transforms.scad>
 
 module food(name){
     linear_extrude(4){
@@ -13,7 +14,7 @@ module food(name){
     }
 }
 
-
+up(10){
 translate([30,0,0])
 food("Egg");
 translate([-30,0,0])
@@ -22,3 +23,4 @@ translate([0,-30,0])
 food("Strawberry");
 translate([0,30,0])
 food("Bread");
+}
