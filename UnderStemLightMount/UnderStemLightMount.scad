@@ -12,19 +12,19 @@ module mirror_copy(v = [1, 0, 0]) {
 $fn=180;
 
 module angled_cubes(){
-    angle = 14;
+    angle = 10.5;
     offset = 3;
 
         union(){
             rotate([angle,0,0]){
                 translate([0,0,-offset]){
-                    cube([30,30,17], center=true);
+                    cube([50,35,17], center=true);
                 }
             }
             color("Red"){
                 rotate([-angle,0,0]){
                     translate([0,0,offset]){
-                        cube([30,30,17], center=true);
+                        cube([50,35,17], center=true);
                     }
                 }
             }
@@ -48,7 +48,7 @@ module stem_side(){
         angled_cubes();
     
         linear_extrude(28, center=true){
-            import("StemShape.svg");
+            import("UnoStemProfileNarrower.svg");
         }
     }
     
@@ -56,7 +56,7 @@ module stem_side(){
 module hinge_ring(ring_height,pin_dia, o_ratio, size_ratio){
     difference(){
         cylinder(h=ring_height*size_ratio, d=pin_dia*o_ratio, center=true);
-        cylinder(h=100, d=pin_dia, center=true, $fn=10);
+        cylinder(h=100, d=pin_dia, center=true, $fn=20);
     }
 }  
 module hinge_side(pin_height, pin_dia, o_ratio, size_ratio){
@@ -110,19 +110,47 @@ module hinge(
     }
     
 }
-light_side();
-translate([0,-14.5,0]){
-    rotate([90,0,0]){
-        rotate([0,90,0]){
-            hinge(pin_height=16, end_height=2, pin_dia=6);
+
+module holder_with_hinge(){
+    light_side();
+    translate([0,-14.5,0]){
+        rotate([90,0,0]){
+            rotate([0,90,0]){
+                hinge(pin_height=16, end_height=2, pin_dia=6);
+   ;         }
+        }
+    }
+    translate([0,-29,0]){
+        rotate([180,0,0]){
+            stem_side();
         }
     }
 }
-translate([0,-29,0]){
-    rotate([180,0,0]){
+module holder_fixed_1_degree(){
+    translate([0,26.85,0]){
         light_side();
     }
+    rotate([181,0,0]){
+        stem_side();
+    }
 }
-//stem_side();
 
-//pco1810_neck();
+holder_fixed_1_degree();
+
+// stem dims
+//34.8 wide
+//34.5 tall
+//35.3 angle
+
+
+/*
+hinge(pin_height=16, end_height=2, pin_dia=6, size_ratio=0.9);
+translate([15, 0, 0]){
+    hinge(pin_height=16, end_height=2, pin_dia=6, size_ratio=0.93);
+}
+
+translate([30, 0, 0]){
+
+hinge(pin_height=16, end_height=2, pin_dia=6, size_ratio=0.96);
+}
+*/
