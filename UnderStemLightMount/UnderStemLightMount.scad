@@ -133,6 +133,13 @@ module holder_fixed_1_degree(){
     rotate([181,0,0]){
         stem_side();
     }
+    color("Purple"){
+        translate([0, 15.5, 14]){
+            linear_extrude(3, center=true){
+                text("F", size=4, halign ="center", valign="center");
+            }
+        }
+    }
 }
 
 holder_fixed_1_degree();
