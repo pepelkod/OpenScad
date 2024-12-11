@@ -64,14 +64,14 @@ module pin_end(pin_height, end_height, pin_dia,o_ratio){
 module holder_fixed_1_degree(){
     union(){
         translate([0,26.85,0]){
-            scale([1,1,1.1]){
+            scale([1,1,1.05]){
                 light_side("LightClipProfileInset.svg");
             }
             light_side("LightClipProfile.svg");
         }
         rotate([181,0,0]){
             stem_side("UnoStemProfile.svg");
-            scale([1,1,1.1]){
+            scale([1,1,1.05]){
                 stem_side("UnoStemProfileInset.svg");
             }
         }
