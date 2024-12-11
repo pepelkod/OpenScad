@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   sodipodi:docname="UnderStemLightMountInset.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="2.3787302"
+     inkscape:cx="-18.287068"
+     inkscape:cy="1071.5801"
+     inkscape:window-width="1649"
+     inkscape:window-height="1033"
+     inkscape:window-x="228"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     showgrid="false" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="circle3"
+       style="fill:#4d4d4d;fill-opacity:0.442348;stroke-width:0.364998"
+       d="m 13.537109,285.73828 c -0.938015,0.33935 -0.872066,1.54395 -0.512553,2.29632 1.644113,3.82732 1.238812,8.37348 -0.793491,11.98597 -2.2834866,4.25552 -6.9458401,7.06168 -11.76889179,7.13487 -4.21674711,0.16726 -8.47031171,-1.65059 -11.17254821,-4.9104 -3.336856,-3.94263 -4.353757,-9.82021 -2.166578,-14.55559 0.300488,-0.7497 0.0062,-2.13095 -1.033174,-1.92639 -0.932187,0.53297 -0.952578,1.93045 -1.326201,2.74866 -0.969848,3.00603 -0.921974,6.61031 0.153374,9.71556 2.034017,6.27062 8.3445324,10.83178 14.93713307,10.79142 3.36392023,0.0574 6.68565613,-0.988 9.43878713,-3.00438 2.4080938,-1.75183 4.3162338,-4.10608 5.4472678,-6.81901 1.500573,-3.6403 1.576266,-7.7357 0.253907,-11.45703 -0.267785,-0.70799 -0.437317,-2.10448 -1.457032,-2 z" />
+  </g>
+</svg>
