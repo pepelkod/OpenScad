@@ -48,7 +48,8 @@ module stem_side(){
         angled_cubes();
     
         linear_extrude(28, center=true){
-            import("UnoStemProfileNarrower.svg");
+            //import("UnoStemProfileNarrower.svg");
+            import("VengeAllcityStemProfile.svg");
         }
     }
     
