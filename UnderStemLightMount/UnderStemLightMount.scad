@@ -42,14 +42,14 @@ module light_side(){
     }
 }
 
-module stem_side(){
+module stem_side(profile_name="UnoStemProfileNarrower.svg"){
 
     intersection(){
         angled_cubes();
     
         linear_extrude(28, center=true){
-            //import("UnoStemProfileNarrower.svg");
-            import("VengeAllcityStemProfile.svg");
+            import(profile_name);
+            //import("VengeAllcityStemProfile.svg");
         }
     }
     
@@ -137,13 +137,29 @@ module holder_fixed_1_degree(){
     color("Purple"){
         translate([0, 15.5, 14]){
             linear_extrude(3, center=true){
-                text("F", size=4, halign ="center", valign="center");
+                text("UNO", size=4, halign ="center", valign="center");
+            }
+        }
+    }
+}
+module holder_zipp(){
+    translate([0,26.85,0]){
+        light_side();
+    }
+    rotate([181,0,0]){
+        stem_side("ZippStemProfile.svg");
+    }
+    color("Purple"){
+        translate([0, 15.5, 14]){
+            linear_extrude(3, center=true){
+                text("ZIP", size=4, halign ="center", valign="center");
             }
         }
     }
 }
 
-holder_fixed_1_degree();
+//holder_fixed_1_degree();
+holder_zipp();
 
 // stem dims
 //34.8 wide

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   sodipodi:docname="UnderSaddleHolderProfile.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="3.9156336"
+     inkscape:cx="-10.59854"
+     inkscape:cy="1109.0159"
+     inkscape:window-width="1920"
+     inkscape:window-height="991"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="path2"
+       style="fill:#ff00ff;fill-opacity:0.892256;stroke-width:1"
+       d="m -14.029446,289.0034 c -2.658612,-0.0625 -5.815391,0.72521 -6.991678,3.38718 -1.535111,1.81504 1.540513,1.47788 1.873441,3.11393 1.67878,2.88885 -2.130929,5.5893 -4.156299,4.99898 -0.863611,4.74064 8.153241,5.15311 11.129663,4.89097 5.2749587,-0.59011 10.5894372,-1.73142 15.913106,-0.9954 4.3226233,0.34771 8.621575,1.50826 12.976233,1.08627 3.884371,0.0333 9.346162,-6.70334 5.063856,-4.98858 -4.028396,0.13538 -4.566255,-6.22232 -0.762231,-6.92206 -0.545532,-2.3995 -2.723685,-4.11714 -5.123874,-4.38807 -6.1179683,-0.79575 -12.1371423,1.60824 -18.2616928,1.00919 -3.8958482,-0.30575 -7.7421232,-1.1787 -11.6605242,-1.19241 z"
+       sodipodi:nodetypes="cccccccccccc" />
+  </g>
+</svg>
