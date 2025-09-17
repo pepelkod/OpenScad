@@ -87,9 +87,10 @@ module tools_cutout(shrink_z_percent,shift_amt, tools_thick){
     }    
 module tool(cut=false){
     tools_thick=16.3;
+    tool_length = 51;
 
     difference(){
-        tools(length=51, tools_thick=tools_thick);
+        tools(length=tool_length, tools_thick=tools_thick);
         
         // cut out of tool middle
         // shift all the way out.... 1/2 of full size "tools" and 1/2 of scaled "tools"
@@ -109,6 +110,25 @@ module tool(cut=false){
     }
     tool_side(trans_amt=tools_thick/2 - 0.01);
     tool_side(trans_amt=tools_thick/-2 + 0.01);
+
+    // rounded sides
+    difference(){
+        intersection(){
+            cylinder(h=tool_length+11, r=12, center=true);
+            rotate([0,90,0]){
+                hull(){
+                    translate([tool_length/2,0,0]){
+                        cylinder(h=100, d=11, center=true);
+                    }
+                    translate([-tool_length/2,0,0]){
+                        cylinder(h=100, d=11, center=true);
+                    }
+                }
+            }
+
+        }
+        cube([21.2, 100, 100], center=true);
+    } 
 
 }
 
@@ -151,5 +171,5 @@ module body(){
 }   
 //o_ring(d_small=2, d_big=18.6);
 //body();
-//.tool();
+//tool();
 
