@@ -1,5 +1,5 @@
 
-$fn=32;
+$fn=128;
 
 module faceplate_end(length, big_r, small_r){
     translate([(length/2.0)-big_r, 0,0]){
