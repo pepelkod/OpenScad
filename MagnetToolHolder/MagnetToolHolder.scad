@@ -44,28 +44,41 @@ module body(){
     width = 20;
     height = 68;
     difference(){
-        // actual body
-        cuboid([width,thickness,height], rounding=2 );
-        // cut tool hole out
-        translate([0,2,0]){
-            tool(cut=true);
-        }
-        // slice face off
-        translate([0,thickness/2,10]){
-            cuboid([width+1,thickness,height], rounding=2 );
+        union(){
+            difference(){
+                // actual body
+                cuboid([width,thickness,height], rounding=2 );
+                // cut tool hole out
+                translate([0,2,0]){
+                    tool(cut=true);
+                }
+                // slice face off
+                translate([0,thickness/2,10]){
+                    cuboid([width+1,thickness,height], rounding=2 );
+                }
+                /* magnet hole
+                translate([0,-4,0]){
+                    magnet(cut=true);
+                }*/
+                // screw thru holes
+                thru_screw_hole();
+                mirror([0,0,1]){
+                    thru_screw_hole();
+                }
+            }
+            faceplate();
         }
         // magnet hole
-        translate([0,-4,0]){
-            magnet(cut=true);
-        }
-        // screw thru holes
-        thru_screw_hole();
-        mirror([0,0,1]){
-            thru_screw_hole();
+        translate([0,-3.5,0]){
+            #magnet(cut=true);
         }
     }
-    faceplate();
 }
 
-body();
+difference(){
+    body();
+    translate([0,-10,0]){
+        cube(100);
+    }
+}
 //faceplate();

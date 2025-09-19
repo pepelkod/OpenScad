@@ -39,14 +39,14 @@ module screw(head_height, head_top_dia, screw_dia){
 }
     
 
-module faceplate(){
+module faceplate(length){
     big_r = 26.15/2;
     small_r=2;
-    length=51.07;
     hole_spacing = 32;
     
     difference(){
         hull(){
+        //union(){
             // rounded ends
             mirror([1,0,0]){
                 faceplate_end(length=length, big_r=big_r, small_r=small_r);
@@ -69,8 +69,29 @@ module faceplate(){
         translate([hole_spacing/2,0,small_r+0.01]){
             screw(head_height=2, head_top_dia=8, screw_dia=3.7);
         }
+        // size text
+        translate([-8,-2.5,1.5]){
+            linear_extrude(10){
+                #text(str(length), size=5);
+            }
+        }
 
     }
 }
-faceplate();
 
+translate([0, 30*0, 0]){
+    faceplate(50.5);
+}
+translate([0, 30*1, 0]){
+    faceplate(50);
+}
+translate([0, 30*2, 0]){
+    faceplate(49.5);
+}
+/*
+translate([5+25, 0, 0]){
+    color("Green"){
+        cube([10,200,10], center=true);
+    }
+}
+*/

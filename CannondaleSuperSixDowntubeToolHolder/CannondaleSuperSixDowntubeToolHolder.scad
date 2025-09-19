@@ -33,7 +33,11 @@ module holder(){
         translate([0,15,0]){
             rotate([90,tool_hole_angle,0]){
                 scale([1.0,1.0,1.0]){
-                    tool(cut=true);
+                    union(){
+                        tool(cut=true);
+                        // extra cut
+                        cube([16.5, 10, 44], center=true);
+                    }
                 }
             }
         }
