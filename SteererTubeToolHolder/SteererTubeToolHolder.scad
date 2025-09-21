@@ -1,7 +1,8 @@
 
+include <../MultiToolsVarious/MultiToolsVarious.scad>
 
 $fn=260;
-
+/*
 module inside_curve(rad, height){
     difference(){
         cube([rad, rad, height]);
@@ -11,7 +12,7 @@ module inside_curve(rad, height){
     }
     
 }
-
+*/
 module o_ring(d_small, d_big){
     difference(){
         cylinder(h=d_small, d=d_big+(d_small*2));
@@ -20,6 +21,7 @@ module o_ring(d_small, d_big){
         }
     }
 }
+/*
 module side_rounded_end(offset_amt, side_thick){
     // side rounded end
     //translate([(-(side_thick/2)),0,offset_amt]){
@@ -131,7 +133,10 @@ module tool(cut=false){
     } 
 
 }
-
+*/
+module tool(cut){
+    bontrager_tool(cut=cut);
+}
 module body(){
     top_thick = 3.6;
 
@@ -170,6 +175,6 @@ module body(){
     }
 }   
 //o_ring(d_small=2, d_big=18.6);
-//body();
+body();
 //tool();
 

@@ -69,25 +69,26 @@ module faceplate(length){
         translate([hole_spacing/2,0,small_r+0.01]){
             screw(head_height=2, head_top_dia=8, screw_dia=3.7);
         }
-        // size text
+        // back screw hole recess
+        translate([hole_spacing/2,0,-(small_r-(0.4/2))]){
+            cylinder(h=0.41, d=6, center=true);
+        }
+        mirror([1,0,0]){
+            translate([hole_spacing/2,0,-(small_r-(0.4/2))]){
+                cylinder(h=0.41, d=6, center=true);
+            }
+        }
+        /* size text
         translate([-8,-2.5,1.5]){
             linear_extrude(10){
                 #text(str(length), size=5);
             }
-        }
+        }*/
 
     }
 }
 
-translate([0, 30*0, 0]){
-    faceplate(50.5);
-}
-translate([0, 30*1, 0]){
-    faceplate(50);
-}
-translate([0, 30*2, 0]){
-    faceplate(49.5);
-}
+faceplate(50);
 /*
 translate([5+25, 0, 0]){
     color("Green"){
