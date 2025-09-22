@@ -1,5 +1,6 @@
 
-include <../SteererTubeToolHolder/SteererTubeToolHolder.scad>;
+include <../MultiToolsVarious/MultiToolsVarious.scad>
+
 
 include <../BOSL2/std.scad>
 
@@ -42,6 +43,10 @@ module holder(){
             }
         }
     }
+}
+
+module tool(cut){
+    bontrager_tool(cut=cut);
 }
 
 

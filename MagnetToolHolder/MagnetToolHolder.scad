@@ -1,6 +1,6 @@
 
 include <../BOSL2/std.scad>
-include <../SteererTubeToolHolder/SteererTubeToolHolder.scad>;
+//include <../SteererTubeToolHolder/SteererTubeToolHolder.scad>;
 
 
 $fn=180;
@@ -10,6 +10,13 @@ module faceplate(){
         rotate([90,90,180]){
             import("..\\CannondaleSuperSixDowntubeToolHolder\\Faceplate.stl", center=true);
         }
+    }
+}
+module tool(cut=true){
+    if(cut){
+        import("..\\MultitoolsVarious\\BontragerToolCut.stl");
+    }else{
+        import("..\\MultitoolsVarious\\BontragerTool.stl");
     }
 }
 
@@ -47,19 +54,17 @@ module body(){
         union(){
             difference(){
                 // actual body
-                cuboid([width,thickness,height], rounding=2 );
+                cuboid([width,thickness,height], rounding=6 );
                 // cut tool hole out
                 translate([0,2,0]){
-                    tool(cut=true);
+                    scale([1,1,1.01]){
+                        tool(cut=true);
+                    }
                 }
                 // slice face off
-                translate([0,thickness/2,10]){
-                    cuboid([width+1,thickness,height], rounding=2 );
+                translate([0,thickness/2,0]){
+                    cuboid([width+1,thickness,height-10], rounding=2 );
                 }
-                /* magnet hole
-                translate([0,-4,0]){
-                    magnet(cut=true);
-                }*/
                 // screw thru holes
                 thru_screw_hole();
                 mirror([0,0,1]){
@@ -75,10 +80,13 @@ module body(){
     }
 }
 
+/* debug see inide
 difference(){
     body();
     translate([0,-10,0]){
         cube(100);
     }
-}
+}*/
+body();
+
 //faceplate();
