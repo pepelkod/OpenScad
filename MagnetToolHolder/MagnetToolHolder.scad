@@ -14,9 +14,10 @@ module faceplate(){
 }
 module tool(cut=true){
     if(cut){
-        import("..\\MultitoolsVarious\\BontragerToolCut.stl");
+        import("..\\MultitoolsVarious\\OneUpToolCut.stl");
+            
     }else{
-        import("..\\MultitoolsVarious\\BontragerTool.stl");
+        import("..\\MultitoolsVarious\\OneUpTool.stl");
     }
 }
 
