@@ -7,7 +7,7 @@
    viewBox="0 0 210 297"
    version="1.1"
    id="svg1"
-   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
    sodipodi:docname="MiniDeskLegs.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -23,13 +23,13 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="0.13401722"
-     inkscape:cx="2040.7825"
-     inkscape:cy="1719.9282"
+     inkscape:zoom="0.06700861"
+     inkscape:cx="544.70612"
+     inkscape:cy="-37.308638"
      inkscape:window-width="1920"
-     inkscape:window-height="991"
+     inkscape:window-height="1111"
      inkscape:window-x="-9"
-     inkscape:window-y="-9"
+     inkscape:window-y="941"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1" />
   <defs
@@ -88,5 +88,12 @@
        id="path1"
        style="fill:#502d16;fill-opacity:1;stroke-width:0.281177"
        d="m 2365.4962,33.075093 c -56.6768,-19.4458 -125.345,-14.5568 -173.5538,19.8494 -65.8061,42.8355 -149.484,50.624097 -228.0848,59.205197 -121.7798,9.3477 -247.0913,3.6134 -364.0413,-29.494897 -50.3932,-16.8048 -89.1146,-57.8048 -145.6154,-60.002 -29.9535,-2.8279 -60.5704,1.0088 -88.7046,10.4428 v 105.165597 56.7227 105.1657 c 28.1343,9.4339 58.7512,13.2705 88.7046,10.4427 56.5008,-2.1972 95.2222,-43.1972 145.6154,-60.002 116.95,-33.1084 242.2616,-38.8426 364.0413,-29.4948 78.6009,8.5812 162.2787,16.3696 228.0848,59.2051 48.2087,34.4061 116.877,39.2946 173.5538,19.849 v -105.1662 -56.7222 z" />
+    <rect
+       style="fill:#502d16;stroke-width:0.264583"
+       id="rect1-82"
+       width="889"
+       height="730"
+       x="45.065388"
+       y="-771.66156" />
   </g>
 </svg>
