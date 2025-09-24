@@ -27,18 +27,32 @@ module plug_holder(){
 module co2_holder(){
     import("..\\Canondale Tool Spacer\\CO2 Holder.stl");
 }
+module screw_hole(){
+        translate([0,0,50]){
+            rotate([90,0,0]){
+                #cylinder(h=100, d=6, center=true);
+            }
+        }
+}
 module body_with_holes(){
-    // top
-    translate([0, 2.5, 50]){
-        cuboid([10,5,140], rounding=2);
-    }
-    // bottom
-    rotate([0,0,-8]){
-        translate([0, 8, 3]){
-            cuboid([6,8,44], rounding=2);
+    difference(){
+        union(){
+            // top
+            translate([0, 2.5, 50]){
+                cuboid([10,5,140], rounding=2);
+            }
+            // bottom
+            rotate([0,0,-8]){
+                translate([0, 8, 3]){
+                    cuboid([6,8,44], rounding=2);
+                }
+            }
+        }
+        screw_hole();
+        translate([0,0,64]){
+            screw_hole();
         }
     }
-
 }
 
 module thing(){
