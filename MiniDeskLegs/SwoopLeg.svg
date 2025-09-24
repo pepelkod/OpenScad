@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="700mm"
+   height="710.00006mm"
+   viewBox="0 0 700 710.00006"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   sodipodi:docname="MiniDeskLegsSwoop.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="0.06700861"
+     inkscape:cx="4857.5847"
+     inkscape:cy="8349.6733"
+     inkscape:window-width="1920"
+     inkscape:window-height="1111"
+     inkscape:window-x="-9"
+     inkscape:window-y="941"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <inkscape:page
+       x="0"
+       y="0"
+       width="700"
+       height="710.00006"
+       id="page2"
+       margin="0"
+       bleed="0" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-1308.798,-1800)">
+    <path
+       id="rect4"
+       style="fill:#502d16;stroke-width:0.23154"
+       d="m 2008.7982,1800 c 0,0 -60.532,140.5525 -68.2703,219.599 -16.1376,164.8431 68.2703,490.401 68.2703,490.401 h -107.902 c 0,0 22.0863,-509.8447 -155.2817,-513.7298 -181.2586,-3.9703 -304.17,513.7298 -304.17,513.7298 h -132.6463 c 0,0 226.6181,-358.9477 194.102,-539.2612 C 1490.8927,1904.1529 1308.7982,1800 1308.7982,1800 h 128.0795 c 0,0 155.4354,47.6378 249.8369,46.0682 C 1765.291,1844.7616 1918.2984,1800 1918.2984,1800 Z"
+       sodipodi:nodetypes="csccsccsccscc"
+       inkscape:export-filename="SwoopLeg.svg"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+  </g>
+</svg>
