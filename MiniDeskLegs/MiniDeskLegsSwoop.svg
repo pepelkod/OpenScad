@@ -7,7 +7,7 @@
    viewBox="0 0 210 297"
    version="1.1"
    id="svg1"
-   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
    sodipodi:docname="MiniDeskLegsSwoop.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -23,13 +23,13 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="0.094764485"
-     inkscape:cx="3181.5717"
-     inkscape:cy="15443.549"
+     inkscape:zoom="0.047382243"
+     inkscape:cx="8832.4228"
+     inkscape:cy="7882.6999"
      inkscape:window-width="1920"
-     inkscape:window-height="1111"
+     inkscape:window-height="991"
      inkscape:window-x="-9"
-     inkscape:window-y="941"
+     inkscape:window-y="-9"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1" />
   <defs
@@ -62,7 +62,7 @@
        id="rect1"
        width="889"
        height="730"
-       x="2.2737368e-13"
+       x="-900"
        y="1800" />
     <rect
        style="fill:#ffe680;stroke-width:0.264583"
@@ -97,23 +97,22 @@
     <path
        id="rect6"
        style="fill:#502d16;stroke-width:0.105585"
-       d="m 100,2644.9785 h 689 v 150 c 0,0 -95.40403,-76.8359 -344.5,-76.8359 -250.47056,0 -344.5,76.8359 -344.5,76.8359 z"
+       d="m 200,1800 h 689 v 150 c 0,0 -95.40403,-76.8359 -344.5,-76.8359 C 294.02944,1873.1641 200,1950 200,1950 Z"
        sodipodi:nodetypes="cccscc"
        inkscape:export-filename="SwoopFront.svg"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96" />
     <path
        id="path6"
-       style="fill:#502d16;stroke-width:0.0771085"
-       d="m 1450.3862,2704.206 h 689 v 80 c 0,0 -95.4041,-40.9791 -344.5,-40.9791 -250.4706,0 -344.5,40.9791 -344.5,40.9791 z"
-       sodipodi:nodetypes="cccscc"
+       style="fill:#502d16;stroke-width:0.0770829"
+       d="m 3022.908,1800.0002 c -41.0693,236.6665 -82.1387,473.3331 -123.208,709.9996 20.1001,0 40.2001,0 60.3002,0 63.2412,-179.4701 114.9552,-366.3991 218.6666,-527.953 38.8661,-56.752 91.0262,-119.832 165.727,-121.8513 76.7994,2.5775 129.4121,68.5074 168.7979,127.0691 101.2549,160.5659 152.7264,345.1477 215.2081,522.7352 20.1001,0 40.2001,0 60.3002,0 -41.0754,-236.6632 -82.1288,-473.3528 -123.218,-709.9996 -214.1913,0 -428.3827,0 -642.574,0 z"
        inkscape:export-filename="SwoopBack.svg"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96" />
     <path
        id="rect7"
        style="fill:#502d16;stroke-width:0.264583"
-       d="m 3330,1800 h 629 c 72.02,0 130,22.3 130,50 v 630 c 0,101.3385 -164.0809,0.644 -444.5,0.644 -280.1023,0 -444.5,100.1239 -444.5,-0.644 v -630 c 0,-27.7 57.98,-50 130,-50 z"
+       d="m 4030,1800 h 629 c 72.02,0 130,22.3 130,50 v 630 c 0,101.3385 -164.0809,0.644 -444.5,0.644 -280.1023,0 -444.5,100.1239 -444.5,-0.644 v -630 c 0,-27.7 57.98,-50 130,-50 z"
        sodipodi:nodetypes="ssssssss"
        inkscape:export-filename="SwoopTop.svg"
        inkscape:export-xdpi="96"
