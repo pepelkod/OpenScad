@@ -7,7 +7,7 @@
    viewBox="0 0 210 297"
    version="1.1"
    id="svg1"
-   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
    sodipodi:docname="MiniDeskLegsSwoop.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -23,13 +23,13 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="0.047382243"
-     inkscape:cx="8832.4228"
-     inkscape:cy="7882.6999"
+     inkscape:zoom="32"
+     inkscape:cx="22355.578"
+     inkscape:cy="7965.3281"
      inkscape:window-width="1920"
-     inkscape:window-height="991"
+     inkscape:window-height="1111"
      inkscape:window-x="-9"
-     inkscape:window-y="-9"
+     inkscape:window-y="941"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1" />
   <defs
@@ -97,7 +97,7 @@
     <path
        id="rect6"
        style="fill:#502d16;stroke-width:0.105585"
-       d="m 200,1800 h 689 v 150 c 0,0 -95.40403,-76.8359 -344.5,-76.8359 C 294.02944,1873.1641 200,1950 200,1950 Z"
+       d="m -1800,1800 h 689 v 150 c 0,0 -95.404,-76.8359 -344.5,-76.8359 -250.4706,0 -344.5,76.8359 -344.5,76.8359 z"
        sodipodi:nodetypes="cccscc"
        inkscape:export-filename="SwoopFront.svg"
        inkscape:export-xdpi="96"
@@ -105,10 +105,11 @@
     <path
        id="path6"
        style="fill:#502d16;stroke-width:0.0770829"
-       d="m 3022.908,1800.0002 c -41.0693,236.6665 -82.1387,473.3331 -123.208,709.9996 20.1001,0 40.2001,0 60.3002,0 63.2412,-179.4701 114.9552,-366.3991 218.6666,-527.953 38.8661,-56.752 91.0262,-119.832 165.727,-121.8513 76.7994,2.5775 129.4121,68.5074 168.7979,127.0691 101.2549,160.5659 152.7264,345.1477 215.2081,522.7352 20.1001,0 40.2001,0 60.3002,0 -41.0754,-236.6632 -82.1288,-473.3528 -123.218,-709.9996 -214.1913,0 -428.3827,0 -642.574,0 z"
+       d="m 3042.408,1800 c -41.0693,236.6665 -82.1387,473.3333 -123.208,709.9998 h 40.8002 c 63.2412,-179.4701 114.9552,-366.3991 218.6666,-527.953 38.8661,-56.752 91.0262,-119.832 165.727,-121.8513 76.7994,2.5775 129.4121,68.5074 168.7979,127.0691 101.2549,160.5659 152.7264,345.1477 215.2081,522.7352 H 3769.2 C 3728.1246,2273.3366 3687.0712,2036.6468 3645.982,1800 Z"
        inkscape:export-filename="SwoopBack.svg"
        inkscape:export-xdpi="96"
-       inkscape:export-ydpi="96" />
+       inkscape:export-ydpi="96"
+       sodipodi:nodetypes="cccccccccc" />
     <path
        id="rect7"
        style="fill:#502d16;stroke-width:0.264583"
@@ -125,6 +126,60 @@
        xml:space="preserve"
        transform="scale(0.26458333)"
        id="text10"
-       style="fill:#0000ff;text-orientation:auto;fill-opacity:0.56258065;text-align:start;writing-mode:lr-tb;direction:ltr;font-size:325.33333333px;white-space:pre;shape-inside:url(#rect11)" />
+       style="font-size:325.333px;text-align:start;writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#rect11);display:inline;fill:#0000ff;fill-opacity:0.562581" />
+    <rect
+       style="fill:#0000ff;fill-opacity:0.562581;stroke-width:0.264583"
+       id="rect14"
+       width="19.5"
+       height="800"
+       x="-3297.7998"
+       y="2291.8633"
+       transform="matrix(-0.98487088,0.17328978,0.17328978,0.98487088,0,0)" />
+    <path
+       id="path16"
+       style="fill:#0000ff;fill-opacity:0.562581;stroke-width:0.261743"
+       d="M 323.518,1800 C 311.81998,1934.2104 311.8194,1934.2108 297.72,2096.058 304.1324,1818.2531 200,1800 200,1800 Z m 641.964,0 c 11.69802,134.2104 11.6986,134.2108 25.798,296.058 C 984.8676,1818.2531 1089,1800 1089,1800 Z"
+       inkscape:export-filename="SwoopFrontBrace.svg"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <path
+       id="path17"
+       style="fill:#502d16;stroke-width:0.23154"
+       d="m 1799.7188,1168.9484 c 0,0 60.532,-140.5525 68.2703,-219.59898 16.1376,-164.8431 -68.2703,-490.401 -68.2703,-490.401 h 107.902 c 0,0 -22.0863,509.8447 155.2817,513.7298 181.2586,3.9703 304.17,-513.7298 304.17,-513.7298 h 132.6463 c 0,0 -226.6181,358.9477 -194.102,539.26121 12.0075,66.58587 194.102,170.73877 194.102,170.73877 h -128.0795 c 0,0 -155.4354,-47.6378 -249.8369,-46.0682 -78.5764,1.3066 -231.5838,46.0682 -231.5838,46.0682 z"
+       sodipodi:nodetypes="csccsccsccscc"
+       inkscape:export-filename="SwoopLeg.svg"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <path
+       id="path18"
+       style="fill:#502d16;stroke-width:0.23154"
+       d="m 2655.3766,75.790796 c 0,0 -60.532,140.552504 -68.2703,219.599004 -16.1376,164.84314 68.2703,490.40104 68.2703,490.40104 h -107.902 c 0,0 22.0863,-509.84474 -155.2817,-513.72984 -181.2586,-3.9703 -304.17,513.72984 -304.17,513.72984 h -132.6463 c 0,0 226.6181,-358.9477 194.102,-539.26124 -12.0075,-66.5859 -194.102,-170.738804 -194.102,-170.738804 h 128.0795 c 0,0 155.4354,47.637804 249.8369,46.068204 78.5764,-1.3066 231.5838,-46.068204 231.5838,-46.068204 z"
+       sodipodi:nodetypes="csccsccsccscc"
+       inkscape:export-filename="SwoopLeg.svg"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <path
+       id="path19"
+       style="fill:#0000ff;fill-opacity:0.562581;stroke-width:0.261743"
+       d="m 419.3074,566.7115 c -11.698,134.2104 -11.6986,134.2108 -25.798,296.058 6.4124,-277.8049 -97.72,-296.058 -97.72,-296.058 z m 641.964,0 c 11.698,134.2104 11.6986,134.2108 25.798,296.058 -6.4124,-277.8049 97.72,-296.058 97.72,-296.058 z"
+       inkscape:export-filename="SwoopFrontBrace.svg"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <path
+       id="path20"
+       style="fill:#502d16;stroke-width:0.0770829"
+       d="m 264.51546,63.817165 c -41.0693,236.666505 -82.1387,473.333305 -123.208,709.999845 h 40.8002 c 63.2412,-179.47014 114.9552,-366.39914 218.6666,-527.95304 38.8661,-56.752 91.0262,-119.832 165.727,-121.8513 76.7994,2.5775 129.4121,68.5074 168.7979,127.0691 101.2549,160.5659 152.7264,345.1477 215.2081,522.73524 h 40.8002 C 950.23206,537.15377 909.17866,300.46397 868.08946,63.817165 Z"
+       inkscape:export-filename="SwoopBack.svg"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       sodipodi:nodetypes="cccccccccc" />
+    <path
+       id="path21"
+       style="fill:#0000ff;fill-opacity:0.562581;stroke-width:0.261743"
+       d="m 5224.518,1800 c -34.4412,208.988 -34.4514,208.9858 -116.518,710 34.4583,-641.8716 88.6111,-642.3477 -8,-710 123.3945,0.097 124.518,0 124.518,0 z m 639.964,0 c 50.3833,307.0267 50.3754,307.012 116.518,710 -34.4582,-641.8716 -88.6111,-642.3477 8,-710 -123.3944,0.097 -124.518,0 -124.518,0 z"
+       inkscape:export-filename="SwoopFrontBrace2.svg"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       sodipodi:nodetypes="cccccccc" />
   </g>
 </svg>
