@@ -74,13 +74,13 @@ module desk(){
     
     // top
     translate([0,-inset/4,height_after_angling_legs]){
-        %top(width=width, depth=depth);
+        top(width=width, depth=depth);
     }
     
     // side legs
     leg(width=width, depth=depth, thick=leg_thick, angle=angle);
     mirror([1,0,0]){
-        %leg(width=width, depth=depth, thick=leg_thick, angle=angle);
+        leg(width=width, depth=depth, thick=leg_thick, angle=angle);
     }
     
     // back
