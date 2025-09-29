@@ -37,7 +37,7 @@ module co2_holder(bar){
     od = 27.5;
     height=90;
     
-    valve_id = 17;
+    valve_id = 14.8;
     
 
     translate([0,od/2,0]){
@@ -72,14 +72,14 @@ module co2_holder(bar){
                 }
                 // magnet holes
                 mag_thick=2.5;
-                mag_height=10;
-                mag_width=5;
-                mag_y_amt = -(id/2+mag_thick/2)+0.1;
+                mag_height=5;
+                mag_width=10;
+                mag_y_amt = -(id/2+mag_thick/2)+0.05;
                 translate([0,mag_y_amt,33-mag_height]){
-                    cube([mag_width,mag_thick,mag_height], center=true);
+                    #cube([mag_width,mag_thick,mag_height], center=true);
                 }
                 translate([0,mag_y_amt,34]){
-                    #cube([mag_width,mag_thick,mag_height], center=true);
+                    cube([mag_width,mag_thick,mag_height], center=true);
                 }
 
             }
@@ -110,7 +110,7 @@ module screw_hole(){
                 cylinder(h=100, d=6, center=true);
             }
         }
-        translate([0,0,0.5]){
+        translate([0,0,-0.5]){
             rotate([90,0,0]){
                 cylinder(h=100, d=6, center=true);
             }
@@ -219,12 +219,12 @@ module bung_hole_plate(hole_x, hole_y, thick){
     }
 }
 module bung_hole_plug(){
-    /*
     hole_y = 9.45;      // 9.25
     hole_x = 16.39;     // 16.19;
     top_hole_y = hole_y+2;
     top_hole_x = hole_x+2;
-        
+   
+/*    
     // top plate
     translate([0,0,3]){
         bung_hole_plate(top_hole_x, top_hole_y, 1);
@@ -252,8 +252,10 @@ module bung_hole_plug(){
             }
         }
     }
-    */
+/*/
+    
     import("BungHolePlug.stl");
+  //  */
 }
         
 //bung_hole_plug();
@@ -289,7 +291,7 @@ module bar_with_hole_and_bung(thick){
             }
             // re-enforce hole
             hole_swole(thick);
-            translate([0,-3.2,59]){
+            translate([0,-3.2,55.4]){
                 rotate([-90,0,0]){
                     bung_hole_plug();
                 }
@@ -312,30 +314,63 @@ module thing(    thick ){
 
     // co2 holder
     difference(){
-        translate([0, thick, -84]){
+        translate([0, thick-.2, -84]){
             co2_holder();
         }
         // drill final hole
-        rotate([90,0,0]){
-            cylinder(h=100, d=6, center=true);
-        }
-        // drill head
-        translate([0,9,0]){
-            rotate([90,0,0]){
-                cylinder(h=10, d=10, center=true);
+        /*hull(){
+            translate([0,0,0.5]){
+                rotate([90,0,0]){
+                    cylinder(h=100, d=6, center=true);
+                }
+            }
+            translate([0,0,-0.5]){
+                rotate([90,0,0]){
+                    cylinder(h=100, d=6, center=true);
+                }
+            }
+        }*/
+        screw_hole();
+        // drill bolt head
+        hull(){ // to make oval
+            translate([0,9,0.5]){
+                rotate([90,0,0]){
+                    cylinder(h=10, d=10, center=true);
+                }
+            }
+            translate([0,9,-0.5]){
+                rotate([90,0,0]){
+                    cylinder(h=10, d=10, center=true);
+                }
             }
         }
-        // round
+    
+        // round off top corners
         translate([20,15.2,0.9]){
             rotate([0,-90,0]){
                 inside_curve();
             }
         }
     }    
-
-    rotate([0,180,0]){
-        bar_with_hole_and_bung(thick);
+    difference(){
+        rotate([0,180,0]){
+            bar_with_hole_and_bung(thick);
+        }
+        // drill rivnut recess
+        hull(){
+            translate([0,-4,0]){
+                rotate([90,0,0]){
+                    cylinder(h=10, d=10, center=true);
+                }
+            }
+            translate([0,-4,-1]){
+                rotate([90,0,0]){
+                    cylinder(h=10, d=10, center=true);
+                }
+            }
+        }
     }
+
     // obstructions
     //cage();
     //seat_tube();
@@ -345,7 +380,15 @@ module thing(    thick ){
 
 thick = 2.5;
 
-thing(thick = thick);
+// slice view magnet
+intersection(){
+    thing(thick = thick);
+    translate([0,0,-100]){
+        cube([100,100,100], center=true);
+    }
+}
+//*/
+//thing(thick=thick);
 
 /* co2
 translate([0, thick, -84]){
