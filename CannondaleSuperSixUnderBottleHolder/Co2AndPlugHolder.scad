@@ -44,9 +44,9 @@ module co2_holder(bar){
         union(){
             // valve clamp
             color("Blue"){
-                translate([0,0,70]){
+                translate([0,0,75]){
                     difference(){
-                        cylinder(h=10, d=id+0.1, center=true);
+                        cylinder(h=8, d=id+0.1, center=true);
                         cylinder(h=16, d=valve_id, center=true);
                         translate([0,10,0]){
                             rotate([0,0,45]){
@@ -72,8 +72,8 @@ module co2_holder(bar){
                 }
                 // magnet holes
                 mag_thick=2.5;
-                mag_height=5;
-                mag_width=10;
+                mag_height=5.1;
+                mag_width=10.2;
                 mag_y_amt = -(id/2+mag_thick/2)+0.05;
                 translate([0,mag_y_amt,33-mag_height]){
                     #cube([mag_width,mag_thick,mag_height], center=true);
@@ -381,12 +381,12 @@ module thing(    thick ){
 thick = 2.5;
 
 // slice view magnet
-intersection(){
+//intersection(){
     thing(thick = thick);
-    translate([0,0,-100]){
-        cube([100,100,100], center=true);
-    }
-}
+//    translate([0,0,-100]){
+//        cube([100,100,100], center=true);
+//    }
+//}
 //*/
 //thing(thick=thick);
 

@@ -88,7 +88,7 @@ module faceplate(length){
     }
 }
 
-faceplate(50);
+faceplate(5);
 /*
 translate([5+25, 0, 0]){
     color("Green"){
