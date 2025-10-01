@@ -17,30 +17,30 @@ module hole_swole(big_r, small_r){
         rivnut_depth=1;
         translate([0,-8+rivnut_depth,0]){
             rotate([90,0,0]){
-                cylinder(h=10, d=10, center=true);
+                cylinder(h=10, d=10.5, center=true);
             }
         }
     }
 }
 
-module clamp(){
-    id = 15;
+module clamp(plug_dia){
+    id = plug_dia;
     od = id+4;
     translate([0,od/2,0]){
         intersection(){
             difference(){
-                cylinder(h=20, d=od, center=true);
-                cylinder(h=21, d=id, center=true);
+                cylinder(h=40, d=od, center=true);
+                cylinder(h=41, d=id, center=true);
             }
             // curved edge
-            translate([0,-4,0]){
+            translate([0,-20,0]){
                 rotate([0,90,0]){
-                    cylinder(h=100, d=18,center=true);
+                    cylinder(h=100, d=48,center=true);
                 }
             }
         }
     }
-    translate([od/2-0.5,od/3,4]){
+    translate([od/2-0.5,od/3,8]){
         rotate([90,90,90]){
             linear_extrude(1){
                 text(str(id),size =5);
@@ -49,12 +49,12 @@ module clamp(){
     }
 }
 
-module thing(){
+module thing(plug_dia){
     small_r = 3;
     difference(){
         union(){
             translate([0,small_r/2,0]){
-                clamp();
+                clamp(plug_dia);
             }
             hole_swole(big_r = 9, small_r=small_r);
         }
@@ -65,7 +65,7 @@ module thing(){
             }
         }
         // bolt head hole
-        translate([0,10+2,0]){
+        translate([0,10+1,0]){
             rotate([90,0,0]){
                 cylinder(h=20, d=10, center=true);
             }
@@ -74,4 +74,15 @@ module thing(){
     }
 }
 
-thing();
+translate([-15,-10,0]){
+    thing(15);
+}
+translate([15,-10,0]){
+    thing(16);
+}
+translate([-15,10,0]){
+    thing(14.9);
+}
+translate([15,10,0]){
+    thing(15.9);
+}
