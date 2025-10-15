@@ -36,28 +36,21 @@ module light_side(profile="LightClipProfile.svg"){
     intersection(){
         angled_cubes();
     
-        linear_extrude(28, center=true){
-            import(profile);
+        rotate([0,0,180]){
+            linear_extrude(28, center=true){
+                import(profile);
+            }
         }
     }
 }
 
-<<<<<<< HEAD
-module stem_side(profile_name="UnoStemProfileNarrower.svg"){
-=======
-module stem_side(profile="UnoStemProfile.svg"){
->>>>>>> master
-
+module stem_side(profile="UnoStemProfileNarrower.svg"){
     intersection(){
         angled_cubes();
     
         linear_extrude(28, center=true){
-<<<<<<< HEAD
-            import(profile_name);
-            //import("VengeAllcityStemProfile.svg");
-=======
             import(profile);
->>>>>>> master
+            //import("VengeAllcityStemProfile.svg");
         }
     }
     
@@ -70,13 +63,24 @@ module pin_end(pin_height, end_height, pin_dia,o_ratio){
 }
 
 
-module holder_fixed_1_degree(){
-<<<<<<< HEAD
-    translate([0,26.85,0]){
-        light_side();
-    }
-    rotate([181,0,0]){
-        stem_side();
+module holder_fixed_1_degree(stem="UnoStemProfile.svg", light= "NightRiderLightProfile.svg"){
+    difference(){
+        union(){
+            translate([0,33,0]){
+                difference(){
+                    light_side(light);
+                }
+            }
+            rotate([181,0,0]){
+                stem_side(stem);
+            }
+        }
+            // button recess
+        translate([0,33-14.5,0]){
+            rotate([90,0,0]){
+                #cylinder(2, d=16.5);
+            }
+        }
     }
     color("Purple"){
         translate([0, 15.5, 14]){
@@ -97,7 +101,11 @@ module holder_zipp(){
         translate([0, 15.5, 14]){
             linear_extrude(3, center=true){
                 text("ZIP", size=4, halign ="center", valign="center");
-=======
+            }
+        }
+    }
+}
+module holder_fixed_1_degree_master(){
     union(){
         translate([0,26.85,0]){
             scale([1,1,1.05]){
@@ -116,14 +124,13 @@ module holder_zipp(){
                 linear_extrude(3, center=true){
                     text("F", size=4, halign ="center", valign="center");
                 }
->>>>>>> master
             }
         }
     }
 }
 
-//holder_fixed_1_degree();
-holder_zipp();
+holder_fixed_1_degree();
+//holder_zipp();
 
 // stem dims
 //34.8 wide
