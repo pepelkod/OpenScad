@@ -20,6 +20,11 @@ module cutter(size=5*mms_in){
         cube([cut_all_size, cut_all_size, cut_all_size], center=true);
     }
 }
+module pattern(){
+    linear_extrude(20){
+        import("Pattern.svg", center=true);
+    }
+}
 
 module side_circle(total_size_d, depth){
     thick = mms_in * (3/4);
@@ -28,6 +33,14 @@ module side_circle(total_size_d, depth){
     difference(){
         cylinder(h=thick, d=total_size_d, center=true);
         cylinder(h=thick*2, d = total_size_d-depth*2, center=true);
+        /*
+        translate([180, 180,-19]){
+            rotate([0,0,45]){
+                scale([1.4,1.4,1]){
+                    pattern();
+                }
+            }
+        }*/
     }
 }
 module side(wheel_size=622, tire_size=35){
@@ -49,7 +62,7 @@ module side(wheel_size=622, tire_size=35){
             }
         }
         // cross notch
-        cross_notches(offset=740);
+        cross_notches(offset=650);
     }
 }
 
@@ -71,12 +84,15 @@ module cross_notch(offset=700){
 module cross_notches(offset=700){
     angle_amt=15;
     rotate([0,0,angle_amt]){
-        cross_notch(offset);
+        #cross_notch(offset);
     }
     rotate([0,0,90-angle_amt]){
-        cross_notch(offset);
+        #cross_notch(offset);
     }
 }
 
-side();
-cross_notches();
+//side();
+//cross_notches();
+rotate([90,0,0]){
+    cross_notch();
+}
