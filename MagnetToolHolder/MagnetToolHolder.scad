@@ -55,7 +55,7 @@ module body(){
         union(){
             difference(){
                 // actual body
-                cuboid([width,thickness,height], rounding=6 );
+                cuboid([width,thickness,height+4], rounding=6 );
                 // cut tool hole out
                 translate([0,2,0]){
                     scale([1,1,1.01]){

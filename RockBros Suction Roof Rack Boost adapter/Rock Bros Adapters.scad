@@ -1,4 +1,6 @@
 
+#include <BOSL2/std.scad>
+
 $fn=160;
 
 
@@ -527,7 +529,7 @@ module short_rack(){
     //}
 }
 
-module shipping_spacer(axle_dia=12, axle_len=148, text_thick=2){
+module shipping_spacer(axle_dia=12, axle_len=148, text_thick=2, foot_below=-40, extra_per_side=30){
     axle_dia_with_clearance=axle_dia*1.03;
     extension_dia = axle_dia * 1.5 ;//1.2660130718954248366013071895425;
     text_size = 4;
@@ -555,7 +557,22 @@ module shipping_spacer(axle_dia=12, axle_len=148, text_thick=2){
         // Tube
         difference(){
             // body
-            cylinder(h=axle_len, d=extension_dia);
+            union(){
+                cylinder(h=axle_len, d=extension_dia);
+                // Foot to rest on
+                translate([foot_below,0,0]){
+                    translate([5,0,5]){
+                        linear_extrude(axle_len-10){
+                            scale([-foot_below/20,1,1]){
+                                regular_ngon(n=3, r=20);
+                            }                     }
+                    }
+                    // wide base of foot
+                    translate([-12,0,(axle_len)/2]){
+                        cuboid([10,60,axle_len+(extra_per_side*2)], rounding=4);
+                    }
+                }
+            }
             // axle hole
             translate([0,0,-1]){     
                 cylinder(h=axle_len+2, d=axle_dia_with_clearance);
@@ -593,27 +610,40 @@ translate([16, 0, 0]){
 
 module mtb_shipping_spacers(){
     // rear mtb
-    shipping_spacer(12, 148);
+    translate([0,80,0]){
+        difference(){
+            shipping_spacer(12, 148, 2, -40, 30);
+            translate([-100, 30, 130])
+            rotate([45,0,0]){
+                cube(100);
+            }
+        }
+    }
     // front mtb
-    translate([20,10,0]){
-        shipping_spacer(15, 110);
+    translate([0,-80,0]){
+        //shipping_spacer(15, 110, 2, -15, 25);
     }
 }
 
 module road_shipping_spacers(){
     // rear road
-    shipping_spacer(12, 142);
+    translate([0,80,0]){
+        shipping_spacer(12, 142);
+    }
     // front road
-    translate([20,10,0]){
+    translate([0,-80,0]){
         shipping_spacer(12, 100);
     }
 }
 
-mtb_shipping_spacers();
-
-translate([-40, 10, 0]){
+translate([40,0,0]){
+    mtb_shipping_spacers();
+}
+/*
+translate([-40,0,0]){
     road_shipping_spacers();
 }
+*/
 
 //plates();
 //whole_thing();
