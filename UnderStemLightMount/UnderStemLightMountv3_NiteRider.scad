@@ -87,29 +87,31 @@ module nite_rider_clamp(length){
 }
 
 module stem_clamp_import(length){    
+
     linear_extrude(length){
         import("Zipppp Service Course Profile merged image.svg");
     }
+    
 }
 module inside_curve(){
     difference(){
         translate([5,0,0]){
-            cube([4,4,100.2], center=true);
+            cube([8,8,100.2], center=true);
         }
-        cuboid([8,4,800], rounding=2);
+        cuboid([8,6,800], rounding=3);
         
     }
 }
 module rounded_cut(){
             // rounded cut
         translate([-14.5,16.9,-0]){
-            rotate([0,0,40]){
+            rotate([0,0,62]){
                 inside_curve();
             }
         }
     }
 module stem_clamp(length){
-    scaleamt = 1.15;
+    scaleamt = 1.25;
     difference(){
         hull(){
         scale([scaleamt, scaleamt, scaleamt]){
@@ -131,12 +133,22 @@ module stem_clamp(length){
                 cube([18,18,800], center=true);
             }
         }
-    }    
+    }
+    color("Green"){
+        translate([16,-5,33]){
+             rotate([0,90,0]){
+                linear_extrude(6){
+                    text("ZIPP");
+                }
+            }
+        }
+    }
+    
 }
 
 module whole_body(){
-    /*
-    translate([-0.6,-36.7,4]){
+    
+    /*translate([-0.6,-36.7,4]){
         rotate([0,90,0]){
             flat_bracket_quick();
         }
@@ -155,4 +167,49 @@ module whole_body(){
         }
     }
 }
-whole_body();
+//whole_body();
+
+module zipp_nite_rider_6degree(){
+    // light bracket
+    translate([4,0,-0.13]){
+        rotate([0,0,-13]){
+            intersection(){// trim the stupid levers off
+                flat_bracket_quick();
+                translate([-28,-10,-10]){
+                    cube(100);
+                }
+            }
+        }
+    }
+    // stem clamp
+    translate([-18,42.5,0]){
+        rotate([-2,90,0]){
+            color("Blue"){
+                stem_clamp(30);
+            }
+        }
+    }
+    color("Red"){
+
+        hull(){
+            // front spacer cube
+            translate([6,17.4,0]){
+                rotate([0,0,-6]){
+                    color("Red"){
+                        cuboid([10,10.0,15.6], rounding=1);
+                    }
+                }
+            }
+            // rear spacer cube
+            translate([-10, 18.6,0]){
+                rotate([0,0,-6]){
+                    color("Red"){
+                        cuboid([10,6.3,16.3], rounding=1);
+                    }
+                }
+            }
+        }
+    }
+}
+
+zipp_nite_rider_6degree();
